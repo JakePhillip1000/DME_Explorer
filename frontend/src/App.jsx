@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
-import Home from './static/pages/homePage.jsx'
+import { Home } from './static/pages/homePage.jsx'
+import { NavigationBar } from './static/pages/components/navBar.jsx'
 import './static/css_styles/App.css'
 
-function DmeExplorer() {
+export function DmeExplorer() {
   return (
     <BrowserRouter>
       <Routes>
@@ -36,9 +37,11 @@ function DmeExplorer() {
 
         {/* 3d relax zone*/}
 
+        
+        {/* Navigation Bar */}
+        <Route path = "/navbar" element = {<NavigationBar />} />
+
       </Routes>
     </BrowserRouter>
   )
 }
-
-export default DmeExplorer

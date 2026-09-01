@@ -1,0 +1,3 @@
+./ = current folder
+../ = go up one folder
+../../ = go up two folders

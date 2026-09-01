@@ -1,0 +1,354 @@
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.navbar {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 7rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    box-sizing: border-box;
+    background-color: #e7e7e7;
+    z-index: 1000;
+    gap: 0.75rem;
+}
+
+.navbar-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 6rem;
+    flex: 0 0 auto;
+}
+
+.navbar-logo a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar-logo img {
+    display: block;
+    width: 15rem;
+    height: auto;
+    max-width: none;
+    max-height: none;
+    object-fit: contain;
+}
+
+.navbar-menu {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    margin: 0;
+}
+
+.nav-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 0;
+    min-width: 0;
+    height: 2.5rem;
+    padding: 0.2rem;
+    box-sizing: border-box;
+    background-color: #ffb979;
+    border-radius: 0.5rem;
+    color: black;
+    font-family: "Tilt Neon", sans-serif;
+    font-size: clamp(0.9rem, 0.8vw, 1.0rem);
+    text-align: center;
+    white-space: normal;
+    overflow: hidden;
+    line-height: 1.05;
+    text-decoration: none;
+    transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.nav-button:hover {
+    background-color: #f68d54;
+    transform: translateY(-0.05rem);
+}
+
+.navbar-user {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+    color: black;
+    font-family: "Tilt Neon", sans-serif;
+    white-space: nowrap;
+    margin-right: 2.5rem;
+}
+
+.navbar-user-display {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.25rem 0.4rem;
+    cursor: pointer;
+    border-radius: 0.5rem;
+}
+
+.navbar-user-display:hover {
+    background-color: #dcdcdc;
+}
+
+.user-image-navigation {
+    width: clamp(2.5rem, 4.5vw, 4.5rem);
+    height: auto;
+    display: block;
+    flex-shrink: 0;
+}
+
+.username-nav-display {
+    display: block;
+    max-width: 12rem;
+    overflow: hidden;
+    white-space: nowrap;
+    font-family: "Tilt Neon", sans-serif;
+    font-size: clamp(0.92rem, 1.1vw, 1.2rem);
+    font-weight: bold;
+}
+
+.user-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0.5rem;
+    min-width: 10rem;
+    display: none;
+    background-color: white;
+    border: 0.125rem solid black;
+    border-radius: 0.25rem;
+    overflow: hidden;
+}
+
+.user-dropdown a {
+    display: block;
+    padding: 0.65rem 0.85rem;
+    color: black;
+    text-decoration: none;
+    font-family: "Tilt Neon", sans-serif;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    border: none;
+    border-bottom: 0.125rem solid black;
+}
+
+.user-dropdown a:last-child {
+    border-bottom: none;
+}
+
+
+.user-dropdown a:hover {
+    background-color: #f1f1f1;
+}
+
+.navbar-user:hover .user-dropdown,
+.user-dropdown:hover {
+    display: block;
+}
+
+/* Tablet */
+@media (max-width: 1024px) and (min-width: 601px) {
+    .navbar {
+        min-height: 5rem;
+        padding: 0.4rem 0.5rem;
+        gap: 0.35rem;
+    }
+
+    .navbar-logo {
+        height: 4rem;
+    }
+
+    .navbar-logo img {
+        width: 6rem;
+        max-width: 6rem;
+        max-height: 4rem;
+    }
+
+    .navbar-menu {
+        gap: 0.2rem;
+        min-width: 0;
+        overflow: hidden;
+    }
+
+    .nav-button {
+        flex: 1 1 0;
+        min-width: 0;
+        height: 2rem;
+        padding: 0.15rem;
+        border-radius: 0.35rem;
+        font-size: clamp(0.42rem, 0.75vw, 0.65rem);
+        line-height: 1;
+        white-space: normal;
+        overflow: hidden;
+        overflow-wrap: break-word;
+        word-break: normal;
+    }
+
+    .navbar-user-display {
+        gap: 0.2rem;
+        padding: 0.2rem;
+    }
+
+    .user-image-navigation {
+        width: 2.5rem;
+    }
+
+    .username-nav-display {
+        max-width: 5rem;
+        font-size: 0.65rem;
+    }
+
+    .user-dropdown {
+        right: 0.35rem;
+    }
+}
+
+/* Mobile Phone */
+@media (max-width: 600px) {
+    .navbar {
+        flex-direction: column;
+        align-items: stretch;
+        min-height: auto;
+        padding: 0.6rem;
+        gap: 0.5rem;
+    }
+
+    .navbar-logo {
+        width: 100%;
+        height: 5rem;
+        justify-content: flex-start;
+    }
+
+    .navbar-logo a {
+        justify-content: flex-start;
+    }
+
+    .navbar-logo img {
+        width: auto;
+        height: 6rem;
+        max-width: 15rem;
+        max-height: 8rem;
+    }
+
+    .navbar-user {
+        position: absolute;
+        top: 0.6rem;
+        right: 1.2rem;
+        height: 5rem;
+    }
+
+    .navbar-user-display {
+        gap: 0.3rem;
+        padding: 0.2rem 0.3rem;
+    }
+
+    .user-image-navigation {
+        width: 3rem;
+        height: 3rem;
+    }
+
+    .username-nav-display {
+        display: block;
+        max-width: 7rem;
+        font-size: 0.75rem;
+    }
+
+    .navbar-menu {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+        gap: 0.4rem;
+        overflow: visible;
+        margin: 0;
+    }
+
+    .nav-button {
+        width: 100%;
+        min-width: 100%;
+        max-width: 100%;
+        flex: none;
+        height: 2.2rem;
+        padding: 0.3rem 0.5rem;
+        border-radius: 0.4rem;
+        font-size: 0.7rem;
+        line-height: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .user-dropdown {
+        top: 100%;
+        right: 0.25rem;
+        min-width: 9rem;
+    }
+
+    .user-dropdown a {
+        padding: 0.55rem 0.7rem;
+        font-size: 0.75rem;
+    }
+}
+
+/* Small Mobile */
+@media (max-width: 400px) {
+    .navbar {
+        padding: 0.5rem;
+        gap: 0.4rem;
+    }
+
+    .navbar-logo {
+        height: 4.5rem;
+    }
+
+    .navbar-logo img {
+        height: 4.5rem;
+        max-width: 8rem;
+        max-height: 4.5rem;
+    }
+
+    .navbar-user {
+        top: 0.5rem;
+        right: 1rem;
+        height: 4.5rem;
+    }
+
+    .user-image-navigation {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
+    .username-nav-display {
+        max-width: 6rem;
+        font-size: 0.65rem;
+    }
+
+    .navbar-menu {
+        gap: 0.3rem;
+    }
+
+    .nav-button {
+        width: 100%;
+        min-width: 100%;
+        max-width: 100%;
+        height: 2rem;
+        font-size: 0.6rem;
+        padding: 0.2rem 0.4rem;
+    }
+}
