@@ -1,10 +1,12 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
+
+import './static/css_styles/index.css'
+import DmeExplorer from "./App.jsx"
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
+    {/* The DmeExplorer is a render component from the function */}
+    <DmeExplorer/>
   </StrictMode>,
 )
