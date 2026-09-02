@@ -75,6 +75,7 @@
 }
 
 .homepage-buttons {
+    margin-top: 25px;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -85,19 +86,19 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: clamp(150px, 14vw, 200px);
-    min-height: clamp(42px, 4vw, 55px);
+    width: clamp(200px, 14vw, 360px);
+    min-height: clamp(60px, 4vw, 55px);
     padding: 8px 15px;
     box-sizing: border-box;
     background-color: #ed731f;
-    border-radius: 7px;
+    border-radius: 12px;
     color: white;
-    font-family: "Sarabun", sans-serif;
-    font-size: clamp(14px, 1.3vw, 20px);
-    font-weight: 600;
+    font-family: "Tilt Neon", sans-serif;
+    font-size: clamp(18px, 1.3vw, 20px);
+    font-weight: normal;
     text-decoration: none;
     text-align: center;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.1s ease;
 }
 
 .program-and-3d-button:hover {
@@ -135,16 +136,14 @@
     z-index: 3;
 }
 
-.homepage-image,
-.homepage-image2 {
+.homepage-image, .homepage-image2 {
     position: absolute;
     overflow: hidden;
     background-color: white;
     box-sizing: border-box;
 }
 
-.homepage-image img,
-.homepage-image2 img {
+.homepage-image img, .homepage-image2 img {
     width: 100%;
     height: 100%;
     display: block;
@@ -153,9 +152,9 @@
 
 .coe-building-homepage {
     top: 0;
-    right: 12%;
-    width: 62%;
-    height: 45%;
+    right: 30%;
+    width: 70%;
+    height: 50%;
     padding: clamp(3px, 0.4vw, 5px);
     background-color: white;
     border: clamp(2px, 0.25vw, 3px) solid white;
@@ -163,9 +162,9 @@
 
 .dme-learning1-homepage {
     bottom: 3%;
-    right: 10%;
-    width: 60%;
-    height: 50%;
+    right: 28%;
+    width: 70%;
+    height: 45%;
     padding: clamp(3px, 0.4vw, 5px);
     background-color: white;
     border: clamp(2px, 0.25vw, 3px) solid white;
@@ -174,9 +173,9 @@
 .image-classroom-small {
     position: absolute;
     top: 30%;
-    right: 0;
+    right: 5%;
     left: auto;
-    width: 50%;
+    width: 60%;
     height: 40%;
     padding: clamp(3px, 0.45vw, 6px);
     background-color: white;
@@ -242,9 +241,9 @@
     }
 
     .program-and-3d-button {
-        width: clamp(135px, 15vw, 170px);
+        width: clamp(120px, 15vw, 170px);
         min-height: 42px;
-        font-size: clamp(13px, 1.4vw, 16px);
+        font-size: clamp(10px, 1.4vw, 14px);
         padding: 7px 10px;
     }
 
