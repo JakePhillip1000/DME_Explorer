@@ -1,7 +1,8 @@
-import { useState } from 'react'
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
-import { Home } from './static/pages/homePage.jsx'
-import { NavigationBar } from './static/pages/components/navBar.jsx'
+import { useState } from 'react';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { Home } from './static/pages/homePage.jsx';
+import { NavigationBar } from './static/pages/components/navBar.jsx';
+import { Register } from './static/pages/register.jsx';
 import './static/css_styles/App.css'
 
 export function DmeExplorer() {
@@ -12,10 +13,10 @@ export function DmeExplorer() {
         <Route path="/" element = {<Home />} />
 
         {/* Login page */}
-
+        
 
         {/* Register Page --> Sign up*/}
-        
+        <Route path="/register" element = {<Register />}></Route>
 
         {/* About Page */}
 

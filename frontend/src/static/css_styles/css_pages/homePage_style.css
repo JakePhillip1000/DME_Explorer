@@ -17,7 +17,6 @@
     display: flex;
 }
 
-
 .main-section-homepage::before {
     content: "";
     position: absolute;
@@ -28,9 +27,10 @@
 
 .main-content-homepage {
     position: relative;
-    width: 60%;
+    width: 55%;
     min-height: calc(100vh - 7rem);
-    padding-left: 10%;
+    padding-left: clamp(40px, 7vw, 120px);
+    padding-right: clamp(10px, 2vw, 30px);
     box-sizing: border-box;
     display: flex;
     align-items: center;
@@ -40,60 +40,63 @@
 .main-text-homepage {
     position: relative;
     z-index: 3;
+    width: 100%;
+    max-width: 750px;
     margin-top: -10px;
 }
 
 .main-text-homepage h2 {
-    margin: 0 0 15px 10px;
+    margin: 0 0 clamp(8px, 1vw, 15px) clamp(0px, 0.7vw, 10px);
     color: #000000;
-    font-family: "Tilt warp", sans-serif;
-    font-size: clamp(24px, 2.7vw, 38px);
+    font-family: "Tilt Warp", sans-serif;
+    font-size: clamp(24px, 2.5vw, 38px);
     font-weight: normal;
     line-height: 1.15;
 }
-
 
 .main-text-homepage h1 {
     margin: 0;
     color: #dc4f20;
     font-family: "Tilt Warp", sans-serif;
-    font-size: clamp(70px, 6.8vw, 110px);
+    font-size: clamp(55px, 6vw, 105px);
     font-weight: normal;
-    line-height: 1.1;
-    letter-spacing: -0.2px;
+    line-height: 0.98;
+    letter-spacing: -1px;
 }
 
-
 .main-text-homepage p {
-    margin: 25px 0 14px 0;
+    margin: clamp(15px, 2vw, 25px) 0 clamp(10px, 1.2vw, 14px) 0;
     color: #111111;
     font-family: "Tilt Neon", sans-serif;
-    font-size: clamp(15px, 1.4vw, 21px);
+    font-size: clamp(14px, 1.3vw, 21px);
     font-weight: 500;
-    line-height: 3;
+    line-height: 1.5;
+    max-width: 650px;
 }
 
 .homepage-buttons {
     display: flex;
     align-items: center;
-    gap: 30px;
+    flex-wrap: wrap;
+    gap: clamp(10px, 2vw, 30px);
 }
 
-.program-and-3d-button{
+.program-and-3d-button {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 170px;
-    height: 38px;
-    padding: 25px 30px;
+    width: clamp(150px, 14vw, 200px);
+    min-height: clamp(42px, 4vw, 55px);
+    padding: 8px 15px;
     box-sizing: border-box;
     background-color: #ed731f;
     border-radius: 7px;
     color: white;
     font-family: "Sarabun", sans-serif;
-    font-size: 20px;
+    font-size: clamp(14px, 1.3vw, 20px);
     font-weight: 600;
     text-decoration: none;
+    text-align: center;
     transition: background-color 0.2s ease;
 }
 
@@ -101,46 +104,47 @@
     background-color: #d6641e;
 }
 
-/*For this one --> orange side border*/
 .main-corner-top-homepage {
     position: absolute;
     top: 15%;
     left: 5%;
-    width: 200px;
-    height: 150px;
-    border-top: 6px solid #d84f20;
-    border-left: 6px solid #d84f20;
+    width: clamp(100px, 14vw, 200px);
+    height: clamp(80px, 12vw, 150px);
+    border-top: clamp(3px, 0.4vw, 6px) solid #d84f20;
+    border-left: clamp(3px, 0.4vw, 6px) solid #d84f20;
     border-radius: 3px;
 }
 
 .main-corner-bottom {
     position: absolute;
-    right: 15%;
-    bottom: 15%;
-    width: 200px;
-    height: 150px;
-    border-right: 6px solid #d84f20;
-    border-bottom: 6px solid #d84f20;
+    right: 5%;
+    bottom: 12%;
+    width: clamp(100px, 14vw, 200px);
+    height: clamp(80px, 12vw, 150px);
+    border-right: clamp(3px, 0.4vw, 6px) solid #d84f20;
+    border-bottom: clamp(3px, 0.4vw, 6px) solid #d84f20;
     border-radius: 3px;
 }
 
 .main-images-homepage {
     position: absolute;
-    top: 20px;
-    right: 10%;
-    width: 50%;
-    height: calc(100% - 10px);
+    top: clamp(15px, 2vw, 30px);
+    right: clamp(15px, 5vw, 80px);
+    width: clamp(400px, 46vw, 700px);
+    height: calc(100% - clamp(30px, 4vw, 60px));
     z-index: 3;
 }
 
-.homepage-image, .homepage-image2 {
+.homepage-image,
+.homepage-image2 {
     position: absolute;
     overflow: hidden;
     background-color: white;
     box-sizing: border-box;
 }
 
-.homepage-image img, .homepage-image2 img {
+.homepage-image img,
+.homepage-image2 img {
     width: 100%;
     height: 100%;
     display: block;
@@ -152,9 +156,9 @@
     right: 12%;
     width: 62%;
     height: 45%;
-    padding: 5px;
+    padding: clamp(3px, 0.4vw, 5px);
     background-color: white;
-    border: 3px solid white;
+    border: clamp(2px, 0.25vw, 3px) solid white;
 }
 
 .dme-learning1-homepage {
@@ -162,30 +166,324 @@
     right: 10%;
     width: 60%;
     height: 50%;
-    padding: 5px;
+    padding: clamp(3px, 0.4vw, 5px);
     background-color: white;
-    border: 3px solid white;
+    border: clamp(2px, 0.25vw, 3px) solid white;
 }
 
 .image-classroom-small {
+    position: absolute;
     top: 30%;
-    right: 0%;
-    left: 55%;
+    right: 0;
+    left: auto;
     width: 50%;
     height: 40%;
-    padding: 6px;
+    padding: clamp(3px, 0.45vw, 6px);
     background-color: white;
-    border: 6px solid #e7b522;
+    border: clamp(3px, 0.5vw, 6px) solid #e7b522;
+    box-sizing: border-box;
+    overflow: hidden;
     z-index: 4;
+}
+
+.image-classroom-small img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 .Enkku-logo-homepage {
     position: absolute;
-    right: 20px;
-    bottom: 8px;
-    width: 5%;
+    right: clamp(10px, 2vw, 20px);
+    bottom: clamp(5px, 1vw, 8px);
+    width: clamp(35px, 5vw, 65px);
     height: auto;
     object-fit: contain;
     z-index: 10;
+}
+
+/* Tablet device */
+@media (max-width: 1024px) and (min-width: 601px) {
+    .main-section-homepage {
+        min-height: calc(100vh - 6rem);
+    }
+
+    .main-content-homepage {
+        width: 52%;
+        min-height: calc(100vh - 6rem);
+        padding-left: clamp(35px, 5vw, 60px);
+        padding-right: 10px;
+    }
+
+    .main-text-homepage {
+        max-width: 500px;
+    }
+
+    .main-text-homepage h2 {
+        font-size: clamp(20px, 2.7vw, 28px);
+        margin-left: 5px;
+    }
+
+    .main-text-homepage h1 {
+        font-size: clamp(45px, 5.5vw, 70px);
+        line-height: 1;
+        letter-spacing: -0.5px;
+    }
+
+    .main-text-homepage p {
+        font-size: clamp(13px, 1.5vw, 17px);
+        line-height: 1.4;
+        margin-top: 18px;
+    }
+
+    .homepage-buttons {
+        gap: 12px;
+    }
+
+    .program-and-3d-button {
+        width: clamp(135px, 15vw, 170px);
+        min-height: 42px;
+        font-size: clamp(13px, 1.4vw, 16px);
+        padding: 7px 10px;
+    }
+
+    .main-images-homepage {
+        top: 20px;
+        right: 15px;
+        width: 48%;
+        height: calc(100% - 40px);
+    }
+
+    .coe-building-homepage {
+        width: 65%;
+        height: 40%;
+        right: 8%;
+    }
+
+    .dme-learning1-homepage {
+        width: 63%;
+        height: 45%;
+        right: 8%;
+        bottom: 5%;
+    }
+
+    .image-classroom-small {
+        width: 50%;
+        height: 36%;
+        top: 30%;
+        border-width: 4px;
+    }
+
+    .main-corner-top-homepage {
+        top: 12%;
+        left: 4%;
+        width: 100px;
+        height: 80px;
+        border-width: 4px;
+    }
+
+    .main-corner-bottom {
+        right: 8%;
+        bottom: 12%;
+        width: 100px;
+        height: 80px;
+        border-width: 4px;
+    }
+
+    .Enkku-logo-homepage {
+        width: 50px;
+        right: 12px;
+        bottom: 8px;
+    }
+}
+
+/* Mobile phone (normal size mobile phone) */
+@media (max-width: 600px) {
+    .main-section-homepage {
+        min-height: auto;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    .main-content-homepage {
+        width: 100%;
+        min-height: auto;
+        padding: 60px 25px 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .main-text-homepage {
+        width: 100%;
+        max-width: 600px;
+        text-align: center;
+    }
+
+    .main-text-homepage h2 {
+        margin: 0 0 10px;
+        font-size: clamp(20px, 6vw, 28px);
+    }
+
+    .main-text-homepage h1 {
+        font-size: clamp(45px, 13vw, 70px);
+        line-height: 0.95;
+        letter-spacing: -0.5px;
+    }
+
+    .main-text-homepage p {
+        margin: 18px auto 15px;
+        max-width: 500px;
+        font-size: clamp(14px, 4vw, 18px);
+        line-height: 1.4;
+    }
+
+    .homepage-buttons {
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .program-and-3d-button {
+        width: clamp(140px, 42vw, 190px);
+        min-height: 42px;
+        font-size: clamp(13px, 3.5vw, 16px);
+        padding: 8px 10px;
+    }
+
+    .main-images-homepage {
+        position: relative;
+        top: auto;
+        right: auto;
+        width: 100%;
+        height: 400px;
+        margin-top: 10px;
+        margin-bottom: 50px;
+    }
+
+    .coe-building-homepage {
+        top: 0;
+        right: 15%;
+        width: 65%;
+        height: 48%;
+    }
+
+    .dme-learning1-homepage {
+        bottom: 0;
+        right: 12%;
+        width: 65%;
+        height: 48%;
+    }
+
+    .image-classroom-small {
+        top: 28%;
+        right: 3%;
+        width: 48%;
+        height: 38%;
+        border-width: 4px;
+    }
+
+    .main-corner-top-homepage {
+        top: 30px;
+        left: 20px;
+        width: 80px;
+        height: 60px;
+        border-width: 3px;
+    }
+
+    .main-corner-bottom {
+        right: 20px;
+        bottom: 20px;
+        width: 80px;
+        height: 60px;
+        border-width: 3px;
+    }
+
+    .Enkku-logo-homepage {
+        width: 45px;
+        right: 10px;
+        bottom: 10px;
+    }
+}
+
+/* Small mobile phone */
+@media (max-width: 400px) {
+    .main-content-homepage {
+        padding: 45px 15px 25px;
+    }
+
+    .main-text-homepage h2 {
+        font-size: 19px;
+        margin-bottom: 8px;
+    }
+
+    .main-text-homepage h1 {
+        font-size: clamp(38px, 12vw, 52px);
+        line-height: 0.95;
+    }
+
+    .main-text-homepage p {
+        margin-top: 15px;
+        font-size: 13px;
+        line-height: 1.4;
+    }
+
+    .homepage-buttons {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .program-and-3d-button {
+        width: 180px;
+        min-height: 40px;
+        font-size: 13px;
+    }
+
+    .main-images-homepage {
+        height: 300px;
+        margin-bottom: 40px;
+    }
+
+    .coe-building-homepage {
+        right: 12%;
+        width: 70%;
+        height: 48%;
+    }
+
+    .dme-learning1-homepage {
+        right: 10%;
+        width: 70%;
+        height: 48%;
+    }
+
+    .image-classroom-small {
+        right: 2%;
+        width: 48%;
+        height: 37%;
+        border-width: 3px;
+    }
+
+    .main-corner-top-homepage {
+        top: 20px;
+        left: 12px;
+        width: 55px;
+        height: 45px;
+        border-width: 3px;
+    }
+
+    .main-corner-bottom {
+        right: 12px;
+        bottom: 15px;
+        width: 55px;
+        height: 45px;
+        border-width: 3px;
+    }
+
+    .Enkku-logo-homepage {
+        width: 35px;
+        right: 8px;
+        bottom: 8px;
+    }
 }
 

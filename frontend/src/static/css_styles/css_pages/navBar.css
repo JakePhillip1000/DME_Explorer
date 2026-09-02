@@ -20,6 +20,10 @@ body {
     gap: 0.75rem;
 }
 
+.mobile-menu-button {
+    display: none;
+}
+
 .navbar-logo {
     display: flex;
     align-items: center;
@@ -68,7 +72,7 @@ body {
     border-radius: 0.5rem;
     color: black;
     font-family: "Tilt Neon", sans-serif;
-    font-size: clamp(0.9rem, 0.8vw, 1.0rem);
+    font-size: clamp(0.9rem, 0.8vw, 1rem);
     text-align: center;
     white-space: normal;
     overflow: hidden;
@@ -151,13 +155,11 @@ body {
     border-bottom: none;
 }
 
-
 .user-dropdown a:hover {
     background-color: #f1f1f1;
 }
 
-.navbar-user:hover .user-dropdown,
-.user-dropdown:hover {
+.navbar-user:hover .user-dropdown, .user-dropdown:hover {
     display: block;
 }
 
@@ -221,82 +223,141 @@ body {
 /* Mobile Phone */
 @media (max-width: 600px) {
     .navbar {
-        flex-direction: column;
-        align-items: stretch;
-        min-height: auto;
-        padding: 0.6rem;
-        gap: 0.5rem;
+        position: sticky;
+        top: 0;
+        width: 100%;
+        height: 4rem;
+        min-height: 4rem;
+        padding: 0.4rem 0.75rem;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        overflow: visible;
+    }
+
+    .mobile-menu-button {
+        position: absolute;
+        left: 0.7rem;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.2rem;
+        height: 2.2rem;
+        padding: 0;
+        margin: 0;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        z-index: 1003;
+    }
+
+    .mobile-menu-button img {
+        display: block;
+        width: 1.8rem;
+        height: 1.8rem;
+        object-fit: contain;
     }
 
     .navbar-logo {
-        width: 100%;
-        height: 5rem;
-        justify-content: flex-start;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: auto;
+        height: 3.2rem;
+        z-index: 1001;
     }
 
     .navbar-logo a {
-        justify-content: flex-start;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .navbar-logo img {
-        width: auto;
-        height: 6rem;
-        max-width: 15rem;
-        max-height: 8rem;
-    }
-
-    .navbar-user {
-        position: absolute;
-        top: 0.6rem;
-        right: 1.2rem;
-        height: 5rem;
-    }
-
-    .navbar-user-display {
-        gap: 0.3rem;
-        padding: 0.2rem 0.3rem;
-    }
-
-    .user-image-navigation {
-        width: 3rem;
-        height: 3rem;
-    }
-
-    .username-nav-display {
         display: block;
-        max-width: 7rem;
-        font-size: 0.75rem;
+        width: 9rem;
+        height: auto;
+        max-width: 9rem;
+        max-height: 3rem;
+        object-fit: contain;
     }
 
     .navbar-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
         width: 100%;
-        display: flex;
+        display: none;
         flex-direction: column;
         align-items: stretch;
-        justify-content: flex-start;
-        gap: 0.4rem;
+        gap: 0.35rem;
+        padding: 0.6rem;
+        box-sizing: border-box;
+        background-color: #e7e7e7;
+        border-top: 0.1rem solid #ccc;
+        box-shadow: 0 0.4rem 0.8rem rgba(0, 0, 0, 0.15);
         overflow: visible;
-        margin: 0;
+        z-index: 1000;
+    }
+
+    .navbar-menu.navbar-menu-mobile-open {
+        display: flex;
     }
 
     .nav-button {
         width: 100%;
         min-width: 100%;
         max-width: 100%;
-        flex: none;
         height: 2.2rem;
+        flex: none;
         padding: 0.3rem 0.5rem;
+        box-sizing: border-box;
         border-radius: 0.4rem;
-        font-size: 0.7rem;
+        font-size: 0.75rem;
         line-height: 1;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
 
+    .navbar-user {
+        position: absolute;
+        right: 0.6rem;
+        top: 50%;
+        transform: translateY(-50%);
+        height: auto;
+        margin: 0;
+        z-index: 1002;
+    }
+
+    .navbar-user-display {
+        display: flex;
+        align-items: center;
+        gap: 0.2rem;
+        padding: 0.15rem;
+    }
+
+    .user-image-navigation {
+        width: 2.3rem;
+        height: 2.3rem;
+        object-fit: contain;
+    }
+
+    .username-nav-display {
+        display: none;
+    }
+
     .user-dropdown {
-        top: 100%;
-        right: 0.25rem;
+        top: calc(100% + 0.3rem);
+        right: 0;
         min-width: 9rem;
     }
 
@@ -309,46 +370,50 @@ body {
 /* Small Mobile */
 @media (max-width: 400px) {
     .navbar {
-        padding: 0.5rem;
-        gap: 0.4rem;
+        height: 3.5rem;
+        min-height: 3.5rem;
+        padding: 0.3rem 0.5rem;
+    }
+
+    .mobile-menu-button {
+        left: 0.45rem;
+        width: 2rem;
+        height: 2rem;
+    }
+
+    .mobile-menu-button img {
+        width: 1.55rem;
+        height: 1.55rem;
     }
 
     .navbar-logo {
-        height: 4.5rem;
+        height: 2.8rem;
     }
 
     .navbar-logo img {
-        height: 4.5rem;
-        max-width: 8rem;
-        max-height: 4.5rem;
+        width: 7.5rem;
+        max-width: 7.5rem;
+        max-height: 2.5rem;
     }
-
+    
     .navbar-user {
-        top: 0.5rem;
-        right: 1rem;
-        height: 4.5rem;
+        right: 0.45rem;
     }
 
     .user-image-navigation {
-        width: 2.5rem;
-        height: 2.5rem;
-    }
-
-    .username-nav-display {
-        max-width: 6rem;
-        font-size: 0.65rem;
+        width: 2rem;
+        height: 2rem;
     }
 
     .navbar-menu {
+        padding: 0.5rem;
         gap: 0.3rem;
     }
 
     .nav-button {
-        width: 100%;
-        min-width: 100%;
-        max-width: 100%;
         height: 2rem;
-        font-size: 0.6rem;
+        font-size: 0.65rem;
         padding: 0.2rem 0.4rem;
     }
 }
+
