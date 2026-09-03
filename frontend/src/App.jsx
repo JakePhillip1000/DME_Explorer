@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import { Home } from './static/pages/homePage.jsx';
 import { NavigationBar } from './static/pages/components/navBar.jsx';
 import { Register } from './static/pages/register.jsx';
+import { Login } from './static/pages/login.jsx';
+
 import './static/css_styles/App.css'
 
 export function DmeExplorer() {
@@ -13,10 +15,10 @@ export function DmeExplorer() {
         <Route path="/" element = {<Home />} />
 
         {/* Login page */}
-        
+        <Route  path="/login" element = {<Login />} />
 
         {/* Register Page --> Sign up*/}
-        <Route path="/register" element = {<Register />}></Route>
+        <Route path="/register" element = {<Register />} />
 
         {/* About Page */}
 
