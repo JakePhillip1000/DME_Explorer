@@ -31,13 +31,14 @@ export function RegisterSignup(){
         try {
             setLoading(true);
             
-            // get the response fromt the server
+            // send information register to backend
             const response = await fetch("http://localhost:5000/api/register", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({username, email, password, passwordConfirmation})
             });
 
+            // result from the register_validation.js
             const result = await response.json();
             //console.log(result);
 

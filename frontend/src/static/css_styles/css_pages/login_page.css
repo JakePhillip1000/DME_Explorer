@@ -636,3 +636,17 @@ body {
     }
 }
 
+.login-input-error {
+    margin: 0.4rem 0 0 0.45rem;
+    color: #d93025;
+    font-family: "Tilt Neon", sans-serif;
+    font-size: 0.85rem;
+    font-weight: 400;
+    line-height: 1.2;
+}
+
+.login-button:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+}

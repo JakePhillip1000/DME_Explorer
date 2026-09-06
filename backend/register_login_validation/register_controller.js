@@ -1,13 +1,16 @@
 const supabase = require("../supabase_client.js");
 const bcrypt = require("bcrypt");
+
+// these are valid register data --> after checking
 const RegisterValidation = require("../register_login_validation/register_validation.js"); // require() use for import modules from separate file or external
 
+// This file check the database data
 async function CheckUsernameExists(username) {
     const { data, error } = await supabase
-        .from("register")
-        .select("id")
-        .eq("username", username)
-        .maybeSingle();
+        .from("register") // this comes from the register table inside the supabase
+        .select("id") // id from the supabase table
+        .eq("username", username) // username from the subapase table 
+        .maybeSingle(); // retrieve a row as single object or null when not found
 
     if (error) {
         console.error("Username check error:", error);
@@ -50,10 +53,25 @@ async function CheckEmailExists(email) {
     };
 }
 
+// In  this function, it insert the user to the supabase 
 async function CreateRegister(username, email, password) {
     try {
         const passwordHash = await bcrypt.hash(password, 12);
+        
+        // inserting to supabase in this format 
 
+        /*
+            INSERT username
+            INSERT email
+            INSERT password
+
+            this is what the data looks like sending from JS (JSON format)
+            {
+                username: "jake123",
+                email: "jakephillip123@gmail.com",
+                password_hash: "$2b$12$...."
+            }
+        */
         const { error: registerError } = await supabase
             .from("register")
             .insert({
@@ -75,12 +93,14 @@ async function CreateRegister(username, email, password) {
             success: true,
             message: "Registration successful."
         };
-    } catch (error) {
+    } 
+    
+    catch (error) {
         console.error("Create register error:", error);
 
         return {
             success: false,
-            message: "Unable to create account."
+            message: "Unable to create account"
         };
     }
 }
@@ -145,9 +165,4 @@ async function RegisterUser(username, email, password, passwordConfirmation) {
     return {status: registerResult.success ? 201 : 500, ...registerResult};
 }
 
-module.exports = {
-    CheckUsernameExists,
-    CheckEmailExists,
-    CreateRegister,
-    RegisterUser
-};
+module.exports = { CheckUsernameExists, CheckEmailExists, CreateRegister,RegisterUser };

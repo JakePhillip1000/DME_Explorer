@@ -6,6 +6,7 @@ class RegisterValidation {
         this.passwordConfirmation = passwordConfirmation;
     }
 
+    // so here we check is it valid or not before sending to database
     CheckOverallRegister() {
         const usernameResult = this.CheckUsernameRegister();
         const emailResult = this.CheckEmailRegister();
