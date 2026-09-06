@@ -106,6 +106,7 @@ app.get("/api/session", (req, res) => {
     });
 });
 
+// when logout the program, terminate the session...
 app.post("/api/logout", (req, res) => {
     req.session.destroy((error) => {
         if (error) {

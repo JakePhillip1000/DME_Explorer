@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import "../../css_styles/css_pages/navBar.css";
@@ -8,6 +8,8 @@ import ToggleMenuButton from "../../../assets/icons/DropDownMenu.png";
 
 export function NavigationBar(){
     const [menuOpen, setMenuOpen] = useState(false);
+    const [username, setUsername] = useState("Guest");
+
     const toggleMenu = () => {
         setMenuOpen(prev => !prev);
         console.log("Toggled menu on mobile");
@@ -16,7 +18,61 @@ export function NavigationBar(){
     const closeMenu = () => {
         setMenuOpen(false);
     }
-    
+
+      useEffect(() => {
+        const CheckSession = async () => {
+            try {
+                const response = await fetch("http://localhost:5000/api/session", {
+                    credentials: "include"
+                });
+
+                const result = await response.json();
+
+                if (result.loggedIn) {
+                    setUsername(result.user.username);
+                } 
+                else {
+                    setUsername("Guest");
+                }
+            } 
+            catch (error) {
+                console.error("Session check error" + error);
+                setUsername("Guest");
+            }
+        };
+
+        CheckSession();
+    }, new Array());
+
+    /*
+        This code sends to the backend to call req.session.destroy()
+        then the session will be terminate
+    */
+    const handleLogout = async (event) => {
+        event.preventDefault();
+
+        try {
+            const response = await fetch("http://localhost:5000/api/logout", { // send to logout
+                method: "POST",
+                credentials: "include"
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                setUsername("Guest");
+                closeMenu();
+                navigate("/");
+            } 
+            else {
+                console.error("Logout failed:", result);
+            }
+        } 
+        catch (error) {
+            console.error("Logout error:", error);
+        }
+    };
+
     return (
         <nav className="navbar">
 
@@ -45,14 +101,16 @@ export function NavigationBar(){
             <div className="navbar-user">
                 <div className="navbar-user-display">
                     <img src={userICon} alt="User icon" className="user-image-navigation"/>
-                    <span className="username-nav-display">_jakePhillip</span>
+                    <span className="username-nav-display">{username}</span>
                 </div>
-
                 <div className="user-dropdown">
                     <Link to="/">Profile Settings</Link>
-                    <Link to="/">Logout</Link>
+                    {username === "Guest" ? (
+                        <Link to="/login">Login</Link>
+                    ) : (
+                        <Link to="/" onClick={handleLogout}>Logout</Link>
+                    )}
                 </div>
-
             </div>
         </nav>
     )

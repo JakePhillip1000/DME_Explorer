@@ -53,7 +53,7 @@ async function CheckEmailExists(email) {
     };
 }
 
-// In  this function, it insert the user to the supabase 
+// In this function, it insert the user to the supabase 
 async function CreateRegister(username, email, password) {
     try {
         const passwordHash = await bcrypt.hash(password, 12);
@@ -161,7 +161,7 @@ async function RegisterUser(username, email, password, passwordConfirmation) {
     }
 
     const registerResult = await CreateRegister(cleanUsername, cleanEmail, password);
-
+    
     return {status: registerResult.success ? 201 : 500, ...registerResult};
 }
 

@@ -121,7 +121,7 @@ export function LoginCheck(){
                     <input className="remember-checkbox" type="checkbox" name="rememberMe"/>
                     <span className="remember-text">Remember me</span>
                 </label>
-                <Link className="forgot-password" to="/forgot-password">Forgot the password?</Link>
+                <Link className="forgot-password" to="/login">Forgot the password?</Link>
             </div>
 
             {loginMessage && <p className="login-success-message">{loginMessage}</p>}
