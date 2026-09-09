@@ -215,9 +215,7 @@ export function Home() {
 
                         <div className="main-text-homepage">
                             <h2>Welcome to the faculty of</h2>
-
                             <h1>Digital Media<br/>Engineering</h1>
-
                             <p>Come and join us to start a successful future career together</p>
 
                             <div className="homepage-buttons">
@@ -356,9 +354,13 @@ export function Home() {
                         <button className="news-search-button">Search</button>
                     </div>
 
+                    {/*
+                    
                     <div className="view-all-news-homepage">
                         <Link to="/news">View all news</Link>
                     </div>
+
+                    */}
 
                     <div className="news-grid-homepage">
                         {loadingNews ? (
@@ -400,7 +402,8 @@ export function Home() {
                     </div>
                 </section>
             </main>
-
+            
+            {/* Add news for admin */}
             {newsFormOpen && isAdmin && (
                 <div className="news-modal-background">
                     <div className="news-modal-homepage">
@@ -504,25 +507,15 @@ export function Home() {
                             <div className="news-form-content-row">
                                 <label>News contents:</label>
 
-                                <textarea
-                                    value={newsContent}
-                                    onChange={(event) => setNewsContent(event.target.value)}
-                                ></textarea>
+                                <textarea value={newsContent} onChange={(event) => setNewsContent(event.target.value)}></textarea>
                             </div>
 
                             <div className="news-form-buttons-homepage">
-                                <button
-                                    type="button"
-                                    className="quit-news-button-homepage"
-                                    onClick={CloseNewsForm}
-                                >
+                                <button type="button" className="quit-news-button-homepage" onClick={CloseNewsForm}>
                                     Quit
                                 </button>
 
-                                <button
-                                    type="submit"
-                                    className="save-news-button-homepage"
-                                >
+                                <button type="submit" className="save-news-button-homepage">
                                     Save & Quit
                                 </button>
                             </div>

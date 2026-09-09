@@ -1444,7 +1444,6 @@
 }
 
 /* Small mobile */
-
 @media (max-width: 400px) {
     .news-card-homepage {
         height: 235px;
@@ -1459,8 +1458,7 @@
         align-items: flex-end;
     }
 
-    .read-more-button-homepage,
-    .edit-news-button-homepage {
+    .read-more-button-homepage, .edit-news-button-homepage {
         min-width: 75px;
     }
 
