@@ -1,9 +1,12 @@
 const express = require("express");
 const cors = require("cors");
 const session = require("express-session");
+const multer = require("multer");
 
 const { RegisterUser } = require("./register_login_validation/register_controller.js");
 const { LoginUser } = require("./register_login_validation/login_controller.js");
+const { GetAllNews, CreateNews, UpdateNews, IsAdmin, ConvertNewsImage } = require("./pages_backend/news_modify.js");
+const newsController  = require("./pages_backend/news_controller.js");
 
 const app = express();
 
@@ -25,42 +28,28 @@ app.use(session({
     }
 }));
 
-/*
-This is where session secret comes from
-
-node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
-*/
-
-//console.log(process.env.SESSION_SECRET);
-//console.log(app.use.session.secret);
-
-// sending the HTTP post request to register page
+// Register system
 app.post("/api/register", async (req, res) => {
     try {
-        const {username, email, password, passwordConfirmation} = req.body;
+        const { username, email, password, passwordConfirmation } = req.body;
         const result = await RegisterUser(username, email, password, passwordConfirmation);
 
-        if (!result.success) {
-            // here when register input field not put (not put some or all, this msg will show in log)
-            // or result is invalid (not meet requirement), this can be shown
-            return res.status(result.status || 400).json(result);
-        }
-
-        // When the registration is success
-        return res.status(201).json(result);
-    } catch (error) {
-        console.error(error);
-
+        return res.status(result.success ? 201 : result.status || 400).json(result);
+    } 
+    
+    catch (error) {
+        console.error("Register error:", error);
         return res.status(500).json({
             success: false,
-            message: "Internal server error"
+            message: "Internal server error."
         });
     }
 });
 
+// Login system
 app.post("/api/login", async (req, res) => {
     try {
-        const {username, password} = req.body;
+        const { username, password } = req.body;
         const result = await LoginUser(username, password);
 
         if (!result.success) {
@@ -72,14 +61,11 @@ app.post("/api/login", async (req, res) => {
             username: result.user.username
         };
 
-        console.log("Login successful.");
-        console.log("Session user:", req.session.user);
-
         return res.status(200).json(result);
     } 
-    
     catch (error) {
         console.error("Login error:", error);
+
         return res.status(500).json({
             success: false,
             message: "Internal server error."
@@ -87,18 +73,14 @@ app.post("/api/login", async (req, res) => {
     }
 });
 
+// Session variable -- the user current login
 app.get("/api/session", (req, res) => {
     if (!req.session.user) {
-        console.log("There is no session yet. NO user logged in");
-
         return res.status(401).json({
             loggedIn: false,
-            message: "No user is logged in."
+            message: "No one login"
         });
     }
-
-    console.log("User logged in");
-    console.log("Session user: " + req.session.user);
 
     return res.status(200).json({
         loggedIn: true,
@@ -106,15 +88,18 @@ app.get("/api/session", (req, res) => {
     });
 });
 
-// when logout the program, terminate the session...
+// The news controller --> uploading news to supabase
+app.use("/api/news", newsController);
+
+// The logout backend side
 app.post("/api/logout", (req, res) => {
     req.session.destroy((error) => {
         if (error) {
-            console.error(error);
+            console.error("Logout error:", error);
 
             return res.status(500).json({
                 success: false,
-                message: "Unable to logout"
+                message: "Unable to logout."
             });
         }
 

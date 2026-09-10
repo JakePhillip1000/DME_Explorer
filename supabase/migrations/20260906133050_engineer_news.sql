@@ -9,4 +9,5 @@ create table public.engineer_news (
     created_at timestamptz not null default now()
 );
 
+-- This line will make the supabase table unrestricted
 alter table public.engineer_news enable row level security;

@@ -501,15 +501,13 @@
     position: relative;
     width: 100%;
     display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .news-header-homepage h2 {
     margin: 0;
     color: #000000;
     font-family: "Tilt Warp", sans-serif;
-    font-size: clamp(36px, 3.4vw, 58px);
+    font-size: clamp(36px, 2.8vw, 45px);
     font-weight: normal;
     text-align: center;
 }
@@ -557,6 +555,29 @@
     line-height: 1;
 }
 
+.delete-news-button-homepage {
+    position: absolute;
+    right: 190px;
+    top: 5px;
+    height: 50px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    border: 2px solid #5b0e0e;
+    background-color: #d73434;
+    color: white;
+    font-family: "Tilt Neon", sans-serif;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.delete-news-button-homepage:hover {
+    background-color: #b02020;
+}
+
 .news-controls-homepage {
     width: 100%;
     margin-top: 30px;
@@ -566,6 +587,45 @@
     gap: 12px;
     padding-right: 170px;
     box-sizing: border-box;
+}
+
+.select-news-button-homepage {
+    position: absolute;
+    right: 380px;
+    top: 5px;
+    height: 50px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    border: 2px solid #575656;
+    background-color: #e4e8e8;
+    color: black;
+    font-family: "Tilt Neon", sans-serif;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.select-news-button-homepage.selection-active-homepage {
+    border-color: #dc143c;
+    background-color: rgb(174, 39, 39);
+    color: white;
+}
+
+.select-news-button-homepage:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.news-card-homepage.news-card-selectable-homepage {
+    cursor: pointer;
+}
+
+.news-card-homepage.news-card-selected-homepage {
+    border: 2px solid #dc143c;
+    box-shadow: none;
 }
 
 .news-search-homepage {
@@ -736,8 +796,16 @@
     min-width: 175px;
 }
 
+.news-filter-button:hover{
+    background-color: #ebd8cb;
+}
+
 .news-date-button {
     min-width: 160px;
+}
+
+.news-date-button:hover {
+    background-color: #ebd8cb;
 }
 
 .news-date-button span {
@@ -768,6 +836,7 @@
 }
 
 .news-grid-homepage {
+    padding-top: 30px;
     width: 100%;
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -777,7 +846,7 @@
 .news-card-homepage {
     min-width: 0;
     height: 260px;
-    border: 2px solid #222222;
+    border: 1.5px solid #222222;
     background-color: #ffffff;
     box-sizing: border-box;
     overflow: hidden;
@@ -860,8 +929,7 @@
     gap: 6px;
 }
 
-.read-more-button-homepage,
-.edit-news-button-homepage {
+.read-more-button-homepage, .edit-news-button-homepage {
     min-width: 82px;
     height: 27px;
     padding: 0 9px;
@@ -875,6 +943,7 @@
     font-size: 10px;
     text-decoration: none;
     cursor: pointer;
+    font-weight: bold;
 }
 
 .read-more-button-homepage {
@@ -974,8 +1043,7 @@
     column-gap: 10px;
 }
 
-.news-form-row > label,
-.news-form-content-row > label {
+.news-form-row > label, .news-form-content-row > label {
     color: #111111;
     font-family: "Tilt Neon", sans-serif;
     font-size: 17px;
@@ -1116,6 +1184,34 @@
     background-color: #a6ca69;
 }
 
+.news-image-upload-homepage {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.news-image-upload-homepage input[type="file"] {
+    width: 100%;
+    padding: 5px;
+    box-sizing: border-box;
+    border: 1px solid #777777;
+    background-color: #f7f7f7;
+    font-family: "Tilt Neon", sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.news-selected-image-name {
+    max-width: 250px;
+    color: #555555;
+    font-family: "Tilt Neon", sans-serif;
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 /* Desktop */
 @media (min-width: 1600px) {
     .news-section-homepage {
@@ -1127,7 +1223,7 @@
         font-size: 62px;
     }
 
-    .add-news-button-homepage {
+    .add-news-button-homepage, .delete-news-button-homepage, .select-news-button-homepage{
         min-width: 180px;
         height: 50px;
         font-size: 18px;
@@ -1231,7 +1327,7 @@
         text-align: center;
     }
 
-    .add-news-button-homepage {
+    .add-news-button-homepage, .delete-news-button-homepage, .select-news-button-homepage{
         position: static;
         min-width: 150px;
         height: 42px;
@@ -1336,7 +1432,7 @@
         font-size: clamp(26px, 8vw, 34px);
     }
 
-    .add-news-button-homepage {
+    .add-news-button-homepage, .delete-news-button-homepage, .select-news-button-homepage{
         position: static;
         width: 130px;
     }
