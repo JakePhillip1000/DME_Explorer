@@ -333,10 +333,14 @@ const GetNews = async (categoryFilter = searchCategory) => {
             );
 
             alert(result.message);
-        } catch (error) {
+        } 
+        
+        catch (error) {
             console.error("Delete news error:", error);
             alert("Cannot delete news, refresh and try again");
-        } finally {
+        } 
+        
+        finally {
             setDeletingNews(false);
         }
     };
@@ -426,7 +430,6 @@ const GetNews = async (categoryFilter = searchCategory) => {
                                 </button>
                             </div>
                         )}
-                        
                     </div>
                     
                     {/* The searchbar --> type in anything to search*/}
