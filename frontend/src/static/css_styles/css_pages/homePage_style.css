@@ -1653,7 +1653,7 @@
 }
 
 .news-detail-category {
-    color: #c67653;
+    color: #e35042;
     font-family: "Tilt Neon", sans-serif;
     font-size: 15px;
     font-weight: bold;
@@ -1663,7 +1663,7 @@
 .news-detail-date {
     padding: 5px 10px;
     border-radius: 15px;
-    color: #249a24;
+    color: #24679a;
     font-family: "Tilt Neon", sans-serif;
     font-size: 12px;
     font-weight: bold;
@@ -1680,7 +1680,7 @@
 
 .news-detail-content {
     margin: 15px 0 0;
-    color: #647086;
+    color: #232324;
     font-family: "Tilt Neon", sans-serif;
     font-size: clamp(15px, 1.5vw, 19px);
     line-height: 1.55;
@@ -1717,3 +1717,4 @@
         line-height: 32px;
     }
 }
+

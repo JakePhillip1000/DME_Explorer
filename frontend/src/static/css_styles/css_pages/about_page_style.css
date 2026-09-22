@@ -32,21 +32,23 @@
     text-align: center;
 }
 
-.about-hero h1 {
+.about-heading-title {
     margin: 0;
     color: #000000;
-    font-family: "Tilt Warp", Arial, sans-serif;
-    font-size: clamp(36px, 4vw, 59px);
-    font-weight: bold;
-    line-height: 1.1;
+    font-family: "Tilt Warp";
+    font-size: clamp(38px, 4vw, 45px);
+    font-weight: normal;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
 }
 
-.about-hero p {
+.about-heading-description {
     margin: 8px 0 0;
     color: #111111;
-    font-size: clamp(17px, 1.6vw, 25px);
+    font-family: "Tilt Neon", Arial, sans-serif;
+    font-size: clamp(14px, 1.6vw, 18px);
     font-weight: 500;
-    line-height: 1.3;
+    line-height: 1.35;
 }
 
 .about-information {
@@ -73,41 +75,18 @@
     background-color: #ffffff;
 }
 
-.about-panel h2 {
+.about-panel-title {
     margin: 0 0 12px;
     color: #111111;
-    font-family: Arial, sans-serif;
     font-size: clamp(21px, 1.75vw, 27px);
     font-weight: 700;
     line-height: 1.15;
-}
-
-.about-panel p, .about-panel li, about-panel h3 {
-    font-family: "Tilt Neon", Arial, sans-serif;
-    font-size: clamp(13px, 1vw, 16px);
-    line-height: 1.55;
 }
 
 .about-introduction {
     grid-area: introduction;
     min-height: 350px;
     padding: 13px 32px 22px;
-}
-
-.about-learning {
-    grid-area: learning;
-    min-height: 350px;
-    padding: 20px 40px;
-}
-
-.about-objectives {
-    grid-area: objectives;
-    min-height: 215px;
-}
-
-.about-vision {
-    grid-area: vision;
-    min-height: 215px;
 }
 
 .about-introduction-content {
@@ -117,75 +96,133 @@
     gap: 12px;
 }
 
-.about-introduction-content img {
+.about-introduction-image-container {
     width: 100%;
     height: 265px;
-    display: block;
-    object-fit: cover;
+    overflow: hidden;
+    background-color: white;
 }
 
-.about-introduction-content p {
+.about-introduction-image {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    margin-top: 5px;
+}
+
+.about-introduction-description {
     margin: 5px 0 0;
+    color: #111111;
+    font-family: "Tilt Neon", Arial, sans-serif;
+    font-size: clamp(13px, 1vw, 16px);
+    line-height: 1.65;
+    font-weight: normal;
+}
+
+.about-learning {
+    grid-area: learning;
+    min-height: 350px;
+    padding: 20px 40px;
 }
 
 .about-main-list {
     margin: 0;
-    padding-left: 17px;
+    padding-left: 18px;
 }
 
-.about-main-list > li {
-    padding-left: 2px;
+.about-main-list-item {
+    padding-left: 3px;
+    font-family: "Tilt Neon", Arial, sans-serif;
+    font-size: clamp(13px, 1vw, 16px);
+    line-height: 1.55;
+}
+
+.about-list-text {
+    color: #111111;
 }
 
 .about-sub-list {
     margin: 5px 0 0;
-    padding-left: 27px;
+    padding-left: 22px;
     list-style-type: none;
 }
 
-.about-sub-list li {
+.about-sub-list-item {
     position: relative;
-    padding-left: 13px;
+    padding-left: 15px;
+    color: #111111;
+    font-family: "Tilt Neon", Arial, sans-serif;
+    font-size: clamp(13px, 1vw, 16px);
+    line-height: 1.65;
 }
 
-.about-sub-list li::before {
+.about-sub-list-item::before {
     content: "·";
     position: absolute;
     left: 0;
     font-weight: bold;
 }
 
-.about-objectives ol {
+.about-objectives {
+    grid-area: objectives;
+    min-height: 215px;
+}
+
+.about-objectives-list {
     margin: 0;
     padding-left: 30px;
 }
 
-.about-objectives li {
-    padding-left: 3px;
+.about-objectives-item {
     margin-bottom: 2px;
+    padding-left: 3px;
+    color: #111111;
+    font-family: "Tilt Neon", Arial, sans-serif;
+    font-size: clamp(13px, 1vw, 16px);
+    line-height: 1.65;
 }
 
-.about-vision h2 {
+.about-vision {
+    grid-area: vision;
+    min-height: 215px;
+}
+
+.about-vision .about-panel-title {
     margin-bottom: 8px;
 }
 
-.about-vision h3 {
-    margin: 0 0 2px;
-    font-weight: normal;
+.about-vision-section, .about-mission-section {
+    width: 100%;
 }
 
-.about-vision ul {
+.about-subheading {
+    margin: 0 0 2px;
+    color: #111111;
+    font-family: "Tilt Neon", Arial, sans-serif;
+    font-size: clamp(13px, 1vw, 16px);
+    font-weight: normal;
+    line-height: 1.55;
+}
+
+.about-vision-list, .about-mission-list {
     margin: 2px 0 6px;
     padding-left: 27px;
     list-style-type: none;
 }
 
-.about-vision li {
+.about-vision-item,
+.about-mission-item {
     position: relative;
     padding-left: 13px;
+    color: #111111;
+    font-family: "Tilt Neon", Arial, sans-serif;
+    font-size: clamp(13px, 1vw, 16px);
+    line-height: 1.55;
 }
 
-.about-vision li::before {
+.about-vision-item::before,
+.about-mission-item::before {
     content: "·";
     position: absolute;
     left: 0;
@@ -194,6 +231,10 @@
 
 /* Large desktop */
 @media (min-width: 1600px) {
+    .about-section {
+        min-height: 175px;
+    }
+
     .about-information {
         padding-right: 45px;
         padding-left: 45px;
@@ -207,13 +248,18 @@
         min-height: 360px;
     }
 
-    .about-introduction-content img {
+    .about-introduction-image-container {
         height: 275px;
     }
 }
 
 /* Tablet */
+
 @media (max-width: 1100px) {
+    .about-information {
+        padding: 15px 22px 25px;
+    }
+
     .about-layout {
         grid-template-columns: 1fr 1fr;
         grid-template-areas:
@@ -223,11 +269,10 @@
         gap: 15px;
     }
 
-    .about-introduction {
-        min-height: auto;
-    }
-
-    .about-learning, .about-vision, .about-objectives {
+    .about-introduction,
+    .about-learning,
+    .about-objectives,
+    .about-vision {
         min-height: auto;
     }
 }
@@ -235,7 +280,7 @@
 /* Small tablet */
 
 @media (max-width: 800px) {
-    .about-hero {
+    .about-section {
         min-height: 145px;
         padding: 25px 20px;
     }
@@ -253,10 +298,7 @@
             "vision";
     }
 
-    .about-introduction {
-        padding: 18px;
-    }
-
+    .about-introduction,
     .about-learning {
         padding: 18px;
     }
@@ -265,25 +307,28 @@
         grid-template-columns: minmax(220px, 42%) minmax(0, 1fr);
     }
 
-    .about-introduction-content img {
+    .about-introduction-image-container {
         height: 230px;
     }
 }
 
 /* Mobile */
 @media (max-width: 600px) {
-    .about-hero {
+    .about-section {
         min-height: 165px;
         padding: 25px 15px;
     }
 
-    .about-hero h1 {
-        font-size: clamp(30px, 9vw, 42px);
+    .about-heading-title {
+        font-size: clamp(29px, 9vw, 42px);
+        line-height: 1.08;
     }
 
-    .about-hero p {
+    .about-heading-description {
+        max-width: 430px;
         margin-top: 10px;
         font-size: 15px;
+        line-height: 1.4;
     }
 
     .about-information {
@@ -294,17 +339,14 @@
         gap: 12px;
     }
 
-    .about-panel, .about-introduction, .about-learning {
+    .about-panel,
+    .about-introduction,
+    .about-learning {
         padding: 16px;
     }
 
-    .about-panel h2 {
+    .about-panel-title {
         font-size: 21px;
-    }
-
-    .about-panel p, .about-panel li, .about-panel h3 {
-        font-size: 14px;
-        line-height: 1.5;
     }
 
     .about-introduction-content {
@@ -313,33 +355,54 @@
         gap: 14px;
     }
 
-    .about-introduction-content img {
+    .about-introduction-image-container {
         width: 100%;
         height: auto;
-        max-height: 340px;
+        aspect-ratio: 4 / 3;
+    }
+
+    .about-introduction-image {
+        width: 100%;
+        height: 100%;
         object-fit: cover;
     }
 
-    .about-introduction-content p {
+    .about-introduction-description,
+    .about-main-list-item,
+    .about-sub-list-item,
+    .about-objectives-item,
+    .about-subheading,
+    .about-vision-item,
+    .about-mission-item {
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .about-introduction-description {
         margin: 0;
     }
 
-    .about-objectives ol {
+    .about-objectives-list {
         padding-left: 23px;
     }
 
-    .about-objectives li {
+    .about-objectives-item {
         margin-bottom: 7px;
     }
 }
 
 /* Small mobile */
 @media (max-width: 400px) {
-    .about-hero h1 {
-        font-size: 29px;
+    .about-section {
+        min-height: 150px;
+        padding: 20px 12px;
     }
 
-    .about-hero p {
+    .about-heading-title {
+        font-size: 28px;
+    }
+
+    .about-heading-description {
         font-size: 13px;
     }
 
@@ -348,15 +411,24 @@
         padding-left: 8px;
     }
 
-    .about-panel, .about-introduction, .about-learning {
+    .about-panel,
+    .about-introduction,
+    .about-learning {
         padding: 13px;
     }
 
-    .about-panel h2 {
+    .about-panel-title {
         font-size: 19px;
     }
 
-    .about-panel p, .about-panel li, .about-panel h3 {
+    .about-introduction-description,
+    .about-main-list-item,
+    .about-sub-list-item,
+    .about-objectives-item,
+    .about-subheading,
+    .about-vision-item,
+    .about-mission-item {
         font-size: 13px;
     }
 }
+

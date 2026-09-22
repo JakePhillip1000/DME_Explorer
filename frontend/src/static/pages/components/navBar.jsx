@@ -91,7 +91,6 @@ export function NavigationBar(){
                 <Link to="/" className="nav-button" onClick={closeMenu}>Home</Link>
                 <Link to="/about" className="nav-button" onClick={closeMenu}>About</Link>
                 <Link to="/" className="nav-button" onClick={closeMenu}>Programs</Link>
-                <Link to="/" className="nav-button" onClick={closeMenu}>Programs</Link>
                 <Link to="/" className="nav-button" onClick={closeMenu}>Projects</Link>
                 <Link to="/" className="nav-button" onClick={closeMenu}>Tuition Fee</Link>
                 <Link to="/" className="nav-button" onClick={closeMenu}>Occupation</Link>
