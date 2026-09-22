@@ -326,7 +326,9 @@ router.delete("/", RequireNewsAdmin, async (req, res) => {
             message: `${deletedIds.length} news item(s) deleted successfully.`,
             deletedIds
         });
-    } catch (error) {
+    } 
+    
+    catch (error) {
         console.error("Delete news route error:", error);
 
         return res.status(500).json({

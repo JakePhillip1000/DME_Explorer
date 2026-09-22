@@ -37,6 +37,8 @@ export function Home() {
     const [searchKeyword, setSearchKeyword] = useState("");
     const [searchCategory, setSearchCategory] = useState("");
 
+    const [viewingNews, setViewingNews] = useState(null);
+
     const isAdmin = username === "admin";
 
     useEffect(() => {
@@ -343,6 +345,16 @@ const GetNews = async (categoryFilter = searchCategory) => {
         finally {
             setDeletingNews(false);
         }
+    };
+
+    const OpenNewsDetails = (selectedNews) => {
+        setViewingNews(selectedNews);
+        document.body.style.overflow = "hidden";
+    };
+
+    const CloseNewsDetails = () => {
+        setViewingNews(null);
+        document.body.style.overflow = "";
     };
 
     return (
@@ -654,12 +666,14 @@ const GetNews = async (categoryFilter = searchCategory) => {
                                                     )}
 
                                                     {/* The news read more button */}
-                                                    <Link
-                                                        to={`/news/${item.news_id}`}
+                                                    <button
+                                                        type="button"
                                                         className="read-more-button-homepage"
-                                                    >
-                                                        Read more
-                                                    </Link>
+                                                        onClick={(event) => {
+                                                            event.stopPropagation();
+                                                            OpenNewsDetails(item);
+                                                        }}
+                                                    >Read more</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -670,6 +684,55 @@ const GetNews = async (categoryFilter = searchCategory) => {
                     </div>
                 </section>
             </main>
+
+            {viewingNews && (
+                <div
+                    className="news-detail-background"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="news-detail-title"
+                    onClick={CloseNewsDetails}
+                >
+                    <article
+                        className="news-detail-modal"
+                        onClick={(event) => event.stopPropagation()}
+                    >
+                        <button
+                            type="button"
+                            className="news-detail-close-button"
+                            onClick={CloseNewsDetails}
+                            aria-label="Close news"
+                        >×</button>
+
+                        <div className="news-detail-image">
+                            {viewingNews.news_image ? (
+                                <img
+                                    src={viewingNews.news_image}
+                                    alt={viewingNews.news_title}
+                                />
+                            ) : (
+                                <div className="news-detail-no-image">No image displaying</div>
+                            )}
+                        </div>
+
+                        <div className="news-detail-information">
+                            <div className="news-detail-meta">
+                                <span className="news-detail-category">
+                                    {viewingNews.category || "Other News"}
+                                </span>
+
+                                <span className="news-detail-date">
+                                    {viewingNews.published_date ? new Date(viewingNews.published_date).toLocaleDateString("en-GB") : ""}
+                                </span>
+                            </div>
+
+                            <h2 id="news-detail-title">{viewingNews.news_title}</h2>
+
+                            <p className="news-detail-content">{viewingNews.news_content}</p>
+                        </div>
+                    </article>
+                </div>
+            )}
             
             {/* Add news for admin */}
             {newsFormOpen && isAdmin && (
@@ -741,7 +804,7 @@ const GetNews = async (categoryFilter = searchCategory) => {
                                         }}
                                     />
                                     {newsImageFile && <span className="news-selected-image-name">{newsImageFile.name}</span>}
-                                    {!newsImageFile && editingNews && newsImage && <span className="news-selected-image-name">Current image will be kept</span>}
+                                    {!newsImageFile && editingNews && newsImage && <span className="news-selected-image-name"></span>}
                                 </div>
                             </div>
 

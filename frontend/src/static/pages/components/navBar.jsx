@@ -60,6 +60,7 @@ export function NavigationBar(){
             const result = await response.json();
 
             if (response.ok) {
+                window.location.reload();
                 setUsername("Guest");
                 closeMenu();
                 navigate("/");

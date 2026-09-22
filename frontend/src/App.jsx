@@ -4,6 +4,7 @@ import { Home } from './static/pages/homePage.jsx';
 import { NavigationBar } from './static/pages/components/navBar.jsx';
 import { Register } from './static/pages/register.jsx';
 import { Login } from './static/pages/login.jsx';
+import { About } from './static/pages/aboutPage.jsx';
 
 import './static/css_styles/App.css'
 
@@ -21,6 +22,7 @@ export function DmeExplorer() {
         <Route path="/register" element = {<Register />} />
 
         {/* About Page */}
+        <Route path = "/about" element = {<About/>} />
 
 
         {/* Program and Education */}
