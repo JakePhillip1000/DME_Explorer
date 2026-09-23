@@ -7,6 +7,7 @@ const { RegisterUser } = require("./register_login_validation/register_controlle
 const { LoginUser } = require("./register_login_validation/login_controller.js");
 const { GetAllNews, CreateNews, UpdateNews, IsAdmin, ConvertNewsImage } = require("./pages_backend/news_modify.js");
 const newsController  = require("./pages_backend/news_controller.js");
+const KkuLecturerController = require("./pages_backend/coE_professor_controller.js");
 
 const app = express();
 
@@ -90,6 +91,9 @@ app.get("/api/session", (req, res) => {
 
 // The news controller --> uploading news to supabase
 app.use("/api/news", newsController);
+
+// Get the KKU professor information route via API
+app.get("/api/kku-lecturers", KkuLecturerController.GetLecturers);
 
 // The logout backend side
 app.post("/api/logout", (req, res) => {

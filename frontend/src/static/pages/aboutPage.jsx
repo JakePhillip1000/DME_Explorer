@@ -6,17 +6,43 @@ import CoEOpenHouse from "../../assets/images/CoE_openhouse.png";
 import CoEBackground from "../../assets/images/ENKKU_50year.png";
 
 export function About() {
-   
-    const GetAPI = async () => {
-        const API1 = "https://www.en.kku.ac.th/web/wp-json/wp/v2";
-        const API2 = "https://www.en.kku.ac.th/web/wp-json";
+    const [pages, setPages] = useState([]);
+    const [loadingPages, setLoadingPages] = useState(true);
+    const [pagesError, setPagesError] = useState("");
 
-        let response = await fetch(`${API}/pages?search=computer&per_page=100`);
-        let pages = await response.json();
+    const [lecturers, setLecturers] = useState([]);
+    const [loadingLecturers, setLoadingLecturers] = useState(true);
+    const [lecturerError, setLecturerError] = useState("");
 
-        console.log(pages);
-        console.log(Object.keys(pages.routes));
-    }
+    useEffect(() => {
+        const GetLecturers = async () => {
+            try {
+                setLoadingLecturers(true);
+                setLecturerError("");
+
+                // here, I will call from the backend side
+                const response = await fetch("http://localhost:5000/api/kku-lecturers");
+                const result = await response.json();
+
+                if (!response.ok || !result.success) {
+                    throw new Error(result.message || "Cannot get professor information");
+                }
+                
+                // logout the lecturer information
+                console.log(result.lecturers);
+                setLecturers(result.lecturers || []);
+            } 
+            catch (error) {
+                console.error(error.message);
+                setLecturerError(error.nessage);
+            } 
+            finally {
+                setLoadingLecturers(false);
+            }
+        };
+
+        GetLecturers();
+    }, []);
 
     return (
         <Fragment>
@@ -154,7 +180,87 @@ export function About() {
 
                             {/* Here in this section, I will add more information abt the professors in DME and COE*/}
                             {/* https://www.en.kku.ac.th/web/wp-json  --> ENKKU REST API wordpress*/}
-                        
+                            <section className="about-lecturers-section">
+                                <h2 className="about-lecturers-title">
+                                    Computer Engineering Lecturers
+                                </h2>
+
+                                {loadingLecturers ? (
+                                    <p className="about-lecturers-message">Loading information</p>
+                                ) : lecturerError ? (
+                                    <p className="about-lecturers-error">
+                                        {lecturerError}
+                                    </p>
+                                ) : lecturers.length === 0 ? (
+                                    <p className="about-lecturers-message">No professor found</p>
+                                ) : (
+                                    <div className="about-lecturers-grid">
+                                        {lecturers.map(lecturer => (
+                                        <article
+                                            className="about-lecturer-card"
+                                            key={lecturer.id}
+                                        >
+                                            <div className="about-lecturer-image-container">
+                                                {lecturer.imageUrl ? (
+                                                    <img
+                                                        className="about-lecturer-image"
+                                                        src={lecturer.imageUrl}
+                                                        alt={`${lecturer.englishFirstName} ${lecturer.englishLastName}`}
+                                                        loading="lazy"
+                                                        onError={(event) => {
+                                                            event.currentTarget.style.display = "none";
+                                                            event.currentTarget
+                                                                .nextElementSibling
+                                                                ?.classList.remove(
+                                                                    "about-lecturer-image-fallback-hidden"
+                                                                );
+                                                        }}
+                                                    />
+                                                ) : null}
+
+                                                <div className={`about-lecturer-image-fallback ${lecturer.imageUrl ? "about-lecturer-image-fallback-hidden" : ""}`}>
+                                                    There is no image available
+                                                </div>
+                                            </div>
+
+                                            <div className="about-lecturer-information">
+                                                <h3 className="about-lecturer-name">
+                                                    {lecturer.englishFirstName}{" "}
+                                                    {lecturer.englishLastName}
+                                                </h3>
+
+                                                <p className="about-lecturer-thai-name">
+                                                    {lecturer.academicTitle}{" "}
+                                                    {lecturer.thaiFirstName}{" "}
+                                                    {lecturer.thaiLastName}
+                                                </p>
+
+                                                <p className="about-lecturer-department">
+                                                    {lecturer.department}
+                                                </p>
+
+                                                {lecturer.email && (
+                                                    <a className="about-lecturer-email" href={`mailto:${lecturer.email}`}>
+                                                        {lecturer.email}
+                                                    </a>
+                                                )}
+
+                                                <div className="about-lecturer-research">
+                                                    <h4 className="about-lecturer-research-title">
+                                                        Research interests
+                                                    </h4>
+
+                                                    <p className="about-lecturer-research-text">
+                                                        {lecturer.researchInterests ||
+                                                            "No research information available"}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </article>
+                                        ))}
+                                    </div>
+                                )}
+                            </section>
                         </div>
                     </section>
                 </main>
