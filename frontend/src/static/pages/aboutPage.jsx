@@ -15,6 +15,7 @@ export function About() {
     const [lecturerError, setLecturerError] = useState("");
 
     useEffect(() => {
+        // https://cvs.enit.kku.ac.th/computer --> lecturer information get from here
         const GetLecturers = async () => {
             try {
                 setLoadingLecturers(true);

@@ -90,12 +90,12 @@ export function NavigationBar(){
             <div className={`navbar-menu ${menuOpen ? "navbar-menu-mobile-open" : ""}`}>
                 <Link to="/" className="nav-button" onClick={closeMenu}>Home</Link>
                 <Link to="/about" className="nav-button" onClick={closeMenu}>About</Link>
-                <Link to="/" className="nav-button" onClick={closeMenu}>Programs</Link>
-                <Link to="/" className="nav-button" onClick={closeMenu}>Projects</Link>
-                <Link to="/" className="nav-button" onClick={closeMenu}>Tuition Fee</Link>
-                <Link to="/" className="nav-button" onClick={closeMenu}>Occupation</Link>
-                <Link to="/" className="nav-button" onClick={closeMenu}>3D relax zone</Link>
-                <Link to="/" className="nav-button" onClick={closeMenu}>Contacts & FAQ</Link>
+                <Link to="/program" className="nav-button" onClick={closeMenu}>Programs</Link>
+                <Link to="/projects" className="nav-button" onClick={closeMenu}>Projects</Link>
+                <Link to="/tuition" className="nav-button" onClick={closeMenu}>Tuition Fee</Link>
+                <Link to="/occupation" className="nav-button" onClick={closeMenu}>Occupation</Link>
+                <Link to="/3d-relax" className="nav-button" onClick={closeMenu}>3D relax zone</Link>
+                <Link to="/contacts" className="nav-button" onClick={closeMenu}>Contacts & FAQ</Link>
             </div>
 
             <div className="navbar-user">
