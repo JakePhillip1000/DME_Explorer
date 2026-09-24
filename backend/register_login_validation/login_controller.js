@@ -1,6 +1,6 @@
-const supabase = require("../supabase_client.js");
-const bcrypt = require("bcrypt");
-const LoginValidation = require("../register_login_validation/login_validation.js");
+import supabase from "../supabase_client.js";
+import bcrypt from "bcrypt";
+import { LoginValidation } from "../register_login_validation/login_validation.js";
 
 /*
 We need to check the database whether the username and pwd
@@ -92,5 +92,5 @@ async function LoginUser(username, password) {
     };
 }
 
-module.exports = {CheckUsernameLogin, LoginUser};
+export {CheckUsernameLogin, LoginUser};
 

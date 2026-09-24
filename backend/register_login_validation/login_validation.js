@@ -46,5 +46,5 @@ class LoginValidation {
     }
 }
 
-module.exports = LoginValidation;
+export { LoginValidation };
 

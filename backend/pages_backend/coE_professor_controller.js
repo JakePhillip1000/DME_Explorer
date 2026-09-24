@@ -21,7 +21,7 @@ class KkuLecturerController {
             if (!cvsResponse.ok) {
                 return res.status(502).json({
                     success: false,
-                    message: response.status,
+                    message: cvsResponse.status,
                     lecturers: []
                 });
             }
@@ -109,4 +109,4 @@ class KkuLecturerController {
     }
 }
 
-module.exports = KkuLecturerController;
+export default KkuLecturerController;

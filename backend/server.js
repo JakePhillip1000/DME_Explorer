@@ -1,13 +1,14 @@
-const express = require("express");
-const cors = require("cors");
-const session = require("express-session");
-const multer = require("multer");
+import express from "express";
+import cors from "cors";
+import session from "express-session";
+import multer from "multer";
 
-const { RegisterUser } = require("./register_login_validation/register_controller.js");
-const { LoginUser } = require("./register_login_validation/login_controller.js");
-const { GetAllNews, CreateNews, UpdateNews, IsAdmin, ConvertNewsImage } = require("./pages_backend/news_modify.js");
-const newsController  = require("./pages_backend/news_controller.js");
-const KkuLecturerController = require("./pages_backend/coE_professor_controller.js");
+import { RegisterUser } from "./register_login_validation/register_controller.js";
+import { LoginUser } from "./register_login_validation/login_controller.js";
+import { GetAllNews, CreateNews, UpdateNews, IsAdmin, ConvertNewsImage } from "./pages_backend/news_modify.js";
+
+import newsController from "./pages_backend/news_controller.js";
+import KkuLecturerController from "./pages_backend/coE_professor_controller.js";
 
 const app = express();
 

@@ -1,8 +1,8 @@
-const supabase = require("../supabase_client.js");
-const bcrypt = require("bcrypt");
+import supabase from "../supabase_client.js";
+import bcrypt from "bcrypt";
 
 // these are valid register data --> after checking
-const RegisterValidation = require("../register_login_validation/register_validation.js"); // require() use for import modules from separate file or external
+import { RegisterValidation } from "../register_login_validation/register_validation.js";
 
 // This file check the database data
 async function CheckUsernameExists(username) {
@@ -165,4 +165,4 @@ async function RegisterUser(username, email, password, passwordConfirmation) {
     return {status: registerResult.success ? 201 : 500, ...registerResult};
 }
 
-module.exports = { CheckUsernameExists, CheckEmailExists, CreateRegister,RegisterUser };
+export { CheckUsernameExists, CheckEmailExists, CreateRegister,RegisterUser };

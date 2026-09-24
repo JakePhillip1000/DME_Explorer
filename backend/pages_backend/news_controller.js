@@ -1,8 +1,8 @@
-const express = require("express");
-const multer = require("multer");
-const supabase = require("../supabase_client.js");
+import express from "express";
+import multer from "multer";
+import supabase from "../supabase_client.js";
 
-const {GetAllNews, CreateNews, UpdateNews, IsAdmin, ConvertNewsImage} = require("./news_modify.js");
+import {GetAllNews, CreateNews, UpdateNews, IsAdmin, ConvertNewsImage} from "./news_modify.js";
 const router = express.Router();
 
 // ConvertNewsImage use Base64 conversion (image conversion)
@@ -338,5 +338,4 @@ router.delete("/", RequireNewsAdmin, async (req, res) => {
     }
 });
 
-module.exports = router;
-
+export default router;

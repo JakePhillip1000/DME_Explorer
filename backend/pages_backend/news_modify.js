@@ -1,4 +1,4 @@
-const supabase = require("../supabase_client.js");
+import supabase from "../supabase_client.js";
 const ADMIN_USERNAME = "admin";
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
 
@@ -194,5 +194,5 @@ async function UpdateNews(req, newsId, newsData) {
     }
 }
 
-module.exports = { IsAdmin, ConvertNewsImage, GetAllNews, CreateNews, UpdateNews };
+export { IsAdmin, ConvertNewsImage, GetAllNews, CreateNews, UpdateNews };
 

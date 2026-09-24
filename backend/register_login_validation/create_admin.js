@@ -1,11 +1,13 @@
-const bcrypt = require("bcrypt");
-const supabase = require("../supabase_client.js");
+import bcrypt from "bcrypt";
+import supabase from "../supabase_client.js";
 
-// Before create admin, go inside the backend/register_login_validation folder and run cmd
+// Before creating admin, go inside the
+// backend/register_login_validation folder and run:
+//
+// node create_admin.js
 
 /*
-PS D:\OneDrive\DME_Explorer\backend\register_login_validation> node create_admin.js
-Successfullly create admin
+Successfully created admin
 {
   id: '910875da-1848-435a-bbc1-514d26712bc2',
   username: 'admin',
@@ -28,7 +30,6 @@ async function CreateAdmin() {
             email: email,
             password_hash: passwordHash
         })
-
         .select("id, username, email")
         .single();
 
@@ -37,7 +38,7 @@ async function CreateAdmin() {
         return;
     }
 
-    console.log("Successfullly create admin");
+    console.log("Successfully created admin");
     console.log(data);
 }
 

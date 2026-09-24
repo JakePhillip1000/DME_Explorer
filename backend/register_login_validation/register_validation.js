@@ -77,5 +77,5 @@ class RegisterValidation {
     }
 }
 
-module.exports = RegisterValidation;
+export { RegisterValidation };
 

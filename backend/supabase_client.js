@@ -2,14 +2,17 @@
 This give the full admin access to your database
 */
 
-const path = require("path");
-const { createClient } = require("@supabase/supabase-js");
+import path from "path";
+import { fileURLToPath } from "url";
+import dotenv from "dotenv";
+import { createClient } from "@supabase/supabase-js";
 
-require("dotenv").config({
-    path: path.join(__dirname, ".env") // __dirname use for represent dir where .env file located (same location)
-});
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const supabase = createClient( // creating supabase client
+dotenv.config({path: path.join(__dirname, ".env")});
+
+const supabase = createClient(
     process.env.SUPABASE_URL,
     process.env.SUPABASE_SECRET_KEY,
     {
@@ -21,4 +24,4 @@ const supabase = createClient( // creating supabase client
     }
 );
 
-module.exports = supabase;
+export default supabase;
