@@ -1,0 +1,1066 @@
+/* Contact page and DME map page */
+
+#contact-faq-page,
+.contact-faq-page {
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    color: #111111;
+    font-family: "Tilt Neon", Arial, sans-serif;
+}
+
+#contact-faq-page *,
+.contact-faq-page * {
+    box-sizing: border-box;
+}
+
+/* Google Map - the map styling */
+#contact-map-section,
+.contact-map-section {
+    position: relative;
+    width: 100%;
+    height: 230px;
+    overflow: hidden;
+    background-color: #e7ebee;
+}
+
+#contact-map-iframe,
+.contact-map-iframe {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border: 0;
+}
+
+#contact-map-information,
+.contact-map-information {
+    position: absolute;
+    top: 55px;
+    left: 44%;
+    z-index: 2;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    pointer-events: none;
+}
+
+#contact-map-marker,
+.contact-map-marker {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    flex: 0 0 30px;
+    border-radius: 50% 50% 50% 0;
+    background-color: #e83b31;
+    transform: rotate(-45deg);
+}
+
+#contact-map-marker::after,
+.contact-map-marker::after {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #ffffff;
+}
+
+#contact-map-text-container,
+.contact-map-text-container {
+    margin-top: 2px;
+}
+
+#contact-map-location-name,
+.contact-map-location-name {
+    display: block;
+    color: #df3029;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+#contact-map-directions-link,
+.contact-map-directions-link {
+    position: absolute;
+    right: 20px;
+    bottom: 16px;
+    z-index: 3;
+    min-height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 15px;
+    border: 1px solid #c87333;
+    border-radius: 5px;
+    background-color: #ffb878;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.22);
+    color: #111111;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+#contact-map-directions-link:hover,
+.contact-map-directions-link:hover {
+    background-color: #f3a25d;
+    transform: translateY(-1px);
+}
+
+#contact-map-directions-link:focus-visible,
+.contact-map-directions-link:focus-visible {
+    outline: 3px solid rgba(232, 136, 67, 0.35);
+    outline-offset: 2px;
+}
+
+#contact-map-error-section,
+.contact-map-error-section {
+    width: 100%;
+    min-height: 230px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+    background-color: #eeeeee;
+}
+
+#contact-map-error-message, .contact-map-error-message {
+    margin: 0;
+    font-size: 16px;
+}
+
+#contact-main-section, .contact-main-section {
+    width: 100%;
+    padding: 22px 28px 28px;
+    background-color: #ffffff;
+}
+
+#contact-panels-container, .contact-panels-container {
+    width: 100%;
+    display: grid;
+    grid-template-columns:
+        minmax(0, 1.05fr)
+        minmax(0, 1.9fr)
+        minmax(0, 1.05fr);
+    align-items: stretch;
+    gap: 12px;
+}
+
+.contact-panel {
+    min-width: 0;
+    width: 100%;
+    height: auto;
+    min-height: 560px;
+    padding: 20px;
+    border: 1px solid #555555;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.22);
+    overflow: hidden;
+}
+
+.contact-detail-content, .contact-chat-content, .contact-form, .contact-form-field, .contact-message-field, .contact-message-controls {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.contact-detail-text, .contact-detail-link, .contact-information-description, .contact-chat-text {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: normal;
+}
+
+.contact-form-input, .contact-message-input, .contact-chat-input {
+    min-width: 0;
+    max-width: 100%;
+}
+
+#contact-form-panel, .contact-form-panel {
+    height: auto;
+    min-height: 560px;
+    padding: 20px 28px;
+}
+
+#contact-information-panel, .contact-information-panel {
+    height: auto;
+    min-height: 560px;
+}
+
+/* Chatbot panel */
+#contact-chatbot-panel,
+.contact-chatbot-panel {
+    height: 760px;
+    min-height: 600px;
+    max-height: 500px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 16px 15px;
+    overflow: hidden;
+}
+
+.contact-panel-title {
+    margin: 0 0 15px;
+    color: #111111;
+    font-family: "Tilt Warp", Arial, sans-serif;
+    font-size: 24px;
+    font-weight: normal;
+    line-height: 1.2;
+}
+
+/* Contact information */ 
+#contact-information-description,
+.contact-information-description {
+    max-width: 100%;
+    margin: 0 0 22px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+#contact-details,
+.contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin: 0;
+    padding: 0;
+    font-style: normal;
+}
+
+.contact-detail {
+    display: grid;
+    grid-template-columns: 38px minmax(0, 1fr);
+    align-items: center;
+    gap: 12px;
+}
+
+.contact-detail-icon {
+    width: 36px;
+    height: 36px;
+    display: block;
+    object-fit: contain;
+}
+
+.contact-detail-content {
+    min-width: 0;
+}
+
+.contact-detail-text,
+.contact-detail-link {
+    margin: 0;
+    color: #111111;
+    font-size: 12px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+    text-decoration: none;
+}
+
+.contact-detail-link:hover {
+    color: #ffbd23;
+    text-decoration: underline;
+}
+
+.contact-detail-link:focus-visible {
+    border-radius: 2px;
+    outline-offset: 2px;
+}
+
+/* Contact form */
+
+#contact-form-panel,
+.contact-form-panel {
+    padding: 20px 28px;
+}
+
+#contact-form,
+.contact-form {
+    width: 100%;
+}
+
+.contact-form-field {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 95px minmax(0, 1fr);
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 13px;
+}
+
+#contact-topic-field,
+.contact-topic-field {
+    margin-top: 25px;
+}
+
+.contact-form-label {
+    color: #111111;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.contact-form-input {
+    width: 100%;
+    height: 36px;
+    padding: 6px 10px;
+    border: 1px solid #bdbdbd;
+    border-radius: 2px;
+    outline: none;
+    background-color: #f6f6f6;
+    color: #111111;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+#contact-message-field,
+.contact-message-field {
+    width: 100%;
+    margin-top: 24px;
+}
+
+#contact-message-label,
+.contact-message-label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+#contact-message-controls,
+.contact-message-controls {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 90px;
+    align-items: end;
+    gap: 12px;
+}
+
+#contact-message-input,
+.contact-message-input {
+    width: 100%;
+    height: 175px;
+    padding: 10px;
+    border: 1px solid #bdbdbd;
+    border-radius: 2px;
+    resize: vertical;
+    outline: none;
+    background-color: #f6f6f6;
+    color: #111111;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.contact-form-input:focus,
+.contact-message-input:focus,
+.contact-chat-input:focus {
+    border-color: #010101;
+    background-color: #ffffff;
+    border-width: 2px;
+}
+
+#contact-submit-button,
+.contact-submit-button {
+    width: 90px;
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid #d88a4b;
+    border-radius: 2px;
+    background-color: #ffbc80;
+    color: #111111;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        transform 0.1s ease;
+}
+
+#contact-submit-button:hover,
+.contact-submit-button:hover {
+    border-color: #ca7839;
+    background-color: #f3a764;
+}
+
+#contact-submit-button:active,
+.contact-submit-button:active {
+    transform: translateY(1px);
+}
+
+/* Chatbot */
+
+#contact-chatbot-panel,
+.contact-chatbot-panel {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 16px 15px;
+}
+
+#contact-chatbot-messages,
+.contact-chatbot-messages {
+    min-height: 0;
+    flex: 1;
+    padding-right: 4px;
+    overflow-y: auto;
+}
+
+.contact-chat-message {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.contact-chatbot-avatar {
+    width: 42px;
+    height: 42px;
+    display: block;
+    flex: 0 0 42px;
+    border: 1px solid #d0d0d0;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #ffffff;
+}
+
+.contact-chat-content {
+    min-width: 0;
+    width: 100%;
+}
+
+.contact-chat-name {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.contact-chat-text {
+    width: 180px;
+    max-width: 100%;
+    margin: 0;
+    padding: 8px 10px;
+    border-radius: 2px;
+    background-color: #d8effd;
+    font-size: 12px;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+
+.contact-user-message {
+    justify-content: flex-end;
+}
+
+.contact-user-message .contact-chat-content {
+    width: auto;
+    max-width: 82%;
+}
+
+.contact-user-message .contact-chat-name {
+    text-align: right;
+}
+
+.contact-user-message .contact-chat-text {
+    background-color: #ffd5ad;
+}
+
+#contact-chatbot-form,
+.contact-chatbot-form {
+    position: relative;
+    width: 100%;
+    height: 42px;
+    flex: 0 0 42px;
+}
+
+#contact-chat-input,
+.contact-chat-input {
+    width: 100%;
+    height: 42px;
+    padding: 7px 48px 7px 10px;
+    border: 1px solid #555555;
+    border-radius: 2px;
+    outline: none;
+    background-color: #ffffff;
+    font-family: inherit;
+    font-size: 13px;
+}
+
+#contact-chat-input::placeholder,
+.contact-chat-input::placeholder {
+    color: #8b8b8b;
+}
+
+#contact-chat-submit-button,
+.contact-chat-submit-button {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 40px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    border-radius: 2px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+#contact-chat-submit-button:hover,
+.contact-chat-submit-button:hover {
+    background-color: #eeeeee;
+}
+
+#contact-chat-submit-arrow,
+.contact-chat-submit-arrow {
+    color: #111111;
+    font-size: 20px;
+    line-height: 1;
+}
+
+/* Hidden accessibility label */
+
+.contact-hidden-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+}
+
+/* Large desktop */
+
+@media (min-width: 1400px) {
+    #contact-map-section,
+    .contact-map-section {
+        height: 280px;
+    }
+
+    #contact-main-section,
+    .contact-main-section {
+        padding: 30px 45px 40px;
+    }
+
+    #contact-panels-container,
+    .contact-panels-container {
+        gap: 18px;
+    }
+
+    .contact-panel {
+        height: 520px;
+        padding: 28px;
+    }
+
+    .contact-panel-title {
+        margin-bottom: 20px;
+        font-size: 30px;
+    }
+
+    #contact-information-description,
+    .contact-information-description {
+        margin-bottom: 28px;
+        font-size: 15px;
+    }
+
+    #contact-details,
+    .contact-details {
+        gap: 22px;
+    }
+
+    .contact-detail {
+        grid-template-columns: 46px minmax(0, 1fr);
+        gap: 14px;
+    }
+
+    .contact-detail-icon {
+        width: 44px;
+        height: 44px;
+    }
+
+    .contact-detail-text,
+    .contact-detail-link {
+        font-size: 14px;
+    }
+
+    .contact-form-field {
+        grid-template-columns: 110px minmax(0, 1fr);
+        gap: 15px;
+        margin-bottom: 16px;
+    }
+
+    .contact-form-label {
+        font-size: 15px;
+    }
+
+    .contact-form-input {
+        height: 43px;
+        font-size: 16px;
+    }
+
+    #contact-message-input,
+    .contact-message-input {
+        height: 215px;
+        font-size: 16px;
+    }
+
+    #contact-message-controls,
+    .contact-message-controls {
+        grid-template-columns: minmax(0, 1fr) 110px;
+    }
+
+    #contact-submit-button,
+    .contact-submit-button {
+        width: 110px;
+        height: 46px;
+        font-size: 15px;
+    }
+
+    .contact-chatbot-avatar {
+        width: 50px;
+        height: 50px;
+        flex-basis: 50px;
+    }
+
+    .contact-chat-name {
+        font-size: 13px;
+    }
+
+    .contact-chat-text {
+        width: 230px;
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+
+    #contact-chatbot-form,
+    .contact-chatbot-form,
+    #contact-chat-input,
+    .contact-chat-input {
+        height: 48px;
+    }
+
+    #contact-chat-input,
+    .contact-chat-input {
+        padding-right: 53px;
+        font-size: 15px;
+    }
+
+    #contact-chat-submit-button,
+    .contact-chat-submit-button {
+        width: 46px;
+        height: 44px;
+    }
+
+    #contact-chat-submit-arrow,
+    .contact-chat-submit-arrow {
+        font-size: 23px;
+    }
+}
+
+/* Tablet */
+
+@media (max-width: 1050px) {
+    #contact-map-section,
+    .contact-map-section {
+        height: 220px;
+    }
+
+    #contact-main-section,
+    .contact-main-section {
+        padding: 20px;
+    }
+
+    #contact-panels-container,
+    .contact-panels-container {
+        grid-template-columns: minmax(260px, 0.9fr) minmax(400px, 1.5fr);
+        grid-template-areas:
+            "information form"
+            "chatbot chatbot";
+        gap: 15px;
+    }
+
+    #contact-information-panel,
+    .contact-information-panel {
+        grid-area: information;
+    }
+
+    #contact-form-panel,
+    .contact-form-panel {
+        grid-area: form;
+    }
+
+    #contact-chatbot-panel,
+    .contact-chatbot-panel {
+        grid-area: chatbot;
+    }
+
+    .contact-panel {
+        height: auto;
+        min-height: 440px;
+    }
+
+    #contact-chatbot-panel,
+    .contact-chatbot-panel {
+        min-height: 340px;
+    }
+
+    .contact-panel-title {
+        font-size: 24px;
+    }
+
+    #contact-information-description,
+    .contact-information-description {
+        font-size: 13px;
+    }
+
+    .contact-detail-text,
+    .contact-detail-link {
+        font-size: 12px;
+    }
+
+    .contact-form-field {
+        grid-template-columns: 95px minmax(0, 1fr);
+    }
+}
+
+/* Small tablet */
+
+@media (max-width: 760px) {
+    #contact-panels-container,
+    .contact-panels-container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .contact-panel {
+        width: 100%;
+        min-height: 0;
+        height: auto;
+        padding: 22px;
+    }
+
+    #contact-information-panel,
+    .contact-information-panel {
+        min-height: 430px;
+    }
+
+    #contact-form-panel,
+    .contact-form-panel {
+        min-height: 520px;
+    }
+
+    #contact-chatbot-panel,
+    .contact-chatbot-panel {
+        min-height: 390px;
+    }
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+    #contact-map-section,
+    .contact-map-section {
+        height: 250px;
+    }
+
+    #contact-map-information,
+    .contact-map-information {
+        top: 45px;
+        left: 36%;
+    }
+
+    #contact-map-location-name,
+    .contact-map-location-name {
+        font-size: 14px;
+    }
+
+    #contact-map-directions-link,
+    .contact-map-directions-link {
+        right: 10px;
+        bottom: 10px;
+        min-height: 36px;
+        font-size: 12px;
+    }
+
+    #contact-main-section,
+    .contact-main-section {
+        padding: 12px;
+    }
+
+    #contact-panels-container,
+    .contact-panels-container {
+        gap: 14px;
+    }
+
+    .contact-panel {
+        padding: 20px 17px;
+    }
+
+    .contact-panel-title {
+        margin-bottom: 17px;
+        font-size: 24px;
+    }
+
+    #contact-information-panel,
+    .contact-information-panel {
+        min-height: 0;
+    }
+
+    #contact-information-description,
+    .contact-information-description {
+        margin-bottom: 22px;
+        font-size: 14px;
+    }
+
+    #contact-details,
+    .contact-details {
+        gap: 18px;
+    }
+
+    .contact-detail {
+        grid-template-columns: 42px minmax(0, 1fr);
+        gap: 12px;
+    }
+
+    .contact-detail-icon {
+        width: 38px;
+        height: 38px;
+    }
+
+    .contact-detail-text,
+    .contact-detail-link {
+        font-size: 13px;
+    }
+
+    #contact-form-panel,
+    .contact-form-panel {
+        min-height: 0;
+        padding: 20px 17px;
+    }
+
+    .contact-form-field {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 7px;
+        margin-bottom: 15px;
+    }
+
+    #contact-topic-field,
+    .contact-topic-field {
+        margin-top: 22px;
+    }
+
+    .contact-form-label {
+        font-size: 14px;
+    }
+
+    .contact-form-input {
+        height: 44px;
+        padding: 8px 10px;
+        font-size: 16px;
+    }
+
+    #contact-message-field,
+    .contact-message-field {
+        margin-top: 22px;
+    }
+
+    #contact-message-label,
+    .contact-message-label {
+        margin-bottom: 8px;
+    }
+
+    #contact-message-controls,
+    .contact-message-controls {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    #contact-message-input,
+    .contact-message-input {
+        width: 100%;
+        height: 180px;
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    #contact-submit-button,
+    .contact-submit-button {
+        width: 100%;
+        height: 46px;
+        font-size: 15px;
+    }
+
+    /* Chatbot panel */
+
+    #contact-chatbot-panel,
+    .contact-chatbot-panel {
+        height: 560px;
+        min-height: 560px;
+        max-height: 560px;
+        display: flex;
+        flex-direction: column;
+        padding: 20px 16px 15px;
+        overflow: hidden;
+    }
+
+    /* THere will be scrollbar when exceed size */
+    #contact-chatbot-messages,
+    .contact-chatbot-messages {
+        min-width: 0;
+        min-height: 0;
+        flex: 1 1 auto;
+        padding-right: 8px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: #999999 #eeeeee;
+    }
+
+
+    #contact-chatbot-messages::-webkit-scrollbar,
+    .contact-chatbot-messages::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    #contact-chatbot-messages::-webkit-scrollbar-track,
+    .contact-chatbot-messages::-webkit-scrollbar-track {
+        border-radius: 5px;
+        background-color: #eeeeee;
+    }
+
+    #contact-chatbot-messages::-webkit-scrollbar-thumb,
+    .contact-chatbot-messages::-webkit-scrollbar-thumb {
+        border-radius: 5px;
+        background-color: #999999;
+    }
+
+    #contact-chatbot-messages::-webkit-scrollbar-thumb:hover,
+    .contact-chatbot-messages::-webkit-scrollbar-thumb:hover {
+        background-color: #666666;
+    }
+
+    .contact-chat-message {
+        width: 100%;
+        max-width: 100%;
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 14px;
+    }
+
+    .contact-chat-content {
+        min-width: 0;
+        max-width: calc(100% - 52px);
+    }
+
+    .contact-chat-text {
+        width: fit-content;
+        max-width: 100%;
+        margin: 0;
+        padding: 8px 10px;
+        border-radius: 2px;
+        background-color: #d8effd;
+        font-size: 12px;
+        line-height: 1.45;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+        white-space: pre-wrap;
+    }
+
+    .contact-user-message {
+        justify-content: flex-end;
+    }
+
+    .contact-user-message .contact-chat-content {
+        width: auto;
+        max-width: 82%;
+    }
+
+    .contact-user-message .contact-chat-text {
+        background-color: #ffd5ad;
+    }
+
+    #contact-chatbot-form,
+    .contact-chatbot-form {
+        position: relative;
+        width: 100%;
+        height: 42px;
+        min-height: 42px;
+        flex: 0 0 42px;
+        margin-top: 10px;
+        background-color: #ffffff;
+    }
+
+    #contact-chat-input,
+    .contact-chat-input {
+        padding: 8px 53px 8px 11px;
+        font-size: 15px;
+    }
+
+    #contact-chat-submit-button,
+    .contact-chat-submit-button {
+        width: 46px;
+        height: 44px;
+    }
+
+    #contact-chat-submit-arrow,
+    .contact-chat-submit-arrow {
+        font-size: 22px;
+    }
+}
+
+/* Very small mobile */
+
+@media (max-width: 380px) {
+    #contact-map-section,
+    .contact-map-section {
+        height: 220px;
+    }
+
+    #contact-map-information,
+    .contact-map-information {
+        left: 27%;
+    }
+
+    #contact-main-section,
+    .contact-main-section {
+        padding: 8px;
+    }
+
+    .contact-panel {
+        padding: 17px 14px;
+    }
+
+    .contact-panel-title {
+        font-size: 22px;
+    }
+
+    .contact-detail {
+        grid-template-columns: 38px minmax(0, 1fr);
+        gap: 9px;
+    }
+
+    .contact-detail-icon {
+        width: 35px;
+        height: 35px;
+    }
+
+    .contact-detail-text,
+    .contact-detail-link {
+        font-size: 12px;
+    }
+
+    .contact-chat-text {
+        max-width: 195px;
+        font-size: 13px;
+    }
+}

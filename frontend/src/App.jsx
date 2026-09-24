@@ -5,6 +5,8 @@ import { NavigationBar } from './static/pages/components/navBar.jsx';
 import { Register } from './static/pages/register.jsx';
 import { Login } from './static/pages/login.jsx';
 import { About } from './static/pages/aboutPage.jsx';
+import { ContactFaq } from './static/pages/contactsPage.jsx';
+import { ContactMap } from './static/pages/components/DME_map.jsx';
 
 import './static/css_styles/App.css'
 
@@ -37,7 +39,8 @@ export function DmeExplorer() {
         {/* occupation */}
 
 
-        {/* contact information */}
+        {/* contact & FAQ */}
+        <Route path ="/contacts" element= {<ContactFaq />}/>
 
 
         {/* 3d relax zone*/}
@@ -45,6 +48,9 @@ export function DmeExplorer() {
         
         {/* Navigation Bar */}
         <Route path = "/navbar" element = {<NavigationBar />} />
+
+        {/* map test*/}
+         <Route path = "/map-test" element = {<ContactMap />} />
 
       </Routes>
     </BrowserRouter>

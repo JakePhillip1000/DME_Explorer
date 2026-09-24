@@ -1,5 +1,5 @@
 class KkuLecturerController {
-    static CVS_URL = "https://cvs.enit.kku.ac.th/computer"; // computer engineering information
+    static CVS_URL = "https://cvs.enit.kku.ac.th/computer"; // computer engineering information --> herer I call this API
     static REQUEST_TIMEOUT = 15000;
 
     static async GetLecturers(req, res) {
