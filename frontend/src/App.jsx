@@ -7,6 +7,8 @@ import { Login } from './static/pages/login.jsx';
 import { About } from './static/pages/aboutPage.jsx';
 import { ContactFaq } from './static/pages/contactsPage.jsx';
 import { ContactMap } from './static/pages/components/DME_map.jsx';
+import { ProgramEducation } from './static/pages/program_education.jsx';
+import { TuitionFee } from './static/pages/tuitionFee.jsx';
 
 import './static/css_styles/App.css'
 
@@ -28,9 +30,11 @@ export function DmeExplorer() {
 
 
         {/* Program and Education */}
+        <Route path="/program" element = {<ProgramEducation />} />
 
 
         {/* Tuition and fee */}
+        <Route path="/tuition" element = {<TuitionFee />} />
 
 
         {/* Projects and competitions */}

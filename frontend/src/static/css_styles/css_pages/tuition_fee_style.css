@@ -1,0 +1,326 @@
+.tuition-page {
+    width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    color: #111111;
+    font-family: "Tilt Neon", Arial, sans-serif;
+}
+
+/* Heading banner, same as the about page */
+.tuition-section {
+    width: 100%;
+    min-height: 155px;
+    box-sizing: border-box;
+    padding: 15px 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background-image:
+        linear-gradient(
+            rgba(255, 255, 255, 0.68),
+            rgba(255, 255, 255, 0.68)
+        ),
+        var(--tuition-background-image);
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    text-align: center;
+}
+
+.tuition-heading-title {
+    margin: 0;
+    color: #000000;
+    font-family: "Tilt Warp";
+    font-size: clamp(38px, 4vw, 45px);
+    font-weight: normal;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+}
+
+.tuition-heading-description {
+    margin: 8px 0 0;
+    color: #111111;
+    font-size: clamp(14px, 1.6vw, 18px);
+    font-weight: 500;
+    line-height: 1.35;
+}
+
+.tuition-information {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px 35px 30px;
+    box-sizing: border-box;
+}
+
+/* Student type cards */
+.tuition-type-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 15px;
+}
+
+.tuition-type-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px 18px;
+    border: 1px solid #555555;
+    border-radius: 0;
+    background-color: #ffffff;
+    color: #111111;
+    font-family: "Tilt Neon", Arial, sans-serif;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.tuition-type-card:hover {
+    background-color: #fff3e9;
+    transform: translateY(-0.05rem);
+}
+
+.tuition-type-card-active,
+.tuition-type-card-active:hover {
+    border: 2px solid #d88a4b;
+    background-color: #ffbc80;
+}
+
+.tuition-type-label {
+    font-size: clamp(16px, 1.3vw, 19px);
+    font-weight: bold;
+}
+
+.tuition-type-caption {
+    margin-top: 8px;
+    color: #333333;
+    font-size: 13px;
+}
+
+.tuition-type-fee {
+    font-family: "Tilt Warp";
+    font-size: clamp(24px, 2.2vw, 30px);
+    line-height: 1.2;
+}
+
+.tuition-mekong-note {
+    margin: 10px 0 0;
+    color: #333333;
+    font-size: 14px;
+}
+
+/* Fee breakdown panel */
+.tuition-panel {
+    margin-top: 20px;
+    padding: 16px 22px 0;
+    border: 1px solid #555555;
+    box-sizing: border-box;
+    background-color: #ffffff;
+}
+
+.tuition-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #aaaaaa;
+}
+
+.tuition-panel-title {
+    margin: 0;
+    font-size: clamp(21px, 1.75vw, 27px);
+    font-weight: 700;
+    line-height: 1.15;
+}
+
+.tuition-panel-description {
+    margin: 4px 0 0;
+    color: #333333;
+    font-size: 14px;
+}
+
+.tuition-period-buttons {
+    display: flex;
+    gap: 6px;
+}
+
+.tuition-period-button {
+    height: 40px;
+    padding: 0 17px;
+    box-sizing: border-box;
+    border: 1px solid #777777;
+    background-color: #fff3e9;
+    color: #111111;
+    font-family: "Tilt Neon", sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.tuition-period-button:hover {
+    background-color: #ebd8cb;
+}
+
+.tuition-period-button-active,
+.tuition-period-button-active:hover {
+    background-color: #ef995b;
+}
+
+.tuition-table-heading {
+    margin: 18px 0 6px;
+    color: #df4c1f;
+    font-size: 15px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.tuition-fee-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: clamp(14px, 1vw, 16px);
+}
+
+.tuition-fee-table tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.tuition-fee-table tr:last-child {
+    border-bottom: none;
+}
+
+.tuition-fee-item,
+.tuition-fee-amount {
+    padding: 9px 0;
+    vertical-align: top;
+}
+
+.tuition-fee-type {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 1px 6px;
+    border: 1px solid #aaaaaa;
+    color: #555555;
+    font-size: 11px;
+    text-transform: uppercase;
+}
+
+.tuition-fee-amount {
+    padding-left: 12px;
+    font-weight: bold;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.tuition-total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 18px -22px 0;
+    padding: 15px 22px;
+    border-top: 1px solid #555555;
+    background-color: #fff3e9;
+}
+
+.tuition-total-label {
+    margin: 0;
+    color: #df4c1f;
+    font-size: 15px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.tuition-total-note {
+    margin: 4px 0 0;
+    color: #333333;
+    font-size: 13px;
+}
+
+.tuition-total-amount {
+    margin: 0;
+    font-family: "Tilt Warp";
+    font-size: clamp(28px, 3vw, 38px);
+}
+
+.tuition-source {
+    margin: 14px 0 0;
+    color: #555555;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.tuition-source a {
+    color: #315f9b;
+    text-decoration: none;
+}
+
+.tuition-source a:hover {
+    text-decoration: underline;
+}
+
+/* Tablet */
+@media (max-width: 800px) {
+    .tuition-information {
+        padding: 15px 20px 25px;
+    }
+
+    .tuition-type-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .tuition-section {
+        min-height: 165px;
+        padding: 25px 15px;
+    }
+
+    .tuition-heading-title {
+        font-size: clamp(29px, 9vw, 42px);
+        line-height: 1.08;
+    }
+
+    .tuition-heading-description {
+        max-width: 430px;
+        margin-top: 10px;
+        font-size: 15px;
+    }
+
+    .tuition-information {
+        padding: 12px 12px 25px;
+    }
+
+    .tuition-panel {
+        padding: 14px 14px 0;
+    }
+
+    .tuition-total {
+        margin: 18px -14px 0;
+        padding: 14px;
+    }
+
+    .tuition-period-buttons {
+        width: 100%;
+    }
+
+    .tuition-period-button {
+        flex: 1 1 0;
+        padding: 0 8px;
+        font-size: 14px;
+    }
+
+    .tuition-fee-type {
+        display: table;
+        margin: 4px 0 0;
+    }
+}

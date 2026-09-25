@@ -1,0 +1,552 @@
+.program-page {
+    width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    color: #111111;
+    font-family: "Tilt Neon", Arial, sans-serif;
+}
+
+/* Heading banner, same as the about page */
+.program-section {
+    width: 100%;
+    min-height: 155px;
+    box-sizing: border-box;
+    padding: 15px 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background-image:
+        linear-gradient(
+            rgba(255, 255, 255, 0.68),
+            rgba(255, 255, 255, 0.68)
+        ),
+        var(--program-background-image);
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    text-align: center;
+}
+
+.program-heading-title {
+    margin: 0;
+    color: #000000;
+    font-family: "Tilt Warp";
+    font-size: clamp(38px, 4vw, 45px);
+    font-weight: normal;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+}
+
+.program-heading-description {
+    margin: 8px 0 0;
+    color: #111111;
+    font-size: clamp(14px, 1.6vw, 18px);
+    font-weight: 500;
+    line-height: 1.35;
+}
+
+.program-information {
+    width: 100%;
+    padding: 18px 35px 30px;
+    box-sizing: border-box;
+}
+
+/* Buttons: Curriculum / Course tabs, course views and elective tracks */
+.program-tab-buttons,
+.program-view-buttons,
+.program-track-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.program-tab-button,
+.program-view-button,
+.program-track-button {
+    height: 40px;
+    padding: 0 17px;
+    box-sizing: border-box;
+    border: 1px solid #777777;
+    border-radius: 0;
+    background-color: #fff3e9;
+    color: #111111;
+    font-family: "Tilt Neon", sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.program-tab-button {
+    min-width: 140px;
+    background-color: #ffb979;
+    border-radius: 0.5rem;
+    border-color: transparent;
+    transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.program-tab-button:hover {
+    background-color: #f68d54;
+    transform: translateY(-0.05rem);
+}
+
+.program-tab-button-active,
+.program-tab-button-active:hover {
+    background-color: #f68d54;
+    border-color: #111111;
+}
+
+.program-view-button:hover,
+.program-track-button:hover {
+    background-color: #ebd8cb;
+}
+
+.program-view-button-active,
+.program-view-button-active:hover,
+.program-track-button-active,
+.program-track-button-active:hover {
+    background-color: #ef995b;
+}
+
+/* Overview panels */
+.program-overview {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.program-panel {
+    min-width: 0;
+    padding: 14px 20px 18px;
+    border: 1px solid #555555;
+    box-sizing: border-box;
+    background-color: #ffffff;
+}
+
+.program-panel-title {
+    margin: 0 0 12px;
+    font-size: clamp(21px, 1.75vw, 27px);
+    font-weight: 700;
+    line-height: 1.15;
+}
+
+.program-panel-text {
+    margin: 0 0 12px;
+    font-size: clamp(13px, 1vw, 16px);
+    line-height: 1.65;
+}
+
+.program-study-lists {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 30px;
+}
+
+.program-subheading {
+    margin: 0 0 6px;
+    font-size: clamp(15px, 1.1vw, 18px);
+    font-weight: bold;
+}
+
+.program-dot-list {
+    margin: 0;
+    padding-left: 22px;
+    list-style-type: none;
+}
+
+.program-dot-list li {
+    position: relative;
+    padding-left: 13px;
+    font-size: clamp(13px, 1vw, 16px);
+    line-height: 1.65;
+}
+
+.program-dot-list li::before {
+    content: "·";
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+}
+
+/* Credit and year cards */
+.program-card-grid {
+    display: grid;
+    gap: 12px;
+}
+
+.program-card-grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.program-card-grid-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.program-summary-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 13px 15px;
+    border: 1px solid #888888;
+    border-radius: 0;
+    background-color: #ffffff;
+    color: #111111;
+    font-family: "Tilt Neon", Arial, sans-serif;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.program-summary-card:hover {
+    background-color: #fff3e9;
+    transform: translateY(-0.05rem);
+}
+
+.program-summary-year {
+    color: #df4c1f;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.program-summary-number {
+    font-family: "Tilt Warp";
+    font-size: clamp(26px, 2.2vw, 32px);
+    line-height: 1.15;
+}
+
+.program-summary-label {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.program-summary-note {
+    margin-top: 6px;
+    color: #333333;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.program-bar {
+    display: block;
+    width: 100%;
+    height: 6px;
+    margin-top: 10px;
+    background-color: #eeeeee;
+}
+
+.program-bar-fill {
+    display: block;
+    height: 100%;
+    background-color: #ef995b;
+}
+
+/* Accordions: study plan years and all-courses categories */
+.program-courses {
+    display: flex;
+    flex-direction: column;
+}
+
+.program-accordion {
+    margin-bottom: 10px;
+    border: 1px solid #555555;
+    background-color: #ffffff;
+}
+
+.program-accordion-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border: none;
+    background-color: transparent;
+    color: #111111;
+    font-family: "Tilt Neon", Arial, sans-serif;
+    text-align: left;
+    cursor: pointer;
+}
+
+.program-accordion-header:hover {
+    background-color: #fff3e9;
+}
+
+.program-accordion-title {
+    color: #df4c1f;
+    font-size: clamp(18px, 1.5vw, 22px);
+    font-weight: bold;
+}
+
+.program-accordion-meta {
+    color: #555555;
+    font-size: 13px;
+}
+
+.program-accordion-arrow {
+    margin-left: auto;
+    font-size: 18px;
+    transition: transform 0.2s ease;
+}
+
+.program-accordion-arrow-open {
+    transform: rotate(180deg);
+}
+
+.program-accordion-body {
+    padding: 0 18px 18px;
+}
+
+.program-semester {
+    margin-bottom: 16px;
+}
+
+.program-semester:last-child {
+    margin-bottom: 0;
+}
+
+/* Course cards */
+.program-course-grid {
+    display: grid;
+    gap: 10px;
+}
+
+.program-course-grid-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.program-course-grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.program-course-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 12px;
+    border: 1px solid #888888;
+    border-radius: 0;
+    background-color: #ffffff;
+    color: #111111;
+    font-family: "Tilt Neon", Arial, sans-serif;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.program-course-card:hover {
+    border-color: #ef995b;
+    transform: translateY(-0.05rem);
+}
+
+.program-course-top {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    color: #555555;
+    font-size: 12px;
+}
+
+.program-course-name {
+    margin-top: 4px;
+    font-size: 15px;
+    line-height: 1.35;
+}
+
+/* Course type chip, colors follow the 2026 Course Map legend */
+.program-type-chip {
+    margin-top: 7px;
+    padding: 1px 6px;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.program-type-gen-ed { background-color: #fff4c2; color: #7a5b00; }
+.program-type-fundamental { background-color: #ffe0e4; color: #9b1c31; }
+.program-type-compulsory { background-color: #daf5e6; color: #11663d; }
+.program-type-elective { background-color: #f8dcf8; color: #85198a; }
+.program-type-practical-training { background-color: #ffe6d1; color: #9a4410; }
+.program-type-free-elective { background-color: #d8f4f8; color: #0f6473; }
+
+/* Course detail popup */
+.program-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background-color: rgba(0, 0, 0, 0.55);
+}
+
+.program-modal {
+    width: 100%;
+    max-width: 560px;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 18px 22px;
+    box-sizing: border-box;
+    border: 1px solid #555555;
+    background-color: #ffffff;
+}
+
+.program-modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.program-modal-code {
+    margin: 0;
+    color: #555555;
+    font-size: 13px;
+}
+
+.program-modal-title {
+    margin: 2px 0 0;
+    font-size: 21px;
+    line-height: 1.25;
+}
+
+.program-modal-close {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border: 1px solid #777777;
+    background-color: #fff3e9;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.program-modal-close:hover {
+    background-color: #ebd8cb;
+}
+
+.program-modal-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 12px 0;
+}
+
+.program-modal-tag {
+    padding: 2px 8px;
+    border: 1px solid #d88a4b;
+    background-color: #fff3e9;
+    font-size: 13px;
+}
+
+.program-modal-prerequisites {
+    margin: 0 0 8px;
+    color: #333333;
+    font-size: 13px;
+}
+
+.program-modal-description {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.program-modal-description-thai {
+    margin: 12px 0 0;
+    padding-top: 12px;
+    border-top: 1px solid #dddddd;
+    color: #444444;
+    font-family: "Sarabun", sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.program-modal-source {
+    margin: 12px 0 0;
+    color: #777777;
+    font-size: 12px;
+}
+
+/* Tablet */
+@media (max-width: 1100px) {
+    .program-information {
+        padding: 15px 22px 25px;
+    }
+
+    .program-card-grid-4 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .program-course-grid-3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* Small tablet */
+@media (max-width: 800px) {
+    .program-card-grid-3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .program-study-lists {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .program-section {
+        min-height: 165px;
+        padding: 25px 15px;
+    }
+
+    .program-heading-title {
+        font-size: clamp(29px, 9vw, 42px);
+        line-height: 1.08;
+    }
+
+    .program-heading-description {
+        max-width: 430px;
+        margin-top: 10px;
+        font-size: 15px;
+    }
+
+    .program-information {
+        padding: 12px 12px 25px;
+    }
+
+    .program-panel {
+        padding: 14px;
+    }
+
+    .program-tab-button {
+        flex: 1 1 0;
+        min-width: 0;
+    }
+
+    .program-view-button,
+    .program-track-button {
+        padding: 0 12px;
+        font-size: 14px;
+    }
+
+    .program-card-grid-3,
+    .program-card-grid-4,
+    .program-course-grid-2,
+    .program-course-grid-3 {
+        grid-template-columns: 1fr;
+    }
+
+    .program-accordion-header {
+        flex-wrap: wrap;
+        padding: 12px 14px;
+    }
+
+    .program-accordion-body {
+        padding: 0 14px 14px;
+    }
+}
