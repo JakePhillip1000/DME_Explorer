@@ -7,6 +7,7 @@ import { RegisterUser } from "./register_login_validation/register_controller.js
 import { LoginUser } from "./register_login_validation/login_controller.js";
 import { GetAllNews, CreateNews, UpdateNews, IsAdmin, ConvertNewsImage } from "./pages_backend/news_modify.js";
 
+import contactsController from "./pages_backend/contacts_controller.js";
 import newsController from "./pages_backend/news_controller.js";
 import KkuLecturerController from "./pages_backend/coE_professor_controller.js";
 
@@ -92,6 +93,9 @@ app.get("/api/session", (req, res) => {
 
 // The news controller --> uploading news to supabase
 app.use("/api/news", newsController);
+
+// The contact page controller
+app.use("/api/contacts", contactsController);
 
 // Get the KKU professor information route via API
 app.get("/api/kku-lecturers", KkuLecturerController.GetLecturers);

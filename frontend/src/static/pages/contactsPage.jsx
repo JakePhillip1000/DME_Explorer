@@ -1,9 +1,8 @@
-import { Fragment, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Fragment, useState } from "react";
 import { NavigationBar } from "./components/navBar";
-import "../css_styles/css_pages/contact_faq.css";
-
 import { ContactMap } from "./components/DME_map";
+
+import "../css_styles/css_pages/contact_faq.css";
 
 import clockIcon from "../../assets/icons/clock_icon.png";
 import emailIcon from "../../assets/icons/email_icon.png";
@@ -18,10 +17,18 @@ export function ContactFaq() {
         lastName: "",
         email: "",
         topic: "",
-        message: "",
+        message: ""
+    });
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const [formStatus, setFormStatus] = useState({
+        type: "",
+        message: ""
     });
 
     const [chatInput, setChatInput] = useState("");
+
     const [chatMessages, setChatMessages] = useState([
         {
             id: 1,
@@ -29,48 +36,110 @@ export function ContactFaq() {
             text: "Hello, how can I help you?"
         }
     ]);
-    
+
     function HandleContactInput(event) {
-        const {name, value} = event.target;
+        const { name, value } = event.target;
+
         setContactForm(previousForm => ({...previousForm, [name]: value}));
     }
 
-    function HandleContactSubmit(event) {
-        const {name, value} = event.target;
+    async function HandleContactSubmit(event) {
         event.preventDefault();
 
-        console.log(`Submitted contact form: ${contactForm}`)
-        alert("Form submitted");
-        setContactForm({
-            firstName: "",
-            lastName: "",
-            email: "",
-            topic: "",
-            message: "",
+        if (isSubmitting) {
+            return;
+        }
+
+        setIsSubmitting(true);
+
+        setFormStatus({
+            type: "",
+            message: ""
         });
+
+        try {
+            const response = await fetch("http://localhost:5000/api/contacts", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    credentials: "include",
+
+                    body: JSON.stringify({
+                        firstName: contactForm.firstName,
+                        lastName: contactForm.lastName,
+                        email: contactForm.email,
+                        topics: contactForm.topic,
+                        message_about: contactForm.message
+                    })
+                }
+            );
+
+            const result = await response.json();
+
+            if (!response.ok || !result.success) {
+                throw new Error(
+                    result.message ||
+                    "Cannot submit your message."
+                );
+            }
+
+            setFormStatus({
+                type: "success",
+                message: result.message
+            });
+
+            setContactForm({
+                firstName: "",
+                lastName: "",
+                email: "",
+                topic: "",
+                message: ""
+            });
+        } catch (error) {
+            console.error(
+                "Contact form submission error:",
+                error
+            );
+
+            setFormStatus({
+                type: "error",
+                message:
+                    error.message ||
+                    "Cannot submit the message."
+            });
+        } finally {
+            setIsSubmitting(false);
+        }
     }
 
-    function HandleChatSubmit(event){
+    function HandleChatSubmit(event) {
         event.preventDefault();
-        const message = chatInput.trim();
-        if (!message) {return;}
 
-        setChatMessages(previousMessage => [
-            ...previousMessage, {
+        const message = chatInput.trim();
+
+        if (!message) {
+            return;
+        }
+
+        setChatMessages(previousMessages => [
+            ...previousMessages,
+            {
                 id: Date.now(),
                 sender: "user",
                 text: message
             }
         ]);
-        
+
         setChatInput("");
     }
 
     return (
         <Fragment>
-            <NavigationBar/>
+            <NavigationBar />
 
-            <main className="contact-faq-page">
+            <main
+                id="contact-faq-page"
+                className="contact-faq-page"
+            >
                 <ContactMap />
 
                 <section
@@ -81,6 +150,8 @@ export function ContactFaq() {
                         id="contact-panels-container"
                         className="contact-panels-container"
                     >
+                        {/* Contact information */}
+
                         <article
                             id="contact-information-panel"
                             className="contact-panel contact-information-panel"
@@ -96,9 +167,10 @@ export function ContactFaq() {
                                 id="contact-information-description"
                                 className="contact-information-description"
                             >
-                                If you have any questions about the program,
-                                feel free to contact us through email, phone,
-                                or send us a message through the form.
+                                If you have any questions about the
+                                program, feel free to contact us through
+                                email, phone, or send us a message through
+                                the form.
                             </p>
 
                             <address
@@ -124,7 +196,7 @@ export function ContactFaq() {
                                         <a
                                             id="contact-email-link"
                                             className="contact-detail-link"
-                                            href="mailto:enkku123@kku.ac.th"
+                                            href="mailto:enkkud23@kku.ac.th"
                                         >
                                             enkkud23@kku.ac.th
                                         </a>
@@ -177,8 +249,16 @@ export function ContactFaq() {
                                             id="contact-location-address"
                                             className="contact-detail-text"
                                         >
-                                            Department of Computer Engineering,<br />Faculty of Engineering, Khon Kaen
-                                            University<br />123 Mittraphap Road, Muang, Khon Kaen 40002
+                                            Department of Computer
+                                            Engineering,
+                                            <br />
+
+                                            Faculty of Engineering,
+                                            Khon Kaen University
+                                            <br />
+
+                                            123 Mittraphap Road, Muang,
+                                            Khon Kaen 40002
                                         </p>
                                     </div>
                                 </div>
@@ -268,6 +348,8 @@ export function ContactFaq() {
                             </address>
                         </article>
 
+                        {/* Contact form */}
+
                         <article
                             id="contact-form-panel"
                             className="contact-panel contact-form-panel"
@@ -278,6 +360,13 @@ export function ContactFaq() {
                             >
                                 Send us forms
                             </h2>
+
+                            <p
+                                id="contact-form-description"
+                                className="contact-form-description"
+                            >
+                                A response will be sent to your email.
+                            </p>
 
                             <form
                                 id="contact-form"
@@ -304,6 +393,7 @@ export function ContactFaq() {
                                         value={contactForm.firstName}
                                         onChange={HandleContactInput}
                                         autoComplete="given-name"
+                                        maxLength={100}
                                         required
                                     />
                                 </div>
@@ -328,6 +418,7 @@ export function ContactFaq() {
                                         value={contactForm.lastName}
                                         onChange={HandleContactInput}
                                         autoComplete="family-name"
+                                        maxLength={100}
                                         required
                                     />
                                 </div>
@@ -352,6 +443,7 @@ export function ContactFaq() {
                                         value={contactForm.email}
                                         onChange={HandleContactInput}
                                         autoComplete="email"
+                                        maxLength={255}
                                         required
                                     />
                                 </div>
@@ -375,6 +467,7 @@ export function ContactFaq() {
                                         name="topic"
                                         value={contactForm.topic}
                                         onChange={HandleContactInput}
+                                        maxLength={200}
                                         required
                                     />
                                 </div>
@@ -401,6 +494,7 @@ export function ContactFaq() {
                                             name="message"
                                             value={contactForm.message}
                                             onChange={HandleContactInput}
+                                            maxLength={5000}
                                             required
                                         />
 
@@ -408,13 +502,37 @@ export function ContactFaq() {
                                             id="contact-submit-button"
                                             className="contact-submit-button"
                                             type="submit"
+                                            disabled={isSubmitting}
                                         >
-                                            Submit
+                                            {isSubmitting
+                                                ? "Sending..."
+                                                : "Submit"}
                                         </button>
                                     </div>
+
+                                    {formStatus.message && (
+                                        <p
+                                            id="contact-form-status"
+                                            className={
+                                                formStatus.type ===
+                                                "success"
+                                                    ? "contact-form-status contact-form-success"
+                                                    : "contact-form-status contact-form-error"
+                                            }
+                                            role={
+                                                formStatus.type === "error"
+                                                    ? "alert"
+                                                    : "status"
+                                            }
+                                        >
+                                            
+                                        </p>
+                                    )}
                                 </div>
                             </form>
                         </article>
+
+                        {/* Chatbot */}
 
                         <article
                             id="contact-chatbot-panel"
@@ -459,7 +577,9 @@ export function ContactFaq() {
                                                 id={`contact-chat-name-${chat.id}`}
                                                 className="contact-chat-name"
                                             >
-                                                {chat.sender === "bot"? "DME BOT" : ""}
+                                                {chat.sender === "bot"
+                                                    ? "DME BOT"
+                                                    : ""}
                                             </span>
 
                                             <p
@@ -517,5 +637,5 @@ export function ContactFaq() {
                 </section>
             </main>
         </Fragment>
-    )
+    );
 }
