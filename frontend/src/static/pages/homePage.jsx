@@ -372,7 +372,7 @@ const GetNews = async (categoryFilter = searchCategory) => {
                             <p>Come and join us to start a successful future career together</p>
 
                             <div className="homepage-buttons">
-                                <Link to="/programs" className="program-and-3d-button">View our programs</Link>
+                                <Link to="/program" className="program-and-3d-button">View our programs</Link>
                                 <Link to="/3d_zone" className="program-and-3d-button">Live chat & 3D world</Link>
                             </div>
                         </div>
