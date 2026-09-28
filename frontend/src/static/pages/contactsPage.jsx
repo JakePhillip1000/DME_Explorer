@@ -1,9 +1,7 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { NavigationBar } from "./components/navBar";
 import { ContactMap } from "./components/DME_map";
-
 import "../css_styles/css_pages/contact_faq.css";
-
 import clockIcon from "../../assets/icons/clock_icon.png";
 import emailIcon from "../../assets/icons/email_icon.png";
 import facebookIcon from "../../assets/icons/facebook_icon.png";
@@ -21,14 +19,9 @@ export function ContactFaq() {
     });
 
     const [isSubmitting, setIsSubmitting] = useState(false);
-
-    const [formStatus, setFormStatus] = useState({
-        type: "",
-        message: ""
-    });
-
+    const [isSessionLoading, setIsSessionLoading] = useState(true);
+    const [formStatus, setFormStatus] = useState({type: "", message: ""});
     const [chatInput, setChatInput] = useState("");
-
     const [chatMessages, setChatMessages] = useState([
         {
             id: 1,
@@ -37,16 +30,397 @@ export function ContactFaq() {
         }
     ]);
 
+    const [currentUser, setCurrentUser] = useState(null);
+    const [showAdminForms, setShowAdminForms] = useState(false);
+    const [adminForms, setAdminForms] = useState([]);
+    const [selectedAdminForm, setSelectedAdminForm] = useState(null);
+    const [selectedFormIds, setSelectedFormIds] = useState([]);
+    const [adminResponse, setAdminResponse] = useState("");
+    const [showUserResponses, setShowUserResponses] = useState(false);
+    const [userResponses, setUserResponses] = useState([]);
+    const [unreadResponseCount, setUnreadResponseCount] = useState(0);
+    const isAdmin = currentUser?.username === "admin";
+
+    useEffect(() => {
+        if (!showAdminForms && !showUserResponses) return;
+        const popup = document.getElementById(
+            showAdminForms ? "admin-contact-popup" : "user-response-popup"
+        );
+        if (!popup) return;
+        const previousFocus = document.activeElement;
+        const previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
+        popup.querySelector("button")?.focus();
+
+        function HandleDialogKey(event) {
+            if (event.key === "Escape") {
+                setShowAdminForms(false);
+                setShowUserResponses(false);
+            }
+            if (event.key !== "Tab") return;
+            const controls = popup.querySelectorAll(
+                'button:not(:disabled), input:not(:disabled), textarea:not(:disabled)'
+            );
+            const first = controls[0];
+            const last = controls[controls.length - 1];
+            if (event.shiftKey && document.activeElement === first) {
+                event.preventDefault();
+                last?.focus();
+            } else if (!event.shiftKey && document.activeElement === last) {
+                event.preventDefault();
+                first?.focus();
+            }
+        }
+        document.addEventListener("keydown", HandleDialogKey);
+        return () => {
+            document.body.style.overflow = previousOverflow;
+            document.removeEventListener("keydown", HandleDialogKey);
+            previousFocus?.focus();
+        };
+    }, [showAdminForms, showUserResponses]);
+
+    useEffect(() => {
+        async function GetSession() {
+            try {
+                const response = await fetch(
+                    "http://localhost:5000/api/session",
+                    {
+                        credentials: "include"
+                    }
+                );
+
+                if (!response.ok) {
+                    setCurrentUser(null);
+                    return;
+                }
+
+                const result = await response.json();
+
+                setCurrentUser(result.user || null);
+            } catch (error) {
+                console.error(
+                    "Get session error:",
+                    error
+                );
+
+                setCurrentUser(null);
+            } finally {
+                setIsSessionLoading(false);
+            }
+        }
+
+        GetSession();
+    }, []);
+
+    useEffect(() => {
+        if (!currentUser?.id || isAdmin) {
+            setUnreadResponseCount(0);
+            return undefined;
+        }
+
+        let isActive = true;
+
+        async function GetUnreadCount() {
+            try {
+                const response = await fetch(
+                    "http://localhost:5000/api/contacts/responses/unread-count",
+                    {
+                        credentials: "include"
+                    }
+                );
+
+                const result = await response.json();
+
+                if (
+                    isActive &&
+                    response.ok &&
+                    result.success
+                ) {
+                    setUnreadResponseCount(
+                        result.count || 0
+                    );
+                }
+            } catch (error) {
+                console.error(
+                    "Get unread response count error:",
+                    error
+                );
+            }
+        }
+
+        GetUnreadCount();
+
+        const intervalId = window.setInterval(
+            GetUnreadCount,
+            15000
+        );
+
+        return () => {
+            isActive = false;
+
+            window.clearInterval(intervalId);
+        };
+    }, [currentUser?.id, isAdmin]);
+
+    async function OpenAdminForms() {
+        try {
+            const response = await fetch(
+                "http://localhost:5000/api/admin/contacts",
+                {
+                    credentials: "include"
+                }
+            );
+
+            const result = await response.json();
+
+            if (!response.ok || !result.success) {
+                throw new Error(
+                    result.message || "Cannot retrieve submitted forms."
+                );
+            }
+
+            setAdminForms(result.contacts || []);
+
+            setSelectedAdminForm(null);
+
+            setSelectedFormIds([]);
+
+            setShowAdminForms(true);
+        } catch (error) {
+            alert(
+                error.message ||
+                "Cannot retrieve submitted forms."
+            );
+        }
+    }
+
+    async function SendAdminResponse(event) {
+        event.preventDefault();
+
+        if (
+            !selectedAdminForm ||
+            !adminResponse.trim()
+        ) {
+            return;
+        }
+
+        try {
+            const response = await fetch(
+                `http://localhost:5000/api/admin/contacts/${selectedAdminForm.form_id}/reply`,
+                {
+                    method: "PATCH",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    credentials: "include",
+
+                    body: JSON.stringify({
+                        response: adminResponse.trim()
+                    })
+                }
+            );
+
+            const result = await response.json();
+
+            if (!response.ok || !result.success) {
+                throw new Error(
+                    result.message ||
+                    "Cannot save the response."
+                );
+            }
+
+            setAdminForms(previousForms =>
+                previousForms.map(form =>
+                    form.form_id === result.contact.form_id
+                        ? result.contact
+                        : form
+                )
+            );
+
+            setSelectedAdminForm(result.contact);
+
+            setAdminResponse("");
+
+            alert(result.message);
+        } catch (error) {
+            alert(
+                error.message ||
+                "Cannot save the response."
+            );
+        }
+    }
+
+    async function DeleteSelectedForms() {
+        if (selectedFormIds.length === 0) {
+            alert("Select at least one form to delete.");
+            return;
+        }
+
+        const confirmed = window.confirm(
+            `Are you sure you want to delete ${selectedFormIds.length} form(s)?`
+        );
+
+        if (!confirmed) {
+            return;
+        }
+
+        try {
+            const response = await fetch(
+                "http://localhost:5000/api/admin/contacts",
+                {
+                    method: "DELETE",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    credentials: "include",
+
+                    body: JSON.stringify({
+                        formIds: selectedFormIds
+                    })
+                }
+            );
+
+            const result = await response.json();
+
+            if (!response.ok || !result.success) {
+                throw new Error(
+                    result.message ||
+                    "Cannot delete the selected forms."
+                );
+            }
+
+            const deletedIds = result.deletedIds.map(
+                id => String(id)
+            );
+
+            setAdminForms(previousForms =>
+                previousForms.filter(
+                    form =>
+                        !deletedIds.includes(
+                            String(form.form_id)
+                        )
+                )
+            );
+
+            if (
+                selectedAdminForm &&
+                deletedIds.includes(
+                    String(selectedAdminForm.form_id)
+                )
+            ) {
+                setSelectedAdminForm(null);
+                setAdminResponse("");
+            }
+
+            setSelectedFormIds([]);
+
+            alert(result.message);
+        } catch (error) {
+            alert(
+                error.message ||
+                "Cannot delete the selected forms."
+            );
+        }
+    }
+
+    function ToggleSelectedForm(formId) {
+        const stringFormId = String(formId);
+
+        setSelectedFormIds(previousIds => {
+            if (previousIds.includes(stringFormId)) {
+                return previousIds.filter(
+                    id => id !== stringFormId
+                );
+            }
+
+            return [
+                ...previousIds,
+                stringFormId
+            ];
+        });
+    }
+
+    function SelectAdminForm(form) {
+        setSelectedAdminForm(form);
+
+        setAdminResponse(
+            form.admin_response || ""
+        );
+    }
+
+    async function OpenUserResponses() {
+        try {
+            const response = await fetch(
+                "http://localhost:5000/api/contacts/responses",
+                {
+                    credentials: "include"
+                }
+            );
+
+            const result = await response.json();
+
+            if (!response.ok || !result.success) {
+                throw new Error(
+                    result.message ||
+                    "Cannot retrieve your responses."
+                );
+            }
+
+            setUserResponses(result.responses || []);
+
+            setShowUserResponses(true);
+
+            const unreadResponses =
+                (result.responses || []).filter(
+                    item => !item.response_read
+                );
+
+            await Promise.all(
+                unreadResponses.map(item =>
+                    fetch(
+                        `http://localhost:5000/api/contacts/responses/${item.form_id}/read`,
+                        {
+                            method: "PATCH",
+                            credentials: "include"
+                        }
+                    )
+                )
+            );
+
+            setUnreadResponseCount(0);
+        } catch (error) {
+            alert(
+                error.message ||
+                "Cannot retrieve your responses."
+            );
+        }
+    }
+
     function HandleContactInput(event) {
         const { name, value } = event.target;
 
-        setContactForm(previousForm => ({...previousForm, [name]: value}));
+        setContactForm(previousForm => ({
+            ...previousForm,
+            [name]: value
+        }));
     }
 
     async function HandleContactSubmit(event) {
         event.preventDefault();
 
-        if (isSubmitting) {
+        if (isSubmitting || isSessionLoading) {
+            return;
+        }
+
+        if (!currentUser?.id) {
+            setFormStatus({
+                type: "error",
+                message: "Please log in before submitting a contact form."
+            });
             return;
         }
 
@@ -58,9 +432,15 @@ export function ContactFaq() {
         });
 
         try {
-            const response = await fetch("http://localhost:5000/api/contacts", {
+            const response = await fetch(
+                "http://localhost:5000/api/contacts",
+                {
                     method: "POST",
-                    headers: {"Content-Type": "application/json"},
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
                     credentials: "include",
 
                     body: JSON.stringify({
@@ -141,6 +521,22 @@ export function ContactFaq() {
                 className="contact-faq-page"
             >
                 <ContactMap />
+
+                {isAdmin && (
+                    <section
+                        id="admin-contact-toolbar"
+                        className="admin-contact-toolbar"
+                    >
+                        <button
+                            id="admin-contact-manager-button"
+                            className="admin-contact-manager-button"
+                            type="button"
+                            onClick={OpenAdminForms}
+                        >
+                            Manage submitted forms
+                        </button>
+                    </section>
+                )}
 
                 <section
                     id="contact-main-section"
@@ -365,7 +761,7 @@ export function ContactFaq() {
                                 id="contact-form-description"
                                 className="contact-form-description"
                             >
-                                A response will be sent to your email.
+                                Response will appear in notification
                             </p>
 
                             <form
@@ -393,7 +789,7 @@ export function ContactFaq() {
                                         value={contactForm.firstName}
                                         onChange={HandleContactInput}
                                         autoComplete="given-name"
-                                        maxLength={100}
+                                        maxLength={20}
                                         required
                                     />
                                 </div>
@@ -418,7 +814,7 @@ export function ContactFaq() {
                                         value={contactForm.lastName}
                                         onChange={HandleContactInput}
                                         autoComplete="family-name"
-                                        maxLength={100}
+                                        maxLength={20}
                                         required
                                     />
                                 </div>
@@ -443,7 +839,7 @@ export function ContactFaq() {
                                         value={contactForm.email}
                                         onChange={HandleContactInput}
                                         autoComplete="email"
-                                        maxLength={255}
+                                        maxLength={100}
                                         required
                                     />
                                 </div>
@@ -467,7 +863,7 @@ export function ContactFaq() {
                                         name="topic"
                                         value={contactForm.topic}
                                         onChange={HandleContactInput}
-                                        maxLength={200}
+                                        maxLength={100}
                                         required
                                     />
                                 </div>
@@ -494,7 +890,7 @@ export function ContactFaq() {
                                             name="message"
                                             value={contactForm.message}
                                             onChange={HandleContactInput}
-                                            maxLength={5000}
+                                            maxLength={1000}
                                             required
                                         />
 
@@ -502,7 +898,10 @@ export function ContactFaq() {
                                             id="contact-submit-button"
                                             className="contact-submit-button"
                                             type="submit"
-                                            disabled={isSubmitting}
+                                            disabled={
+                                                isSubmitting ||
+                                                isSessionLoading
+                                            }
                                         >
                                             {isSubmitting
                                                 ? "Sending..."
@@ -525,7 +924,7 @@ export function ContactFaq() {
                                                     : "status"
                                             }
                                         >
-                                            
+                                            {formStatus.message}
                                         </p>
                                     )}
                                 </div>
@@ -612,7 +1011,9 @@ export function ContactFaq() {
                                     type="text"
                                     value={chatInput}
                                     onChange={event =>
-                                        setChatInput(event.target.value)
+                                        setChatInput(
+                                            event.target.value
+                                        )
                                     }
                                     placeholder="Type your message here..."
                                 />
@@ -635,6 +1036,340 @@ export function ContactFaq() {
                         </article>
                     </div>
                 </section>
+
+                {currentUser && !isAdmin && (
+                    <button
+                        id="contact-response-notification"
+                        className="contact-response-notification"
+                        type="button"
+                        onClick={OpenUserResponses}
+                        aria-label={`Open contact responses. ${unreadResponseCount} unread messages.`}
+                    >
+                        <span
+                            id="contact-response-chat-icon"
+                            className="contact-response-chat-icon"
+                            aria-hidden="true"
+                        >
+                            💬
+                        </span>
+
+                        {unreadResponseCount > 0 && (
+                            <span
+                                id="contact-response-badge"
+                                className="contact-response-badge"
+                            >
+                                {unreadResponseCount > 99
+                                    ? "99+"
+                                    : unreadResponseCount}
+                            </span>
+                        )}
+                    </button>
+                )}
+
+                {showAdminForms && isAdmin && (
+                    <div
+                        id="admin-contact-popup-overlay"
+                        className="admin-contact-popup-overlay"
+                    >
+                        <section
+                            id="admin-contact-popup"
+                            className="admin-contact-popup"
+                            role="dialog"
+                            aria-modal="true"
+                            aria-labelledby="admin-contact-popup-title"
+                        >
+                            <header
+                                id="admin-contact-popup-header"
+                                className="admin-contact-popup-header"
+                            >
+                                <h2
+                                    id="admin-contact-popup-title"
+                                    className="admin-contact-popup-title"
+                                >
+                                    Submitted forms
+                                </h2>
+
+                                <button
+                                    id="admin-contact-popup-close"
+                                    aria-label="Close submitted forms"
+                                    className="admin-contact-popup-close"
+                                    type="button"
+                                    onClick={() =>
+                                        setShowAdminForms(false)
+                                    }
+                                >
+                                    ×
+                                </button>
+                            </header>
+
+                            <div
+                                id="admin-contact-popup-content"
+                                className="admin-contact-popup-content"
+                            >
+                                <aside
+                                    id="admin-contact-form-list"
+                                    className="admin-contact-form-list"
+                                >
+                                    {adminForms.length === 0 && (
+                                        <p
+                                            id="admin-contact-empty"
+                                            className="admin-contact-empty"
+                                        >
+                                            No submitted forms.
+                                        </p>
+                                    )}
+
+                                    {adminForms.map(form => (
+                                        <div
+                                            id={`admin-contact-item-${form.form_id}`}
+                                            className={
+                                                selectedAdminForm?.form_id ===
+                                                form.form_id
+                                                    ? "admin-contact-item admin-contact-item-selected"
+                                                    : "admin-contact-item"
+                                            }
+                                            key={form.form_id}
+                                        >
+                                            <input
+                                                id={`admin-contact-checkbox-${form.form_id}`}
+                                                className="admin-contact-checkbox"
+                                                aria-label={`Select form: ${form.topics}`}
+                                                type="checkbox"
+                                                checked={selectedFormIds.includes(
+                                                    String(form.form_id)
+                                                )}
+                                                onChange={() =>
+                                                    ToggleSelectedForm(
+                                                        form.form_id
+                                                    )
+                                                }
+                                            />
+
+                                            <button
+                                                id={`admin-contact-select-${form.form_id}`}
+                                                className="admin-contact-select"
+                                                type="button"
+                                                onClick={() =>
+                                                    SelectAdminForm(form)
+                                                }
+                                            >
+                                                <strong
+                                                    className="admin-contact-topic"
+                                                >
+                                                    {form.topics}
+                                                </strong>
+
+                                                <span
+                                                    className="admin-contact-sender"
+                                                >
+                                                    {form.firstName}{" "}
+                                                    {form.lastName}
+                                                </span>
+
+                                                <span
+                                                    className="admin-contact-state"
+                                                    data-status={form.response_status}
+                                                >
+                                                    {form.response_status}
+                                                </span>
+                                            </button>
+                                        </div>
+                                    ))}
+                                </aside>
+
+                                <div
+                                    id="admin-contact-response-section"
+                                    className="admin-contact-response-section"
+                                >
+                                    {!selectedAdminForm && (
+                                        <p
+                                            id="admin-contact-select-message"
+                                            className="admin-contact-select-message"
+                                        >
+                                            Select a form to view it.
+                                        </p>
+                                    )}
+
+                                    {selectedAdminForm && (
+                                        <Fragment>
+                                            <h3
+                                                id="admin-selected-topic"
+                                                className="admin-selected-topic"
+                                            >
+                                                {selectedAdminForm.topics}
+                                            </h3>
+
+                                            <p
+                                                id="admin-selected-user"
+                                                className="admin-selected-user"
+                                            >
+                                                {selectedAdminForm.firstName}{" "}
+                                                {selectedAdminForm.lastName}
+                                            </p>
+
+                                            <p
+                                                id="admin-selected-message"
+                                                className="admin-selected-message"
+                                            >
+                                                {
+                                                    selectedAdminForm.message_about
+                                                }
+                                            </p>
+
+                                            <form
+                                                id="admin-response-form"
+                                                className="admin-response-form"
+                                                onSubmit={SendAdminResponse}
+                                            >
+                                                <label
+                                                    id="admin-response-label"
+                                                    className="admin-response-label"
+                                                    htmlFor="admin-response-input"
+                                                >
+                                                    Admin response
+                                                </label>
+
+                                                <textarea
+                                                    id="admin-response-input"
+                                                    className="admin-response-input"
+                                                    value={adminResponse}
+                                                    onChange={event =>
+                                                        setAdminResponse(
+                                                            event.target.value
+                                                        )
+                                                    }
+                                                    maxLength={5000}
+                                                    required
+                                                />
+
+                                                <button
+                                                    id="admin-response-submit"
+                                                    className="admin-response-submit"
+                                                    type="submit"
+                                                >
+                                                    Save response
+                                                </button>
+                                            </form>
+                                        </Fragment>
+                                    )}
+                                </div>
+                            </div>
+
+                            <footer
+                                id="admin-contact-popup-footer"
+                                className="admin-contact-popup-footer"
+                            >
+                                <button
+                                    id="admin-delete-forms-button"
+                                    className="admin-delete-forms-button"
+                                    type="button"
+                                    onClick={DeleteSelectedForms}
+                                    disabled={
+                                        selectedFormIds.length === 0
+                                    }
+                                >
+                                    Delete selected (
+                                    {selectedFormIds.length})
+                                </button>
+                            </footer>
+                        </section>
+                    </div>
+                )}
+
+                {showUserResponses && !isAdmin && (
+                    <div
+                        id="user-response-popup-overlay"
+                        className="user-response-popup-overlay"
+                    >
+                        <section
+                            id="user-response-popup"
+                            className="user-response-popup"
+                            role="dialog"
+                            aria-modal="true"
+                            aria-labelledby="user-response-popup-title"
+                        >
+                            <header
+                                id="user-response-popup-header"
+                                className="user-response-popup-header"
+                            >
+                                <h2
+                                    id="user-response-popup-title"
+                                    className="user-response-popup-title"
+                                >
+                                    Your responses
+                                </h2>
+
+                                <button
+                                    id="user-response-popup-close"
+                                    aria-label="Close your responses"
+                                    className="user-response-popup-close"
+                                    type="button"
+                                    onClick={() =>
+                                        setShowUserResponses(false)
+                                    }
+                                >
+                                    ×
+                                </button>
+                            </header>
+
+                            <div
+                                id="user-response-list"
+                                className="user-response-list"
+                            >
+                                {userResponses.length === 0 && (
+                                    <p
+                                        id="user-response-empty"
+                                        className="user-response-empty"
+                                    >
+                                        You have no responses yet.
+                                    </p>
+                                )}
+
+                                {userResponses.map(response => (
+                                    <article
+                                        id={`user-response-${response.form_id}`}
+                                        className="user-response-card"
+                                        key={response.form_id}
+                                    >
+                                        <h3
+                                            className="user-response-topic"
+                                        >
+                                            {response.topics}
+                                        </h3>
+
+                                        <div
+                                            className="user-response-question"
+                                        >
+                                            <strong>
+                                                Your question
+                                            </strong>
+
+                                            <p>
+                                                {
+                                                    response.message_about
+                                                }
+                                            </p>
+                                        </div>
+
+                                        <div
+                                            className="user-response-answer"
+                                        >
+                                            <strong>
+                                                Admin response
+                                            </strong>
+
+                                            <p>
+                                                {
+                                                    response.admin_response
+                                                }
+                                            </p>
+                                        </div>
+                                    </article>
+                                ))}
+                            </div>
+                        </section>
+                    </div>
+                )}
             </main>
         </Fragment>
     );

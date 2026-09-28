@@ -1,5 +1,8 @@
 {
   "devDependencies": {
     "supabase": "^2.116.0"
+  },
+  "dependencies": {
+    "nodemailer": "^10.0.11"
   }
 }

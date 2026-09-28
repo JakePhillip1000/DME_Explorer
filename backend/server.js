@@ -10,6 +10,7 @@ import { GetAllNews, CreateNews, UpdateNews, IsAdmin, ConvertNewsImage } from ".
 import contactsController from "./pages_backend/contacts_controller.js";
 import newsController from "./pages_backend/news_controller.js";
 import KkuLecturerController from "./pages_backend/coE_professor_controller.js";
+import adminContactController from "./pages_backend/admin_contact_controller.js";
 
 const app = express();
 
@@ -96,6 +97,7 @@ app.use("/api/news", newsController);
 
 // The contact page controller
 app.use("/api/contacts", contactsController);
+app.use("/api/admin/contacts", adminContactController);
 
 // Get the KKU professor information route via API
 app.get("/api/kku-lecturers", KkuLecturerController.GetLecturers);
