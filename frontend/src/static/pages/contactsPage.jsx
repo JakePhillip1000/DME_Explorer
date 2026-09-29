@@ -10,17 +10,10 @@ import locationIcon from "../../assets/icons/location_icon.png";
 import chatbotIcon from "../../assets/icons/chatbot_icon.png";
 
 export function ContactFaq() {
-    const [contactForm, setContactForm] = useState({
-        firstName: "",
-        lastName: "",
-        email: "",
-        topic: "",
-        message: ""
-    });
-
+    const [contactForm, setContactForm] = useState({firstName: "",lastName: "",email: "", topic: "",message: ""});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSessionLoading, setIsSessionLoading] = useState(true);
-    const [formStatus, setFormStatus] = useState({type: "", message: ""});
+    const [formStatus, setFormStatus] = useState({ type: "", message: "" });
     const [chatInput, setChatInput] = useState("");
     const [chatMessages, setChatMessages] = useState([
         {
@@ -898,31 +891,17 @@ export function ContactFaq() {
                                             id="contact-submit-button"
                                             className="contact-submit-button"
                                             type="submit"
-                                            disabled={
-                                                isSubmitting ||
-                                                isSessionLoading
-                                            }
+                                            disabled={isSubmitting || isSessionLoading}
                                         >
-                                            {isSubmitting
-                                                ? "Sending..."
-                                                : "Submit"}
+                                            {isSubmitting ? "Sending..." : "Submit"}
                                         </button>
                                     </div>
 
                                     {formStatus.message && (
                                         <p
                                             id="contact-form-status"
-                                            className={
-                                                formStatus.type ===
-                                                "success"
-                                                    ? "contact-form-status contact-form-success"
-                                                    : "contact-form-status contact-form-error"
-                                            }
-                                            role={
-                                                formStatus.type === "error"
-                                                    ? "alert"
-                                                    : "status"
-                                            }
+                                            className={formStatus.type === "success" ? "contact-form-status contact-form-success" : "contact-form-status contact-form-error"}
+                                            role={formStatus.type === "error" ? "alert" : "status"}
                                         >
                                             {formStatus.message}
                                         </p>
@@ -933,14 +912,8 @@ export function ContactFaq() {
 
                         {/* Chatbot */}
 
-                        <article
-                            id="contact-chatbot-panel"
-                            className="contact-panel contact-chatbot-panel"
-                        >
-                            <h2
-                                id="contact-chatbot-title"
-                                className="contact-panel-title"
-                            >
+                        <article  id="contact-chatbot-panel" className="contact-panel contact-chatbot-panel">
+                            <h2 id="contact-chatbot-title" className="contact-panel-title">
                                 Ask AI chatbot
                             </h2>
 
@@ -972,19 +945,11 @@ export function ContactFaq() {
                                             id={`contact-chat-content-${chat.id}`}
                                             className="contact-chat-content"
                                         >
-                                            <span
-                                                id={`contact-chat-name-${chat.id}`}
-                                                className="contact-chat-name"
-                                            >
-                                                {chat.sender === "bot"
-                                                    ? "DME BOT"
-                                                    : ""}
+                                            <span id={`contact-chat-name-${chat.id}`} className="contact-chat-name">
+                                                {chat.sender === "bot" ? "DME BOT": ""}
                                             </span>
 
-                                            <p
-                                                id={`contact-chat-text-${chat.id}`}
-                                                className="contact-chat-text"
-                                            >
+                                            <p id={`contact-chat-text-${chat.id}`} className="contact-chat-text">
                                                 {chat.text}
                                             </p>
                                         </div>
@@ -1058,9 +1023,7 @@ export function ContactFaq() {
                                 id="contact-response-badge"
                                 className="contact-response-badge"
                             >
-                                {unreadResponseCount > 99
-                                    ? "99+"
-                                    : unreadResponseCount}
+                                {unreadResponseCount > 99 ? "99+" : unreadResponseCount}
                             </span>
                         )}
                     </button>
@@ -1124,7 +1087,7 @@ export function ContactFaq() {
                                             id={`admin-contact-item-${form.form_id}`}
                                             className={
                                                 selectedAdminForm?.form_id ===
-                                                form.form_id
+                                                    form.form_id
                                                     ? "admin-contact-item admin-contact-item-selected"
                                                     : "admin-contact-item"
                                             }
@@ -1203,17 +1166,14 @@ export function ContactFaq() {
                                                 id="admin-selected-user"
                                                 className="admin-selected-user"
                                             >
-                                                {selectedAdminForm.firstName}{" "}
-                                                {selectedAdminForm.lastName}
+                                                {selectedAdminForm.firstName}{" "}{selectedAdminForm.lastName}
                                             </p>
 
                                             <p
                                                 id="admin-selected-message"
                                                 className="admin-selected-message"
                                             >
-                                                {
-                                                    selectedAdminForm.message_about
-                                                }
+                                                {selectedAdminForm.message_about}
                                             </p>
 
                                             <form
@@ -1233,11 +1193,7 @@ export function ContactFaq() {
                                                     id="admin-response-input"
                                                     className="admin-response-input"
                                                     value={adminResponse}
-                                                    onChange={event =>
-                                                        setAdminResponse(
-                                                            event.target.value
-                                                        )
-                                                    }
+                                                    onChange={event => setAdminResponse(event.target.value)}
                                                     maxLength={5000}
                                                     required
                                                 />
@@ -1308,7 +1264,7 @@ export function ContactFaq() {
                                         setShowUserResponses(false)
                                     }
                                 >
-                                    ×
+                                    x
                                 </button>
                             </header>
 
