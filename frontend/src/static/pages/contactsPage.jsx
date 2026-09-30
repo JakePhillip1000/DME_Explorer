@@ -8,6 +8,7 @@ import facebookIcon from "../../assets/icons/facebook_icon.png";
 import linkIcon from "../../assets/icons/link_icon.png";
 import locationIcon from "../../assets/icons/location_icon.png";
 import chatbotIcon from "../../assets/icons/chatbot_icon.png";
+import responseChatIcon from "../../assets/icons/chat_icon.png";
 
 export function ContactFaq() {
     const [contactForm, setContactForm] = useState({firstName: "",lastName: "",email: "", topic: "",message: ""});
@@ -1010,13 +1011,11 @@ export function ContactFaq() {
                         onClick={OpenUserResponses}
                         aria-label={`Open contact responses. ${unreadResponseCount} unread messages.`}
                     >
-                        <span
-                            id="contact-response-chat-icon"
+                        <img id="contact-response-chat-icon"
                             className="contact-response-chat-icon"
+                            src={responseChatIcon}
                             aria-hidden="true"
-                        >
-                            💬
-                        </span>
+                        />
 
                         {unreadResponseCount > 0 && (
                             <span

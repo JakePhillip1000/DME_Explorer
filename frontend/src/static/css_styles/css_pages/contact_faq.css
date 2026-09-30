@@ -1449,3 +1449,18 @@
         font-size: 25px;
     }
 }
+
+#contact-response-chat-icon, .contact-response-chat-icon {
+    width: 32px;
+    height: 32px;
+    display: block;
+    object-fit: contain;
+    pointer-events: none;
+}
+
+@media screen and (max-width: 600px) {
+    #contact-response-chat-icon, .contact-response-chat-icon {
+        width: 28px;
+        height: 28px;
+    }
+}
