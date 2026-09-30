@@ -1060,7 +1060,7 @@ export function ContactFaq() {
                                         setShowAdminForms(false)
                                     }
                                 >
-                                    ×
+                                    x
                                 </button>
                             </header>
 
