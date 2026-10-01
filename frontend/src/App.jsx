@@ -9,6 +9,8 @@ import { ContactFaq } from './static/pages/contactsPage.jsx';
 import { ContactMap } from './static/pages/components/DME_map.jsx';
 import { ProgramEducation } from './static/pages/program_education.jsx';
 import { TuitionFee } from './static/pages/tuitionFee.jsx';
+import { ThreeDPage } from './static/pages/relax_zone.jsx';
+import Render3DModel from './static/pages/threeD_relaxComp/threeD_rendering.jsx';
 
 import './static/css_styles/App.css'
 
@@ -48,13 +50,16 @@ export function DmeExplorer() {
 
 
         {/* 3d relax zone*/}
-
+        <Route path="/threeD" element= {<ThreeDPage />} />
         
         {/* Navigation Bar */}
         <Route path = "/navbar" element = {<NavigationBar />} />
 
         {/* map test*/}
          <Route path = "/map-test" element = {<ContactMap />} />
+
+        {/* 3D model rendering test */}
+         <Route path="/render-model" element={<Render3DModel />} />
 
       </Routes>
     </BrowserRouter>

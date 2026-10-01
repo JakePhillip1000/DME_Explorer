@@ -94,7 +94,7 @@ export function NavigationBar(){
                 <Link to="/projects" className="nav-button" onClick={closeMenu}>Projects</Link>
                 <Link to="/tuition" className="nav-button" onClick={closeMenu}>Tuition Fee</Link>
                 <Link to="/occupation" className="nav-button" onClick={closeMenu}>Occupation</Link>
-                <Link to="/3d-relax" className="nav-button" onClick={closeMenu}>3D relax zone</Link>
+                <Link to="/threeD" className="nav-button" onClick={closeMenu}>3D relax zone</Link>
                 <Link to="/contacts" className="nav-button" onClick={closeMenu}>Contacts & FAQ</Link>
             </div>
 

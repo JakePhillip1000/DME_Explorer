@@ -1,0 +1,82 @@
+#three-d-page,.three-d-page {
+    width: 100%;
+    min-height: 100vh;
+    padding: 25px;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    color: #111111;
+    font-family: "Tilt Warp";
+    font-weight: normal;
+}
+
+#three-d-title,
+.three-d-title {
+    margin: 0;
+    text-align: center;
+    font-size: 45px;
+    font-weight: normal;
+}
+
+#three-d-description,
+.three-d-description {
+    margin: 8px 0 20px;
+    text-align: center;
+    color: #555555;
+    font-size: 16px;
+}
+
+#three-d-container,
+.three-d-container {
+    width: 100%;
+    height: 750px;
+    overflow: hidden;
+    border: 1px solid #555555;
+    background-color: #dddddd;
+}
+
+#three-d-canvas,
+.three-d-canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+    touch-action: none;
+}
+
+@media (max-width: 800px) {
+    #three-d-page,
+    .three-d-page {
+        padding: 15px;
+    }
+
+    #three-d-title,
+    .three-d-title {
+        font-size: 30px;
+    }
+
+    #three-d-container,
+    .three-d-container {
+        height: 550px;
+    }
+}
+
+@media (max-width: 500px) {
+    #three-d-page,
+    .three-d-page {
+        padding: 10px;
+    }
+
+    #three-d-title,
+    .three-d-title {
+        font-size: 25px;
+    }
+
+    #three-d-description,
+    .three-d-description {
+        font-size: 14px;
+    }
+
+    #three-d-container,
+    .three-d-container {
+        height: 450px;
+    }
+}

@@ -373,7 +373,7 @@ const GetNews = async (categoryFilter = searchCategory) => {
 
                             <div className="homepage-buttons">
                                 <Link to="/program" className="program-and-3d-button">View our programs</Link>
-                                <Link to="/3d_zone" className="program-and-3d-button">Live chat & 3D world</Link>
+                                <Link to="/threeD" className="program-and-3d-button">Live chat & 3D world</Link>
                             </div>
                         </div>
 
