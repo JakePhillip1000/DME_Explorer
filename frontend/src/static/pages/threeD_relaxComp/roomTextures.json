@@ -1,0 +1,431 @@
+{
+  "BlackWheels": {},
+  "Assest": {
+    "map": {
+      "file": "Source_16_multi_res5_Assest_BaseColor.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "srgb",
+      "flipY": true
+    },
+    "normalMap": {
+      "file": "Source_20_new_normal.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "",
+      "flipY": true
+    }
+  },
+  "Clear architectural glass": {},
+  "Polished tubular chrome": {},
+  "MacMouse": {
+    "map": {
+      "file": "Source_13_Image_7.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "srgb",
+      "flipY": true
+    },
+    "normalMap": {
+      "file": "Source_15_Image_9.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "",
+      "flipY": true
+    }
+  },
+  "Material.001": {},
+  "Soft black rubber": {},
+  "MacKeyboard": {
+    "map": {
+      "file": "Source_10_Image_4.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "srgb",
+      "flipY": true
+    },
+    "normalMap": {
+      "file": "Source_12_Image_6.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "",
+      "flipY": true
+    }
+  },
+  "metal": {
+    "map": {
+      "file": "Source_00_baked_uv_1_metal_BaseColor.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "srgb",
+      "flipY": true
+    },
+    "normalMap": {
+      "file": "Source_20_new_normal.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "",
+      "flipY": true
+    }
+  },
+  "LightObj": {},
+  "Grey oak vinyl 05": {
+    "map": {
+      "file": "Grey_oak_vinyl_05_BaseColor.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "srgb",
+      "flipY": true
+    },
+    "normalMap": {
+      "file": "Grey_oak_vinyl_05_Normal.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "",
+      "flipY": true
+    }
+  },
+  "2459506.5cf8ffe6dfa47": {
+    "map": {
+      "file": "Source_03_Image_0_002.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "srgb",
+      "flipY": true
+    }
+  },
+  "Structural grey paint": {
+    "normalMap": {
+      "file": "Structural_grey_paint_Normal.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "",
+      "flipY": true
+    }
+  },
+  "Warm light grey painted plaster": {
+    "normalMap": {
+      "file": "Warm_light_grey_painted_plaster_Normal.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "",
+      "flipY": true
+    }
+  },
+  "Navy woven beanbag fabric": {
+    "normalMap": {
+      "file": "Navy_woven_beanbag_fabric_Normal.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "",
+      "flipY": true
+    }
+  },
+  "Off-white ceiling plaster": {
+    "normalMap": {
+      "file": "Off_white_ceiling_plaster_Normal.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "",
+      "flipY": true
+    }
+  },
+  "TableWood2": {
+    "map": {
+      "file": "TableWood2_BaseColor.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "srgb",
+      "flipY": true
+    },
+    "normalMap": {
+      "file": "TableWood2_Normal.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "",
+      "flipY": true
+    }
+  },
+  "Grey oak vinyl 06": {
+    "map": {
+      "file": "Grey_oak_vinyl_06_BaseColor.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "srgb",
+      "flipY": true
+    },
+    "normalMap": {
+      "file": "Grey_oak_vinyl_06_Normal.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "",
+      "flipY": true
+    }
+  },
+  "Grey oak vinyl 01": {
+    "map": {
+      "file": "Grey_oak_vinyl_01_BaseColor.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "srgb",
+      "flipY": true
+    },
+    "normalMap": {
+      "file": "Grey_oak_vinyl_01_Normal.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "",
+      "flipY": true
+    }
+  },
+  "TableMetal2": {
+    "map": {
+      "file": "Source_02_Image_0_001.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "srgb",
+      "flipY": true
+    },
+    "normalMap": {
+      "file": "Source_09_Image_3.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "",
+      "flipY": true
+    },
+    "emissiveMap": {
+      "file": "Source_07_Image_2.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "srgb",
+      "flipY": true
+    }
+  },
+  "Matte black powder coat": {
+    "normalMap": {
+      "file": "Matte_black_powder_coat_Normal.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "",
+      "flipY": true
+    }
+  },
+  "Engineering sign red": {},
+  "SPXChair": {
+    "map": {
+      "file": "Source_04_Image_0_003.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "srgb",
+      "flipY": true
+    },
+    "normalMap": {
+      "file": "Source_08_Image_2_001.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "",
+      "flipY": true
+    }
+  },
+  "Material.002": {},
+  "MetalTable": {},
+  "Grey oak vinyl 03": {
+    "map": {
+      "file": "Grey_oak_vinyl_03_BaseColor.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "srgb",
+      "flipY": true
+    },
+    "normalMap": {
+      "file": "Grey_oak_vinyl_03_Normal.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "",
+      "flipY": true
+    }
+  },
+  "TV_outsideScreen": {},
+  "Grey woven beanbag fabric": {
+    "normalMap": {
+      "file": "Grey_woven_beanbag_fabric_Normal.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "",
+      "flipY": true
+    }
+  },
+  "Unassigned_Surface": {},
+  "Grey oak vinyl 04": {
+    "map": {
+      "file": "Grey_oak_vinyl_04_BaseColor.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "srgb",
+      "flipY": true
+    },
+    "normalMap": {
+      "file": "Grey_oak_vinyl_04_Normal.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "",
+      "flipY": true
+    }
+  },
+  "holes": {
+    "map": {
+      "file": "Source_18_multi_res5_holes_BaseColor.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "srgb",
+      "flipY": true
+    },
+    "normalMap": {
+      "file": "Source_20_new_normal.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "",
+      "flipY": true
+    }
+  },
+  "TableWood": {
+    "map": {
+      "file": "TableWood_BaseColor.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "srgb",
+      "flipY": true
+    },
+    "normalMap": {
+      "file": "TableWood_Normal.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "",
+      "flipY": true
+    }
+  },
+  "Grey oak vinyl 00": {
+    "map": {
+      "file": "Grey_oak_vinyl_00_BaseColor.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "srgb",
+      "flipY": true
+    },
+    "normalMap": {
+      "file": "Grey_oak_vinyl_00_Normal.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "",
+      "flipY": true
+    }
+  },
+  "Grey oak vinyl 02": {
+    "map": {
+      "file": "Grey_oak_vinyl_02_BaseColor.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "srgb",
+      "flipY": true
+    },
+    "normalMap": {
+      "file": "Grey_oak_vinyl_02_Normal.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "",
+      "flipY": true
+    }
+  },
+  "Burgundy woven beanbag fabric": {
+    "normalMap": {
+      "file": "Burgundy_woven_beanbag_fabric_Normal.png",
+      "repeat": [1, 1],
+      "offset": [0, 0],
+      "wrapS": 1000,
+      "wrapT": 1000,
+      "colorSpace": "",
+      "flipY": true
+    }
+  },
+  "LEDLight": {}
+}
