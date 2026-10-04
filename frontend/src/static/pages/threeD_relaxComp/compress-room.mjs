@@ -38,3 +38,4 @@ const savedPercentage = originalSize > 0 ? (savedBytes / originalSize) * 100 : 0
 console.log("Original room bytes:", originalSize);
 console.log("Compressed room bytes:", compressedSize);
 console.log("Space saved:", `${savedPercentage.toFixed(2)}%`);
+

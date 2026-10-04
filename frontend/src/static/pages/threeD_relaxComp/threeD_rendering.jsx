@@ -2,7 +2,8 @@ import { Fragment, Suspense, useEffect, useMemo, useRef, useState } from "react"
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { TextureLoader } from "three";
+import { ACESFilmicToneMapping, TextureLoader } from "three";
+import { RectAreaLightUniformsLib } from "three/examples/jsm/lights/RectAreaLightUniformsLib.js";
 import { MeshoptDecoder } from "meshoptimizer";
 import { NavigationBar } from "../components/navBar.jsx";
 import { Player } from "./playerController.js";
@@ -20,10 +21,35 @@ const PLAYER_SPAWN = [0, 0.1, 0];
 const MUSIC_PATH = "";
 const SFX_PATH = "";
 
+// Here I will enable the lights using on the ceiling
+RectAreaLightUniformsLib.init();
+
+function RoomLighting() {
+    return (
+        <>
+            <hemisphereLight args={["#eef4ff", "#b3a592", 1.4]}/>
+            {/* Customizing the ceiling light */}
+            {[-3, -12, -21].map(z => (
+                <rectAreaLight key={z} position={[0, 3.8, z]}
+                    rotation={[-Math.PI / 2, 0, 0]}
+                    width={14} height={6} color="#fff2df" intensity={4}/>
+            ))}
+
+            <directionalLight position={[6, 3.6, -6]} color="#fff6e8" intensity={1.8}
+                castShadow shadow-mapSize={[2048, 2048]}
+                shadow-camera-left={-18} shadow-camera-right={18}
+                shadow-camera-top={18} shadow-camera-bottom={-18}
+                shadow-camera-near={0.1} shadow-camera-far={50}
+                shadow-normalBias={0.02} shadow-bias={-0.0001}/>
+        </>
+    );
+}
+
 function RoomModel({onReady, onActiveChange, onError}) {
     const { scene: source } = useLoader(GLTFLoader, MODEL_PATH, loader => {
         loader.setMeshoptDecoder(MeshoptDecoder);
     });
+
     const textures = useLoader(TextureLoader, TEXTURE_URLS);
     const {camera, gl} = useThree();
     const playerRef = useRef(null);
@@ -32,9 +58,13 @@ function RoomModel({onReady, onActiveChange, onError}) {
         const scene = source.clone(true);
         scene.scale.setScalar(0.01);
         const materials = new Map();
+        
         function PrepareMaterial(original) {
-            if (materials.has(original)) return materials.get(original);
+            if (materials.has(original)) {
+                return materials.get(original);
+            }
             const material = original.clone();
+            
             for (const [slot, settings] of Object.entries(textureBindings[original.name] || {})) {
                 const texture = textures[TEXTURE_FILES.indexOf(settings.file)].clone();
                 texture.repeat.fromArray(settings.repeat);
@@ -46,6 +76,7 @@ function RoomModel({onReady, onActiveChange, onError}) {
                 texture.needsUpdate = true;
                 material[slot] = texture;
             }
+
             materials.set(original, material);
             return material;
         }
@@ -56,13 +87,17 @@ function RoomModel({onReady, onActiveChange, onError}) {
             if (object.isMesh) {
                 object.material = Array.isArray(object.material)
                     ? object.material.map(PrepareMaterial) : PrepareMaterial(object.material);
-                object.castShadow = false;
-                object.receiveShadow = false;
+                object.castShadow = true;
+                object.receiveShadow = true;
             }
         });
 
         return scene;
     }, [source, textures]);
+
+    useEffect(() => {
+        gl.shadowMap.needsUpdate = true;
+    }, [gl, model]);
 
     useEffect(() => {
         const player = new Player(camera, gl.domElement, model, PLAYER_SPAWN, onActiveChange);
@@ -121,17 +156,21 @@ export default function Render3DModel() {
         const timer = window.setInterval(() => {
             const health = Math.round(player.health);
             const stamina = Math.round(player.stamina);
-            SetStats(previous => previous.health === health && previous.stamina === stamina
-                ? previous : {health, stamina});
+            SetStats(previous => previous.health === health && previous.stamina === stamina ? previous : {health, stamina});
         }, 100);
 
         function OpenChat(event) {
-            if (event.code !== "Enter" || !player.controls.isLocked) return;
+            if (event.code !== "Enter" || !player.controls.isLocked) {
+                return;
+            }
+
             event.preventDefault();
             wantsChat.current = true;
             player.pause();
         }
+        
         window.addEventListener("keydown", OpenChat);
+
         return () => {
             window.clearInterval(timer);
             window.removeEventListener("keydown", OpenChat);
@@ -143,12 +182,17 @@ export default function Render3DModel() {
             wantsChat.current = false;
             chatRef.current?.focus();
         }
+
     }, [active]);
 
     function SendChat(event) {
         event.preventDefault();
         const text = chatText.trim();
-        if (!text) return;
+
+        if (!text) {
+             return;
+        }
+
         AddMessage(`You: ${text}`);
         SetChatText("");
         chatRef.current?.focus();
@@ -163,7 +207,9 @@ export default function Render3DModel() {
     }
 
     async function ToggleMusic() {
-        if (!musicRef.current) return;
+        if (!musicRef.current) {
+            return;
+        }
 
         if (musicPlaying) {
             musicRef.current.pause();
@@ -175,7 +221,7 @@ export default function Render3DModel() {
             await musicRef.current.play();
             SetMusicPlaying(true);
         } catch {
-            AddMessage("Music could not play. Check the audio file path.");
+            AddMessage("Cannot play the music");
         }
     }
 
@@ -185,8 +231,9 @@ export default function Render3DModel() {
         try {
             soundRef.current.currentTime = 0;
             await soundRef.current.play();
-        } catch {
-            AddMessage("Sound could not play. Check the audio file path.");
+        } 
+        catch {
+            AddMessage("Sound cannot play");
         }
     }
 
@@ -203,10 +250,15 @@ export default function Render3DModel() {
 
                 <main id="three-d-page" className="three-d-page">
                     <section id="three-d-container" className="three-d-container" aria-label="CDLC room walkthrough">
-                        <Canvas id="three-d-canvas" className="three-d-canvas" dpr={1} camera={{position: [0, 1.6, 0], fov: 70, near: 0.05, far: 1000}} gl={{antialias: false}}>
+                        
+                        <Canvas id="three-d-canvas" className="three-d-canvas" dpr={1} shadows
+                            camera={{position: [0, 1.6, 0], fov: 70, near: 0.05, far: 1000}}
+                            gl={{antialias: false, toneMapping: ACESFilmicToneMapping, toneMappingExposure: 1.25}}
+                            onCreated={({gl}) => { gl.shadowMap.autoUpdate = false; }}>
                             <color attach="background" args={["#dddddd"]}/>
-                            <hemisphereLight args={["#ffffff", "#777777", 1.2]}/>
-                            <directionalLight position={[5, 8, 5]} intensity={1.5}/>
+                            
+                            {/* Added the room lightning component into this file */}
+                            <RoomLighting/>
 
                             <Suspense fallback={<Html center><div className="three-d-loading">Loading room and collisions...</div></Html>}>
                                 <RoomModel onReady={SetPlayer} onActiveChange={SetActive} onError={SetLoadError}/>
@@ -259,7 +311,7 @@ export default function Render3DModel() {
                             {showMaps && !active && (
                                 <div className="three-d-map-panel">
                                     <h2 className="three-d-map-title">Choose room</h2>
-                                    <p className="three-d-map-description">Only the CDLC model is currently configured.</p>
+                                    <p className="three-d-map-description">Only CDLC room and CoE building available</p>
                                     <button className="three-d-action-button" type="button" disabled={!player} onClick={ResetPlayer}>CDLC — reset position</button>
                                     <button className="three-d-close-button" type="button" onClick={() => SetShowMaps(false)}>Close</button>
                                 </div>

@@ -12,6 +12,7 @@ export function LoadRoomCollision(scene) {
         });
         worlds.set(scene, pending);
     }
+    
     return worlds.get(scene);
 }
 
@@ -21,7 +22,10 @@ export function CreateCollisionGeometry(scene) {
     const point = new Vector3();
 
     scene.traverse(object => {
-        if (!object.isMesh) return;
+        if (!object.isMesh){
+            return;
+        }
+
         const source = object.geometry.getAttribute("position");
         const position = new Float32BufferAttribute(new Float32Array(source.count * 3), 3);
         
@@ -38,8 +42,10 @@ export function CreateCollisionGeometry(scene) {
         
             parts.push(part);
     });
+
     const geometry = mergeGeometries(parts, false);
     parts.forEach(part => part.dispose());
+
     if (!geometry) {
         throw new Error("This room is unstable collison geometry...");
     }
