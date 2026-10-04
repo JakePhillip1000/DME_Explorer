@@ -11,6 +11,7 @@ import "../../css_styles/css_threeD_render_comp/threeD_rendering.css";
 import textureBindings from "./roomTextures.json";
 import pauseIcon from "../../../assets/icons/pause_icon.png";
 import playIcon from "../../../assets/icons/play_icon.png";
+import MusicConfiguration from "./music_configuration.js";
 
 const TEXTURE_PATH = `${import.meta.env.BASE_URL}3d_models/CDLC_room/textures/`;
 const MODEL_PATH = `${import.meta.env.BASE_URL}3d_models/CDLC_room/room.glb`;
@@ -18,7 +19,6 @@ const TEXTURE_FILES = [...new Set(Object.values(textureBindings).flatMap(slots =
 const TEXTURE_URLS = TEXTURE_FILES.map(file => TEXTURE_PATH + file);
 
 const PLAYER_SPAWN = [0, 0.1, 0];
-const MUSIC_PATH = "";
 const SFX_PATH = "";
 
 // Here I will enable the lights using on the ceiling
@@ -131,20 +131,18 @@ export default function Render3DModel() {
     const [player, SetPlayer] = useState(null);
     const [loadError, SetLoadError] = useState("");
     const [active, SetActive] = useState(false);
-    const [musicPlaying, SetMusicPlaying] = useState(false);
+    const [showMusic, SetShowMusic] = useState(false);
     const [showMaps, SetShowMaps] = useState(false);
     const [chatText, SetChatText] = useState("");
     const [stats, SetStats] = useState({health: 100, stamina: 100});
     const [messages, SetMessages] = useState(["Welcome to the CDLC room.", "Click Enter room to begin."]);
 
-    const musicRef = useRef(null);
     const soundRef = useRef(null);
     const logRef = useRef(null);
     const chatRef = useRef(null);
     const wantsChat = useRef(false);
 
     useEffect(() => {
-        // Start texture requests while the geometry is still downloading.
         useLoader.preload(TextureLoader, TEXTURE_URLS);
     }, []);
 
@@ -152,28 +150,47 @@ export default function Render3DModel() {
         if (!player) {
             return;
         }
-
+    
         const timer = window.setInterval(() => {
             const health = Math.round(player.health);
             const stamina = Math.round(player.stamina);
-            SetStats(previous => previous.health === health && previous.stamina === stamina ? previous : {health, stamina});
+            SetStats(previous =>
+                previous.health === health && previous.stamina === stamina
+                    ? previous
+                    : {health, stamina}
+            );
         }, 100);
 
-        function OpenChat(event) {
-            if (event.code !== "Enter" || !player.controls.isLocked) {
+        return () => window.clearInterval(timer);
+    }, [player]);
+
+    {/* Holding alt to enable the mouse or press esc*/}
+    useEffect(() => {
+        if (!player) return;
+
+        function ToggleMouse(event) {
+            if (event.code !== "AltLeft") {
                 return;
             }
 
             event.preventDefault();
-            wantsChat.current = true;
-            player.pause();
+
+            if (event.repeat) {
+                return;
+            }
+
+            if (player.controls.isLocked) {
+                player.pause();
+            } 
+            else {
+                player.start();
+            }
         }
-        
-        window.addEventListener("keydown", OpenChat);
+
+        window.addEventListener("keydown", ToggleMouse);
 
         return () => {
-            window.clearInterval(timer);
-            window.removeEventListener("keydown", OpenChat);
+            window.removeEventListener("keydown", ToggleMouse);
         };
     }, [player]);
 
@@ -206,23 +223,10 @@ export default function Render3DModel() {
         SetMessages(previous => [...previous.slice(-19), message]);
     }
 
-    async function ToggleMusic() {
-        if (!musicRef.current) {
-            return;
-        }
-
-        if (musicPlaying) {
-            musicRef.current.pause();
-            SetMusicPlaying(false);
-            return;
-        }
-
-        try {
-            await musicRef.current.play();
-            SetMusicPlaying(true);
-        } catch {
-            AddMessage("Cannot play the music");
-        }
+    function ToggleMusic() {
+        player?.pause();
+        SetShowMaps(false);
+        SetShowMusic(previous => !previous);
     }
 
     async function PlaySound() {
@@ -292,13 +296,14 @@ export default function Render3DModel() {
 
                             {player && (
                                 <div className="three-d-side-actions">
-                                    <button className="three-d-action-button" type="button" disabled={!MUSIC_PATH} onClick={ToggleMusic}>{musicPlaying ? "Pause music" : "Play music"}</button>
+                                    <button className="three-d-action-button" type="button" onClick={ToggleMusic}>Room music</button>
+                                    
                                     <button className="three-d-action-button" type="button" disabled={!SFX_PATH} onClick={PlaySound}>Play SFX</button>
-                                    <button className="three-d-action-button" type="button" onClick={() => { player.pause(); SetShowMaps(previous => !previous); }}>Reset position</button>
+                                    <button className="three-d-action-button" type="button" onClick={() => { player.pause(); SetShowMusic(false); SetShowMaps(previous => !previous); }}>Reset position</button>
                                 </div>
                             )}
 
-                            {!active && player && (
+                            {!active && player && !showMusic && !showMaps && (
                                 <div className="three-d-start-panel">
                                     <h2 className="three-d-start-title">Welcome to CDLC room</h2>
                                     <p className="three-d-start-description">WASD to walk, Shift to run, and Space to Jump</p>
@@ -333,11 +338,13 @@ export default function Render3DModel() {
                             </aside>
 
 
-                            <p className="three-d-music-label">Now playing: {musicPlaying ? "Room music" : "No music"}</p>
+                            <MusicConfiguration
+                                open={showMusic && !active}
+                                onClose={() => SetShowMusic(false)}
+                            />
                         </div>
                     </section>
 
-                    {MUSIC_PATH && <audio className="three-d-audio" ref={musicRef} src={MUSIC_PATH} loop preload="none"/>}
                     {SFX_PATH && <audio className="three-d-audio" ref={soundRef} src={SFX_PATH} preload="none"/>}
                 </main>
             </div>

@@ -511,3 +511,195 @@
         top: 100px;
     }
 }
+
+
+.room-music {
+    pointer-events: none;
+}
+
+.room-music-controls {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    max-width: calc(100% - 24px);
+    pointer-events: auto;
+}
+.room-music-controls button {
+    padding: 6px 10px;
+    border: 1px solid #aaa;
+    background: #29242d;
+    color: #fff;
+}
+.room-music-controls [role="alert"] {
+    flex-basis: 100%;
+    color: #ffaaaa;
+}
+
+.room-music-panel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 10;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    width: min(480px, calc(100% - 24px));
+    max-height: calc(100% - 24px);
+    padding: 20px;
+    overflow-y: auto;
+    border: 1px solid #a79aad;
+    background: #29242d;
+    color: #ffffff;
+    pointer-events: auto;
+}
+
+.room-music-header,
+.room-music-player-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.room-music-heading {
+    margin: 0;
+    font-size: 24px;
+}
+
+.room-music-close {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: #171319;
+    color: #ffffff;
+    font-size: 26px !important;
+}
+
+.room-music-form {
+    display: grid;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.room-music-label {
+    font-size: 15px;
+}
+
+.room-music-input {
+    width: 100%;
+    min-width: 0;
+    min-height: 44px;
+    padding: 10px;
+    border: 1px solid #a99eae;
+    border-radius: 3px;
+    background: #ffffff;
+    color: #111111;
+    font: inherit;
+}
+
+.room-music-button {
+    flex-shrink: 0;
+    min-height: 40px;
+    padding: 8px 14px;
+    border: 1px solid #ab83b5;
+    background: #684773;
+    color: #ffffff;
+}
+
+.room-music-button:hover:not(:disabled) {
+    background: #825991;
+}
+
+.room-music-list-heading {
+    margin: 20px 0 10px;
+    font-size: 18px;
+}
+
+.room-music-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.room-music-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+    padding: 10px;
+    background: #19161d;
+}
+
+.room-music-song-title {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    font-size: 15px;
+}
+
+.room-music-description,
+.room-music-error,
+.room-music-message {
+    margin: 12px 0;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.room-music-error {
+    color: #ffaaaa;
+}
+
+.room-music-message {
+    color: #a6efb5;
+}
+
+.room-music-player {
+    position: absolute;
+    top: 95px;
+    right: 14px;
+    z-index: 4;
+    width: min(356px, calc(100% - 28px));
+    max-height: calc(100% - 110px);
+    padding: 8px;
+    overflow-y: auto;
+    background: #211c26;
+    color: #ffffff;
+    pointer-events: auto;
+}
+
+.room-music-player-header {
+    margin-bottom: 8px;
+}
+
+.room-music-video {
+    display: block;
+    width: 100%;
+    height: 200px;
+    border: none;
+}
+
+.room-music-player-help {
+    margin: 8px 0 0;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+@media (max-width: 600px) {
+    .room-music-panel {
+        padding: 14px;
+    }
+
+    .room-music-heading {
+        font-size: 21px;
+    }
+
+    .room-music-player {
+        top: auto;
+        right: 12px;
+        bottom: 40px;
+        width: min(300px, calc(100% - 24px));
+        max-height: calc(100% - 52px);
+    }
+}
