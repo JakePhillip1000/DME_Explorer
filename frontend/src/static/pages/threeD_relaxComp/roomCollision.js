@@ -4,6 +4,7 @@ import { GenerateMeshBVHWorker } from "three-mesh-bvh/src/workers/GenerateMeshBV
 
 const worlds = new WeakMap();
 
+// Create the collision for all objects inside the CDLC room
 export function LoadRoomCollision(scene) {
     if (!worlds.has(scene)) {
         const pending = BuildRoomCollision(scene).catch(error => {
