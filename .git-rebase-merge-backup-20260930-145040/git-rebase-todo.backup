@@ -1,0 +1,67 @@
+label onto
+
+reset [new root]
+pick 9da0c5a27aa2bcec4477dda85111e441abaeb56d Project creation
+pick b6aa9a59beef64d4838f18b2852fd2bcb7b9841e Adding essential web componets (pages but not yet programmed... testing the web output only)
+pick e8d3b4f513c6362dd38a8113f77e16c946475d21 Create both frontend and backend system
+pick d8c580603d9ce9fa3e9a7de36b133c837529c30e Move README file outside
+pick 5521de357c9cef9103cd8bd53424c1851e8c83ac Create the simple homepage front-end side design with CSS and HTML
+pick 96b9c6cca086df5ee84bd2e60b1f248f60b7ff2b add new readme info
+pick b4d38ad0d9fdc3659002ad0989d53be90f9576af Making the navbar responsive and create homepage in react
+pick 5a3d2267fe9a129c70022baa8e7cc53c1119f795 style the homepage in CSS + make it reponsive for mobile devices
+pick 2c396a344864c87b81a4147bada15decec1f8003 Registration system completed
+pick 4c48c1b8c1842c3f3058e41518c37aa13aa24324 Registration system complete_1
+pick 2eef7508602aa7089dd97dda14227dafb1be3c80 Successfully create login, frontend and backend + session variable
+pick 9c52361f5e9a0aab32f66131cb017dad10575f19 Create manual supabase migrations testing
+pick f1841546927947503a672d5c992a6ccbfab60133 Add the news section inside the homepage
+pick 43f3f3a0864eb2046c9dcf831575f5939280bcd3 Homepage fix
+pick b845792fdf4a3cca7d072a1558846f7bff561978 Completing the homepage news searching, add, edit, delete for both frontend and the backend side
+pick b692b240f83d89d9528f5daa25ca36a92ede3f5a fix syntax
+pick 64e1ec2ed71d6c637d6e45c8ccc8376820330641 Adding about page, about page style optimize the homepage
+pick 6c33c58075fb4227128a9d3477e2b67ff9cc45fc Creating the about page, and about page style in css
+pick 33cbfe5c194e553e6637788cdf533747e7fd0932 Get the API from enkku for ENKKU lecturer information, complete the about page, the about page style and making it responsive...
+pick eadbc55a42b707ba9c36535b06992846d6fec150 Adding faq files
+pick 0cd2bb8b38c391d33edd9223c616f8685c9d1742 Adding FAQ path
+pick 37fd8c1376d99e1cde5ef08905006ae6e536ed83 Changing the backend from commonjs to module
+pick 1b900c61ea3afbfdb9411284eef0fff3621ae424 Add google map comp to the contact and FAQ page, complete the contact and FAQ design and components
+pick 9116df5ace0bad33dbb6620eee7195267670207b Adding backend contact controller
+pick 3f49f5ad8fbe9a0798370c8b1f513816493fc8c3 Add the Tuition Fee and Program pages
+pick 833ed3d0dbf39c5464203dd952c811fce36aed39 Update project
+pick 3be893b0b024c4edf7d431b432b33456161b2101 Adding more admin security
+pick 47723d4f8322500f94653ef8e774de2ac036fced Compltet the contacts page, add admin response
+pick 26264ee9136cbcd5e53f5893d9062644df85f5e8 Reformatted the contactPages, add images and icons to assets/
+pick d5229d661c22e9e0bf5800b65f4658b61b2a3d72 Updating the README
+pick cb5413b745adb0baa323a2436145199d7c1943ad Rewrite the testcase into human readable code (I rewrite it... so this is easier to understand)
+pick 923a90aebc4d03738c5076289128b419fee7f0d9 Changing the emoji chat bubble to icon image instead + optimize the code
+pick a0da9797f5a33a6f64ecc82bcca096672626e71f Contact page rewrite code
+
+# Rebase a0da979 onto 697ba57 (35 commands)
+#
+# Commands:
+# p, pick <commit> = use commit
+# r, reword <commit> = use commit, but edit the commit message
+# e, edit <commit> = use commit, but stop for amending
+# s, squash <commit> = use commit, but meld into previous commit
+# f, fixup [-C | -c] <commit> = like "squash" but keep only the previous
+#                    commit's log message, unless -C is used, in which case
+#                    keep only this commit's message; -c is same as -C but
+#                    opens the editor
+# x, exec <command> = run command (the rest of the line) using shell
+# b, break = stop here (continue rebase later with 'git rebase --continue')
+# d, drop <commit> = remove commit
+# l, label <label> = label current HEAD with a name
+# t, reset <label> = reset HEAD to a label
+# m, merge [-C <commit> | -c <commit>] <label> [# <oneline>]
+#         create a merge commit using the original merge commit's
+#         message (or the oneline, if no original merge commit was
+#         specified); use -c <commit> to reword the commit message
+# u, update-ref <ref> = track a placeholder for the <ref> to be updated
+#                       to this position in the new commits. The <ref> is
+#                       updated at the end of the rebase
+#
+# These lines can be re-ordered; they are executed from top to bottom.
+#
+# If you remove a line here THAT COMMIT WILL BE LOST.
+#
+# However, if you remove everything, the rebase will be aborted.
+#

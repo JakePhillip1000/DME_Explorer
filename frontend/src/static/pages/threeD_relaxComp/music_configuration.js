@@ -26,13 +26,11 @@ async function MusicRequest(method = "GET", body, signal) {
     try {
         result = await response.json();
     } catch {
-        throw new Error(
-            "The music service is unavailable. Check that the backend is running."
-        );
+        throw new Error("The music is unavailable");
     }
 
     if (!response.ok || !result.success) {
-        throw new Error(result.message || "The music request failed.");
+        throw new Error(result.message || "The music failed.");
     }
 
     return result;
@@ -51,14 +49,12 @@ export default function MusicConfiguration({open, onClose}) {
     const [error, SetError] = useState("");
     const [message, SetMessage] = useState("");
 
-    // YouTube player status.
     const [ready, SetReady] = useState(false);
     const [playbackError, SetPlaybackError] = useState("");
 
     const playerHost = useRef(null);
     const player = useRef(null);
 
-    // Create the YouTube player when a song is selected.
     useEffect(() => {
         if (!selectedSong) return;
 
@@ -129,7 +125,6 @@ export default function MusicConfiguration({open, onClose}) {
         };
     }, [selectedSong]);
 
-    // When player open the music menu, retrieve the songs from the db
     useEffect(() => {
         if (!open) return;
 

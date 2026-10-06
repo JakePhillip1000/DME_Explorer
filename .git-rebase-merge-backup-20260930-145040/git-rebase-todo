@@ -1,0 +1,64 @@
+pick 9da0c5a Project creation
+pick b6aa9a5 Adding essential web componets (pages but not yet programmed... testing the web output only)
+pick e8d3b4f Create both frontend and backend system
+pick d8c5806 Move README file outside
+pick 5521de3 Create the simple homepage front-end side design with CSS and HTML
+pick 96b9c6c add new readme info
+pick b4d38ad Making the navbar responsive and create homepage in react
+pick 5a3d226 style the homepage in CSS + make it reponsive for mobile devices
+pick 2c396a3 Registration system completed
+pick 4c48c1b Registration system complete_1
+pick 2eef750 Successfully create login, frontend and backend + session variable
+pick 9c52361 Create manual supabase migrations testing
+pick f184154 Add the news section inside the homepage
+pick 43f3f3a Homepage fix
+pick b845792 Completing the homepage news searching, add, edit, delete for both frontend and the backend side
+pick b692b24 fix syntax
+pick 64e1ec2 Adding about page, about page style optimize the homepage
+pick 6c33c58 Creating the about page, and about page style in css
+pick 33cbfe5 Get the API from enkku for ENKKU lecturer information, complete the about page, the about page style and making it responsive...
+pick eadbc55 Adding faq files
+pick 0cd2bb8 Adding FAQ path
+pick 37fd8c1 Changing the backend from commonjs to module
+pick 1b900c6 Add google map comp to the contact and FAQ page, complete the contact and FAQ design and components
+pick 9116df5 Adding backend contact controller
+pick 3f49f5a Add the Tuition Fee and Program pages
+pick 833ed3d Update project
+pick 3be893b Adding more admin security
+pick 47723d4 Compltet the contacts page, add admin response
+pick 26264ee Reformatted the contactPages, add images and icons to assets/
+pick d5229d6 Updating the README
+pick cb5413b Rewrite the testcase into human readable code (I rewrite it... so this is easier to understand)
+pick 923a90a Changing the emoji chat bubble to icon image instead + optimize the code
+pick a0da979 Contact page rewrite code
+
+# Rebase a0da979 onto 697ba57 (35 commands)
+#
+# Commands:
+# p, pick <commit> = use commit
+# r, reword <commit> = use commit, but edit the commit message
+# e, edit <commit> = use commit, but stop for amending
+# s, squash <commit> = use commit, but meld into previous commit
+# f, fixup [-C | -c] <commit> = like "squash" but keep only the previous
+#                    commit's log message, unless -C is used, in which case
+#                    keep only this commit's message; -c is same as -C but
+#                    opens the editor
+# x, exec <command> = run command (the rest of the line) using shell
+# b, break = stop here (continue rebase later with 'git rebase --continue')
+# d, drop <commit> = remove commit
+# l, label <label> = label current HEAD with a name
+# t, reset <label> = reset HEAD to a label
+# m, merge [-C <commit> | -c <commit>] <label> [# <oneline>]
+#         create a merge commit using the original merge commit's
+#         message (or the oneline, if no original merge commit was
+#         specified); use -c <commit> to reword the commit message
+# u, update-ref <ref> = track a placeholder for the <ref> to be updated
+#                       to this position in the new commits. The <ref> is
+#                       updated at the end of the rebase
+#
+# These lines can be re-ordered; they are executed from top to bottom.
+#
+# If you remove a line here THAT COMMIT WILL BE LOST.
+#
+# However, if you remove everything, the rebase will be aborted.
+#
