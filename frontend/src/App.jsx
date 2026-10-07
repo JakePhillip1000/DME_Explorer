@@ -11,6 +11,7 @@ import { ProgramEducation } from './static/pages/program_education.jsx';
 import { TuitionFee } from './static/pages/tuitionFee.jsx';
 import { ThreeDPage } from './static/pages/relax_zone.jsx';
 import Render3DModel from './static/pages/threeD_relaxComp/threeD_rendering.jsx';
+import { ProjectPage } from './static/pages/projects_competition.jsx';
 
 import './static/css_styles/App.css'
 
@@ -40,6 +41,7 @@ export function DmeExplorer() {
 
 
         {/* Projects and competitions */}
+        <Route path="/projects" element={<ProjectPage />} />
 
 
         {/* occupation */}

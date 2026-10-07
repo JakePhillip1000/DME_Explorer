@@ -12,6 +12,7 @@ import newsController from "./pages_backend/news_controller.js";
 import KkuLecturerController from "./pages_backend/coE_professor_controller.js";
 import adminContactController from "./pages_backend/admin_contact_controller.js";
 import threeDPageController from "./pages_backend/threeD_pageController.js";
+import projectController from "./pages_backend/project_controller.js";
 
 const app = express();
 
@@ -105,6 +106,9 @@ app.get("/api/kku-lecturers", KkuLecturerController.GetLecturers);
 
 // 3D scene page, controller
 app.use("/api/three-d", threeDPageController);
+
+// project controller
+app.use("/api/projects", projectController);
 
 // The logout backend side
 app.post("/api/logout", (req, res) => {
