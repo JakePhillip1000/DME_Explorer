@@ -13,6 +13,13 @@ export default defineConfig({
 
     // the backend server
     server: {
+        // Wait for saves to finish so synced files are not reloaded while empty.
+        watch: {
+            awaitWriteFinish: {
+                stabilityThreshold: 300,
+                pollInterval: 100,
+            },
+        },
         proxy: {
             "/api": {
                 target: "http://localhost:5000",

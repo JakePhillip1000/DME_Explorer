@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect } from "react";
+import { Fragment, useState, useEffect, useRef } from "react";
 import { NavigationBar } from "./components/navBar";
 import { ContactMap } from "./components/DME_map";
 import "../css_styles/css_pages/contact_faq.css";
@@ -10,12 +10,19 @@ import locationIcon from "../../assets/icons/location_icon.png";
 import chatbotIcon from "../../assets/icons/chatbot_icon.png";
 import responseChatIcon from "../../assets/icons/chat_icon.png";
 
+const CHAT_API = `${(import.meta.env.VITE_API_ORIGIN || "http://localhost:5000").replace(/\/$/, "")}/api/contacts/chat`;
+
 export function ContactFaq() {
     const [contactForm, setContactForm] = useState({firstName: "",lastName: "",email: "", topic: "",message: ""});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSessionLoading, setIsSessionLoading] = useState(true);
     const [formStatus, setFormStatus] = useState({ type: "", message: "" });
     const [chatInput, setChatInput] = useState("");
+    const [isChatLoading, setIsChatLoading] = useState(false);
+    const [chatError, setChatError] = useState("");
+    const chatBusy = useRef(false);
+    const chatMessagesRef = useRef(null);
+
     const [chatMessages, setChatMessages] = useState([
         {
             id: 1,
@@ -23,6 +30,11 @@ export function ContactFaq() {
             text: "Hello, how can I help you?"
         }
     ]);
+
+    useEffect(() => {
+        const panel = chatMessagesRef.current;
+        if (panel) panel.scrollTop = panel.scrollHeight;
+    }, [chatMessages, isChatLoading]);
 
     const [currentUser, setCurrentUser] = useState(null);
     const [showAdminForms, setShowAdminForms] = useState(false);
@@ -36,11 +48,16 @@ export function ContactFaq() {
     const isAdmin = currentUser?.username === "admin";
 
     useEffect(() => {
-        if (!showAdminForms && !showUserResponses) return;
-        const popup = document.getElementById(
-            showAdminForms ? "admin-contact-popup" : "user-response-popup"
-        );
-        if (!popup) return;
+        if (!showAdminForms && !showUserResponses) {
+            return;
+        }
+        
+        const popup = document.getElementById(showAdminForms ? "admin-contact-popup" : "user-response-popup");
+
+        if (!popup) {
+            return;
+        }
+
         const previousFocus = document.activeElement;
         const previousOverflow = document.body.style.overflow;
         document.body.style.overflow = "hidden";
@@ -51,16 +68,21 @@ export function ContactFaq() {
                 setShowAdminForms(false);
                 setShowUserResponses(false);
             }
+
             if (event.key !== "Tab") return;
             const controls = popup.querySelectorAll(
                 'button:not(:disabled), input:not(:disabled), textarea:not(:disabled)'
             );
+
             const first = controls[0];
             const last = controls[controls.length - 1];
+            
             if (event.shiftKey && document.activeElement === first) {
                 event.preventDefault();
                 last?.focus();
-            } else if (!event.shiftKey && document.activeElement === last) {
+            } 
+
+            else if (!event.shiftKey && document.activeElement === last) {
                 event.preventDefault();
                 first?.focus();
             }
@@ -71,13 +93,13 @@ export function ContactFaq() {
             document.removeEventListener("keydown", HandleDialogKey);
             previousFocus?.focus();
         };
+        
     }, [showAdminForms, showUserResponses]);
 
     useEffect(() => {
         async function GetSession() {
             try {
-                const response = await fetch(
-                    "http://localhost:5000/api/session",
+                const response = await fetch("http://localhost:5000/api/session",
                     {
                         credentials: "include"
                     }
@@ -91,14 +113,16 @@ export function ContactFaq() {
                 const result = await response.json();
 
                 setCurrentUser(result.user || null);
-            } catch (error) {
+            } 
+            catch (error) {
                 console.error(
                     "Get session error:",
                     error
                 );
 
                 setCurrentUser(null);
-            } finally {
+            } 
+            finally {
                 setIsSessionLoading(false);
             }
         }
@@ -134,7 +158,8 @@ export function ContactFaq() {
                         result.count || 0
                     );
                 }
-            } catch (error) {
+            } 
+            catch (error) {
                 console.error(
                     "Get unread response count error:",
                     error
@@ -180,7 +205,8 @@ export function ContactFaq() {
             setSelectedFormIds([]);
 
             setShowAdminForms(true);
-        } catch (error) {
+        } 
+        catch (error) {
             alert(
                 error.message ||
                 "Cannot retrieve submitted forms."
@@ -191,10 +217,7 @@ export function ContactFaq() {
     async function SendAdminResponse(event) {
         event.preventDefault();
 
-        if (
-            !selectedAdminForm ||
-            !adminResponse.trim()
-        ) {
+        if (!selectedAdminForm || !adminResponse.trim()) {
             return;
         }
 
@@ -227,9 +250,7 @@ export function ContactFaq() {
 
             setAdminForms(previousForms =>
                 previousForms.map(form =>
-                    form.form_id === result.contact.form_id
-                        ? result.contact
-                        : form
+                    form.form_id === result.contact.form_id ? result.contact : form
                 )
             );
 
@@ -238,11 +259,9 @@ export function ContactFaq() {
             setAdminResponse("");
 
             alert(result.message);
-        } catch (error) {
-            alert(
-                error.message ||
-                "Cannot save the response."
-            );
+        } 
+        catch (error) {
+            alert(error.message || "Cannot save the response.");
         }
     }
 
@@ -485,25 +504,54 @@ export function ContactFaq() {
         }
     }
 
-    function HandleChatSubmit(event) {
+    {/*The chatbot section when submitting ask AI part, this part, the Gemini AI will answer the question */}
+    async function HandleChatSubmit(event) {
         event.preventDefault();
-
         const message = chatInput.trim();
-
-        if (!message) {
+        if (!message || chatBusy.current) {
+            return;
+        }
+        if (message.length > 2000) {
+            setChatError("Please keep your message under 2000 characters.");
             return;
         }
 
-        setChatMessages(previousMessages => [
-            ...previousMessages,
-            {
-                id: Date.now(),
-                sender: "user",
-                text: message
-            }
-        ]);
-
+        chatBusy.current = true;
+        setIsChatLoading(true);
+        setChatError("");
+        
+        const history = chatMessages.filter(chat => chat.id !== 1).slice(-12).map(chat => ({role: chat.sender === "bot" ? "model" : "user", text: chat.text}));
+        const messageId = crypto.randomUUID();
+        
+        setChatMessages(previousMessages => [...previousMessages, {id: messageId, sender: "user", text: message}]);
         setChatInput("");
+        
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 50000);
+        try {
+            const response = await fetch(CHAT_API, {
+                method: "POST", credentials: "include", headers: {"Content-Type": "application/json"},
+                signal: controller.signal,
+                body: JSON.stringify({message, history})
+            });
+            
+            const result = await response.json();
+
+            if (!response.ok || !result.success || typeof result.reply !== "string" || !result.reply.trim()) {
+                throw new Error(result.message || "Cannot get a chatbot answer.");
+            }
+            setChatMessages(previousMessages => [...previousMessages, {id: crypto.randomUUID(), sender: "bot", text: result.reply}]);
+        } 
+        catch (error) {
+            setChatError(error.name === "AbortError" ? "DME BOT took too long. Please try again." : error.message || "Cannot connect to the chatbot. Please try again.");
+            setChatInput(message);
+            setChatMessages(previousMessages => previousMessages.filter(chat => chat.id !== messageId));
+        } 
+        finally {
+            clearTimeout(timeout);
+            chatBusy.current = false;
+            setIsChatLoading(false);
+        }
     }
 
     return (
@@ -919,6 +967,7 @@ export function ContactFaq() {
                             </h2>
 
                             <div
+                                ref={chatMessagesRef}
                                 id="contact-chatbot-messages"
                                 className="contact-chatbot-messages"
                                 aria-live="polite"
@@ -926,11 +975,7 @@ export function ContactFaq() {
                                 {chatMessages.map(chat => (
                                     <div
                                         id={`contact-chat-message-${chat.id}`}
-                                        className={
-                                            chat.sender === "bot"
-                                                ? "contact-chat-message contact-bot-message"
-                                                : "contact-chat-message contact-user-message"
-                                        }
+                                        className={chat.sender === "bot" ? "contact-chat-message contact-bot-message" : "contact-chat-message contact-user-message"}
                                         key={chat.id}
                                     >
                                         {chat.sender === "bot" && (
@@ -958,6 +1003,8 @@ export function ContactFaq() {
                                 ))}
                             </div>
 
+                            {isChatLoading && <p className="contact-chat-status" role="status">DME BOT is answering... </p>}
+                            {chatError && <p className="contact-chat-error" role="alert">{chatError}</p>}
                             <form
                                 id="contact-chatbot-form"
                                 className="contact-chatbot-form"
@@ -972,6 +1019,8 @@ export function ContactFaq() {
                                 </label>
 
                                 <input
+                                    disabled={isChatLoading}
+                                    maxLength={2000}
                                     id="contact-chat-input"
                                     className="contact-chat-input"
                                     type="text"
@@ -985,6 +1034,7 @@ export function ContactFaq() {
                                 />
 
                                 <button
+                                    disabled={isChatLoading || !chatInput.trim()}
                                     id="contact-chat-submit-button"
                                     className="contact-chat-submit-button"
                                     type="submit"

@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import session from "express-session";
 import multer from "multer";
+import "dotenv/config";
 
 import { RegisterUser } from "./register_login_validation/register_controller.js";
 import { LoginUser } from "./register_login_validation/login_controller.js";

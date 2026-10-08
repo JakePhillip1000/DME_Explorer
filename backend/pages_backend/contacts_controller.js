@@ -1,11 +1,20 @@
 import express from "express";
 import supabase from "../supabase_client.js";
+import chatbotController from "./chatbot_controller.js";
 
 const router = express.Router();
 const CONTACT_TABLE = "contact_forms";
 
+// For this one, this is the use of chatbot 
+router.use("/chat", chatbotController);
+
 function CleanText(value) {
-    return typeof value === "string" ? value.trim() : "";
+    if (typeof value === "string"){
+        return value.trim();
+    }
+    else {
+        return "";
+    }
 }
 
 function IsValidEmail(email) {
@@ -20,8 +29,7 @@ function RequireLoggedInUser(req, res, next) {
     if (!req.session?.user?.id) {
         return res.status(401).json({
             success: false,
-            message:
-                "Please log in before submitting or viewing contact forms."
+            message: "Please log in before submitting or viewing contact forms."
         });
     }
 
@@ -54,17 +62,10 @@ router.post(
                 });
             }
 
-            if (
-                firstName.length > 20 ||
-                lastName.length > 20 ||
-                email.length > 100 ||
-                topics.length > 100 ||
-                messageAbout.length > 1000
-            ) {
+            if (firstName.length > 20 || lastName.length > 20 || email.length > 100 || topics.length > 100 || messageAbout.length > 1000) {
                 return res.status(400).json({
                     success: false,
-                    message:
-                        "Some information is too long."
+                    message: "Some information is too long."
                 });
             }
 
@@ -88,15 +89,11 @@ router.post(
                 .single();
 
             if (error) {
-                console.error(
-                    "Contact insertion error:",
-                    error
-                );
+                console.error("Contact insertion error:", error);
 
                 return res.status(500).json({
                     success: false,
-                    message:
-                        "Cannot save the contact form."
+                    message: "Cannot save the contact form."
                 });
             }
 
@@ -108,23 +105,17 @@ router.post(
         } 
         
         catch (error) {
-            console.error(
-                "Contact submission error:",
-                error
-            );
+            console.error("Contact submission error:", error);
 
             return res.status(500).json({
                 success: false,
-                message: "Internal server error."
+                message: "Internal server error"
             });
         }
     }
 );
 
-router.get(
-    "/responses/unread-count",
-    RequireLoggedInUser,
-    async (req, res) => {
+router.get("/responses/unread-count", RequireLoggedInUser, async (req, res) => {
         try {
             const userId = req.session.user.id;
 
@@ -151,7 +142,8 @@ router.get(
                 success: true,
                 count: count || 0
             });
-        } catch (error) {
+        } 
+        catch (error) {
             console.error(
                 "Unread response count error:",
                 error
@@ -167,10 +159,7 @@ router.get(
 );
 
 
-router.get(
-    "/responses",
-    RequireLoggedInUser,
-    async (req, res) => {
+router.get("/responses", RequireLoggedInUser, async (req, res) => {
         try {
             const userId = req.session.user.id;
 
@@ -203,8 +192,7 @@ router.get(
 
                 return res.status(500).json({
                     success: false,
-                    message:
-                        "Cannot retrieve your responses.",
+                    message: "Cannot retrieve your responses.",
                     responses: []
                 });
             }
@@ -228,10 +216,7 @@ router.get(
     }
 );
 
-router.patch(
-    "/responses/:formId/read",
-    RequireLoggedInUser,
-    async (req, res) => {
+router.patch("/responses/:formId/read", RequireLoggedInUser, async (req, res) => {
         try {
             const userId = req.session.user.id;
             const formId = req.params.formId;
@@ -262,28 +247,24 @@ router.patch(
 
                 return res.status(500).json({
                     success: false,
-                    message:
-                        "Cannot mark the response as read."
+                    message: "Cannot mark response as read"
                 });
             }
 
             if (!data) {
                 return res.status(404).json({
                     success: false,
-                    message:
-                        "The response was not found."
+                    message: "Response not found"
                 });
             }
 
             return res.status(200).json({
                 success: true,
-                message: "Response marked as read."
+                message: "Marked response as read"
             });
-        } catch (error) {
-            console.error(
-                "Mark response as read error:",
-                error
-            );
+        } 
+        catch (error) {
+            console.error("Mark response as read error:", error);
 
             return res.status(500).json({
                 success: false,

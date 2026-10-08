@@ -1464,3 +1464,30 @@
         height: 28px;
     }
 }
+
+/* This section will be the Gemini chatbox messages */
+.contact-chatbot-messages {
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.contact-chat-text {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.contact-chat-status, .contact-chat-error {
+     flex-shrink: 0; 
+     margin: 6px 0; 
+     font-size: 14px; 
+     overflow-wrap: anywhere;
+}
+
+.contact-chat-error {
+    color: red;
+}
+
+.contact-chat-submit-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
