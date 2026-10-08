@@ -324,7 +324,6 @@
     width: min(980px, 100%);
 }
 
-/* Add/edit form */
 .projects-form-modal {
     width: min(980px, 100%);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);

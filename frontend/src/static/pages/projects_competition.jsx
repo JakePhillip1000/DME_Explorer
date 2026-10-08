@@ -32,7 +32,6 @@ function Today() {
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 }
 
-// Shared popup used by the form and Read more.
 function ProjectModal({children, onClose, labelledBy, large = false, className = ""}) {
     const dialog = useRef(null);
     const closeRef = useRef(onClose);
@@ -115,7 +114,6 @@ function ProjectModal({children, onClose, labelledBy, large = false, className =
     );
 }
 
-// The same form is used for adding and editing projects.
 function ProjectForm({project, categories, onClose, onSaved}) {
     const editing = Boolean(project);
 
@@ -161,17 +159,14 @@ function ProjectForm({project, categories, onClose, onSaved}) {
     function ChooseImage(event) {
         const image = event.target.files[0];
 
-        if (!image) return;
+        if (!image) {
+            return;
+        }
 
-        const allowedTypes = [
-            "image/jpeg",
-            "image/png",
-            "image/webp",
-            "image/gif"
-        ];
+        const allowedTypes = ["image/jpeg", "image/png", "image/webp", "image/gif"];
 
         if (image.size > MAX_IMAGE_SIZE || !allowedTypes.includes(image.type)) {
-            SetError("Choose a JPG, PNG, WebP or GIF image of 2 MB or smaller.");
+            SetError("The file cannot be this large or unsupported format");
             event.target.value = "";
             return;
         }
@@ -213,26 +208,37 @@ function ProjectForm({project, categories, onClose, onSaved}) {
                 body.append("remove_image", "true");
             }
 
-            const url = editing
-                ? `${PROJECT_API}/${project.project_id}`
-                : PROJECT_API;
+            const url = editing ? `${PROJECT_API}/${project.project_id}` : PROJECT_API;
+
+            let requestMethod;
+            if (editing) {
+                requestMethod = "PUT";
+            }
+            else {
+                requestMethod = "POST";
+            }
 
             const result = await Request(url, {
-                method: editing ? "PUT" : "POST",
+                method: requestMethod,
                 body
             });
 
             onSaved(result.message);
-        } catch (error) {
+        } 
+        catch (error) {
             SetError(error.message);
-        } finally {
+        } 
+        finally {
             SetSaving(false);
         }
     }
 
     return (
         <ProjectModal onClose={() => {
-            if (!saving) onClose();
+            if (!saving) {
+                onClose();
+            }
+            
         }} labelledBy="project-form-heading" className="projects-form-modal">
             <header className="projects-form-header">
                 <div className="projects-form-brand">
