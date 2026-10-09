@@ -14,6 +14,7 @@ import KkuLecturerController from "./pages_backend/coE_professor_controller.js";
 import adminContactController from "./pages_backend/admin_contact_controller.js";
 import threeDPageController from "./pages_backend/threeD_pageController.js";
 import projectController from "./pages_backend/project_controller.js";
+import occupationController from "./pages_backend/occupation_controller.js";
 
 const app = express();
 
@@ -110,6 +111,9 @@ app.use("/api/three-d", threeDPageController);
 
 // project controller
 app.use("/api/projects", projectController);
+
+// occupation controller --> job listings
+app.use("/api/occupation", occupationController);
 
 // The logout backend side
 app.post("/api/logout", (req, res) => {

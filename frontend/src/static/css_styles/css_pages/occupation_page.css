@@ -1,0 +1,251 @@
+.occupation-page {
+    min-height: 100vh;
+    width: 100%;
+    background: #ffffff;
+    color: #171717;
+    font-family: "Tilt Neon", Arial, sans-serif;
+}
+
+.occupation-page * {
+    box-sizing: border-box;
+}
+
+.occupation-navigation,
+.occupation-main {
+    width: 100%;
+}
+
+/* Heading banner, same as the projects and tuition page */
+.occupation-banner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 155px;
+    text-align: center;
+    padding: 16px 22px;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.68), rgba(255, 255, 255, 0.68)), var(--occupation-background-image);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-color: #eeeae2;
+}
+
+.occupation-heading {
+    margin: 0;
+    color: #000000;
+    font-family: "Tilt Warp", Arial, sans-serif;
+    font-size: clamp(38px, 4vw, 45px);
+    font-weight: normal;
+    line-height: 1.25;
+}
+
+.occupation-heading-description {
+    margin: 8px 0 0;
+    color: #111111;
+    font-size: clamp(16px, 1.6vw, 20px);
+    font-weight: 500;
+    line-height: 1.35;
+}
+
+.occupation-body {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 30px 36px;
+}
+
+/* Filter and refresh buttons */
+.occupation-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+    margin-bottom: 10px;
+}
+
+.occupation-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.occupation-filter-button,
+.occupation-refresh-button {
+    min-height: 46px;
+    padding: 10px 16px;
+    border: 1px solid #777777;
+    border-radius: 0;
+    background: #ffffff;
+    color: #111111;
+    font: inherit;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.occupation-filter-button:hover {
+    background: #fff4ed;
+}
+
+.occupation-filter-button[aria-pressed="true"] {
+    border-color: #ffbb8b;
+    background: #ffbb8b;
+}
+
+.occupation-refresh-button {
+    background: #ffe09a;
+}
+
+.occupation-refresh-button:disabled {
+    cursor: default;
+    opacity: 0.6;
+}
+
+.occupation-status-line,
+.occupation-error,
+.occupation-loading,
+.occupation-empty {
+    margin: 12px 0 18px;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.occupation-status-line {
+    color: #555555;
+}
+
+.occupation-error {
+    color: #ad1236;
+}
+
+/* Job cards */
+.occupation-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 20px;
+}
+
+.occupation-card {
+    display: flex;
+    gap: 16px;
+    min-width: 0;
+    padding: 18px;
+    border: 1px solid #666666;
+    background: #fafafa;
+    color: inherit;
+    text-decoration: none;
+    transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.occupation-card:hover {
+    background: #fff4ed;
+    transform: translateY(-2px);
+}
+
+.occupation-card:focus-visible {
+    outline: 2px solid #b41036;
+    outline-offset: 2px;
+}
+
+.occupation-company-tile {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    border: 1px solid #555555;
+    font-family: "Tilt Warp", Arial, sans-serif;
+    font-size: 20px;
+}
+
+/* Company tile colors, picked by the company name */
+.occupation-tile-color-0 { background: #ffbb8b; }
+.occupation-tile-color-1 { background: #ffe09a; }
+.occupation-tile-color-2 { background: #d7e3f8; }
+.occupation-tile-color-3 { background: #fce8ed; }
+.occupation-tile-color-4 { background: #d9f0dc; }
+.occupation-tile-color-5 { background: #e6dcf5; }
+
+.occupation-card-body {
+    min-width: 0;
+    flex: 1;
+}
+
+.occupation-card-interest {
+    margin: 0 0 4px;
+    color: #b45309;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.occupation-card-title {
+    margin: 0;
+    font-size: clamp(18px, 1.4vw, 21px);
+    font-weight: 600;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+}
+
+.occupation-card-company {
+    margin: 2px 0 0;
+    font-size: 16px;
+    color: #333333;
+}
+
+.occupation-card-location {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    margin: 10px 0 0;
+    color: #555555;
+    font-size: 15px;
+}
+
+.occupation-location-icon {
+    width: 16px;
+    height: 16px;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+/* Mobile */
+@media (max-width: 800px) {
+    .occupation-body {
+        padding: 16px 20px 25px;
+    }
+
+    .occupation-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 550px) {
+    .occupation-banner {
+        padding: 18px 14px;
+    }
+
+    .occupation-heading {
+        font-size: 32px;
+    }
+
+    .occupation-body {
+        padding: 14px 12px 24px;
+    }
+
+    .occupation-filter-button,
+    .occupation-refresh-button {
+        min-height: 42px;
+        padding: 8px 12px;
+        font-size: 15px;
+    }
+
+    .occupation-refresh-button {
+        width: 100%;
+    }
+}

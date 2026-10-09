@@ -12,6 +12,7 @@ import { TuitionFee } from './static/pages/tuitionFee.jsx';
 import { ThreeDPage } from './static/pages/relax_zone.jsx';
 import Render3DModel from './static/pages/threeD_relaxComp/threeD_rendering.jsx';
 import { ProjectPage } from './static/pages/projects_competition.jsx';
+import { Occupation } from './static/pages/occupation.jsx';
 
 import './static/css_styles/App.css'
 
@@ -45,6 +46,7 @@ export function DmeExplorer() {
 
 
         {/* occupation */}
+        <Route path="/occupation" element={<Occupation />} />
 
 
         {/* contact & FAQ */}
