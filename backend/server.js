@@ -3,6 +3,9 @@ import cors from "cors";
 import session from "express-session";
 import multer from "multer";
 import "dotenv/config";
+import { createServer } from "node:http";
+import { Server } from "socket.io";
+import { SetupRoomMultiplayer } from "./pages_backend/room_multiplayer_controller.js";
 
 import { RegisterUser } from "./register_login_validation/register_controller.js";
 import { LoginUser } from "./register_login_validation/login_controller.js";
@@ -17,15 +20,16 @@ import projectController from "./pages_backend/project_controller.js";
 import occupationController from "./pages_backend/occupation_controller.js";
 
 const app = express();
+const allowedOrigins = (process.env.FRONTEND_ORIGIN || "http://localhost:5173").split(",").map(origin => origin.trim());
 
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: allowedOrigins,
     credentials: true
 }));
 
 app.use(express.json());
 
-app.use(session({
+const sessionMiddleware = session({
     secret: process.env.SESSION_SECRET || "DmeExplorer_session_secret",
     resave: false,
     saveUninitialized: false,
@@ -34,7 +38,19 @@ app.use(session({
         secure: false,
         maxAge: 3600000
     }
-}));
+});
+app.use(sessionMiddleware);
+
+const server = createServer(app);
+const io = new Server(server, {
+    cors: {origin: allowedOrigins, credentials: true},
+    allowRequest: (req, done) => done(null, !req.headers.origin || allowedOrigins.includes(req.headers.origin)),
+    maxHttpBufferSize: 16 * 1024,
+    pingInterval: 10000,
+    pingTimeout: 10000
+});
+io.engine.use(sessionMiddleware);
+SetupRoomMultiplayer(io);
 
 // Register system
 app.post("/api/register", async (req, res) => {
@@ -136,7 +152,7 @@ app.post("/api/logout", (req, res) => {
     });
 });
 
-app.listen(5000, () => {
+server.listen(5000, () => {
     console.log("Server started on port 5000");
 });
 

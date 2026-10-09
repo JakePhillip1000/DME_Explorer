@@ -1,4 +1,4 @@
-import { Fragment, Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { Fragment, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
@@ -12,6 +12,7 @@ import textureBindings from "./roomTextures.json";
 import pauseIcon from "../../../assets/icons/pause_icon.png";
 import playIcon from "../../../assets/icons/play_icon.png";
 import MusicConfiguration from "./music_configuration.js";
+import {RemotePlayers, useRoomMultiplayer} from "./roomMultiplayer.jsx";
 
 const TEXTURE_PATH = `${import.meta.env.BASE_URL}3d_models/CDLC_room/textures/`;
 const MODEL_PATH = `${import.meta.env.BASE_URL}3d_models/CDLC_room/room.glb`;
@@ -45,7 +46,7 @@ function RoomLighting() {
     );
 }
 
-function RoomModel({onReady, onActiveChange, onError}) {
+function RoomModel({onReady, onActiveChange, onError, socketRef}) {
     const { scene: source } = useLoader(GLTFLoader, MODEL_PATH, loader => {
         loader.setMeshoptDecoder(MeshoptDecoder);
     });
@@ -53,6 +54,7 @@ function RoomModel({onReady, onActiveChange, onError}) {
     const textures = useLoader(TextureLoader, TEXTURE_URLS);
     const {camera, gl} = useThree();
     const playerRef = useRef(null);
+    const lastSend = useRef(0);
 
     const model = useMemo(() => {
         const scene = source.clone(true);
@@ -103,12 +105,15 @@ function RoomModel({onReady, onActiveChange, onError}) {
         const player = new Player(camera, gl.domElement, model, PLAYER_SPAWN, onActiveChange);
         playerRef.current = player;
         let cancelled = false;
+
         player.ready.then(() => {
-            if (!cancelled) onReady(player);
+            if (!cancelled) {
+                onReady(player);
+            }
         }).catch(error => {
             if (!cancelled) {
-                console.error("Room collision setup failed:", error);
-                onError("Unable to prepare room controls. Reload the page to try again.");
+                console.error("Collision setup failed", error);
+                onError("Cannot control");
             }
         });
 
@@ -122,6 +127,12 @@ function RoomModel({onReady, onActiveChange, onError}) {
 
     useFrame((state, delta) => {
         playerRef.current?.update(delta);
+        if (playerRef.current?.world && socketRef.current?.connected && state.clock.elapsedTime - lastSend.current >= 0.05) {
+            lastSend.current = state.clock.elapsedTime;
+
+            {/* When player move this should make other players see too */}
+            socketRef.current.volatile.emit("player:move", playerRef.current.getNetworkState());
+        }
     });
 
     return <primitive object={model} scale={0.01} position={[0, 0, 0]} dispose={null}/>;
@@ -136,6 +147,19 @@ export default function Render3DModel() {
     const [chatText, SetChatText] = useState("");
     const [stats, SetStats] = useState({health: 100, stamina: 100});
     const [messages, SetMessages] = useState(["Welcome to the CDLC room.", "Click Enter room to begin."]);
+    const AddMessage = useCallback(message => {
+        SetMessages(previous => [...previous.slice(-19), message]);
+    }, []);
+    const multiplayer = useRoomMultiplayer(AddMessage);
+
+    useEffect(() => {
+        if (!player || !multiplayer.self){
+             return;
+        }
+
+        player.spawn.fromArray(multiplayer.self.position);
+        player.reset();
+    }, [player, multiplayer.self]);
 
     const soundRef = useRef(null);
     const logRef = useRef(null);
@@ -155,9 +179,7 @@ export default function Render3DModel() {
             const health = Math.round(player.health);
             const stamina = Math.round(player.stamina);
             SetStats(previous =>
-                previous.health === health && previous.stamina === stamina
-                    ? previous
-                    : {health, stamina}
+                previous.health === health && previous.stamina === stamina? previous : {health, stamina}
             );
         }, 100);
 
@@ -210,7 +232,13 @@ export default function Render3DModel() {
              return;
         }
 
-        AddMessage(`You: ${text}`);
+        if (!multiplayer.socketRef.current?.connected) {
+            AddMessage("Chat is unavailable while disconnected.");
+            return;
+        }
+        multiplayer.socketRef.current.timeout(5000).emit("chat:send", text, (error, result) => {
+            if (error || !result?.success) AddMessage("Message was not delivered. Wait a moment and try again.");
+        });
         SetChatText("");
         chatRef.current?.focus();
     }
@@ -218,10 +246,6 @@ export default function Render3DModel() {
     useEffect(() => {
         if (logRef.current) logRef.current.scrollTop = logRef.current.scrollHeight;
     }, [messages]);
-
-    function AddMessage(message) {
-        SetMessages(previous => [...previous.slice(-19), message]);
-    }
 
     function ToggleMusic() {
         player?.pause();
@@ -265,7 +289,8 @@ export default function Render3DModel() {
                             <RoomLighting/>
 
                             <Suspense fallback={<Html center><div className="three-d-loading">Loading room and collisions...</div></Html>}>
-                                <RoomModel onReady={SetPlayer} onActiveChange={SetActive} onError={SetLoadError}/>
+                                <RoomModel onReady={SetPlayer} onActiveChange={SetActive} onError={SetLoadError} socketRef={multiplayer.socketRef}/>
+                                <RemotePlayers players={multiplayer.players} remoteStates={multiplayer.remoteStates}/>
                             </Suspense>
                         </Canvas>
 
@@ -276,8 +301,11 @@ export default function Render3DModel() {
                                 </div>
                             )}
                             <div className="three-d-player-info">
-                                <div className="three-d-avatar" aria-label="Player avatar placeholder">P</div>
+                                <div className="three-d-avatar" style={{background: multiplayer.self?.color}} aria-label="Your player color">{multiplayer.self?.displayName?.[0]?.toUpperCase() || "P"}</div>
                                 <div className="three-d-status">
+                                    <div className="three-d-network-status" role="status">
+                                        {multiplayer.self ? `${multiplayer.self.displayName} ${multiplayer.players.length + 1} is in CDLC` : multiplayer.status}
+                                    </div>
                                     <div className="three-d-status-bar three-d-status-health" role="progressbar" aria-label="Health" aria-valuemin={0} aria-valuemax={100} aria-valuenow={stats.health}>
                                         <span className="three-d-bar-fill" style={{width: `${stats.health}%`}}/>
                                         {/*<span className="three-d-bar-label">HEALTH {stats.health}/100</span>*/}
@@ -333,7 +361,7 @@ export default function Render3DModel() {
                                     <input ref={chatRef} className="three-d-chat-input" aria-label="Chat message"
                                         placeholder={active ? "Type anything here >>>" : "Type anything here >>> "}
                                         value={chatText} maxLength={300} onChange={event => SetChatText(event.target.value)}/>
-                                    <button type="submit" disabled={!chatText.trim()}>Send</button>
+                                    <button type="submit" disabled={!chatText.trim() || !multiplayer.self}>Send</button>
                                 </form>
                             </aside>
 

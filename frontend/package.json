@@ -18,8 +18,10 @@
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-router-dom": "^7.18.3",
+    "socket.io-client": "^4.8.4",
     "three": "^0.185.1",
-    "three-mesh-bvh": "0.8.3"
+    "three-mesh-bvh": "0.8.3",
+    "yarn": "^1.22.22"
   },
   "devDependencies": {
     "@babel/core": "^7.29.7",

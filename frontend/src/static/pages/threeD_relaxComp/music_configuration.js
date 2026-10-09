@@ -104,7 +104,7 @@ export default function MusicConfiguration({open, onClose}) {
                                  return;
                             }
 
-                            SetPlaybackError("Your browser blocked playback.");
+                            SetPlaybackError("Brower block playback");
                         }
                     }
                 });
@@ -318,7 +318,7 @@ export default function MusicConfiguration({open, onClose}) {
                     type: "button",
                     onClick: onClose,
                     "aria-label": "Close music list"
-                }, "×")
+                }, "x")
             ),
 
             RenderForm(),
