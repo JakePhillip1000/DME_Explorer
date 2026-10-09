@@ -2,6 +2,8 @@
 // Shown when JSEARCH_API_KEY is not set, or when the live job API cannot be used.
 // The titles are examples, but every url goes to that company's real careers page.
 
+// Keep the controller import valid while example listings are disabled.
+
 export const SAMPLE_JOBS = [
     {
         id: "job-1",

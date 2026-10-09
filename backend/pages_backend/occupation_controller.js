@@ -23,7 +23,7 @@ const INTEREST_SEARCH = {
 };
 
 const CACHE_TIME = 24 * 60 * 60 * 1000;      // a saved list is used for 24 hours
-const MIN_LIVE_GAP = 10 * 60 * 1000;         // at least 10 minutes between live calls, even on refresh
+const MIN_LIVE_GAP = 10 * 1000;             // at least 10 seconds between live calls, even on refresh
 const MONTHLY_LIVE_LIMIT = 170;              // under the plan's 200, in case of a miscount
 const MAX_JOBS = 60;
 const CACHE_FILE = path.join(os.tmpdir(), "dme_explorer_occupation_cache.json");
@@ -109,7 +109,7 @@ async function GetLiveJobs(interest, apiKey) {
     const url = `https://jsearch.p.rapidapi.com/search-v2?query=${encodeURIComponent(search)}&num_pages=1&country=th&date_posted=all`;
 
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 8000);
+    const timeout = setTimeout(() => controller.abort(), 1000);
 
     try {
         const response = await fetch(url, {
@@ -156,7 +156,7 @@ router.get("/", async (req, res) => {
         });
     }
 
-    const apiKey = process.env.JSEARCH_API_KEY?.trim();
+    const apiKey = process.env.JSEARCH_API_KEY?.trim() || process.env.J_SEARCH_API_KEY?.trim();
     const key = interest || "all";
     const saved = cache.lists[key] || { jobs: [], lastFetch: 0 };
     const sinceLastFetch = Date.now() - saved.lastFetch;
@@ -169,7 +169,7 @@ router.get("/", async (req, res) => {
 
     if (shouldGoLive) {
         if (UseBudget()) {
-            // Save the time before calling, so a failing API also waits 10 minutes before the next try
+            // Save the time before calling, so a failing API also waits 10 seconds before the next try
             saved.lastFetch = Date.now();
             cache.lists[key] = saved;
 
@@ -199,7 +199,7 @@ router.get("/", async (req, res) => {
             note = "Live job budget reached, showing saved listings until tomorrow.";
         }
         else if (liveFailed) {
-            note = "Live job data is not available right now, showing saved listings.";
+            note = "";
         }
         else if (refresh && !shouldGoLive) {
             note = "Refreshed recently, showing the saved listings to save the API quota.";
@@ -214,18 +214,21 @@ router.get("/", async (req, res) => {
         });
     }
 
-    let note = "Showing example listings. Set JSEARCH_API_KEY in backend/.env for live job data.";
+    const examples = SampleJobs(interest);
+    let note = "Set JSEARCH_API_KEY or J_SEARCH_API_KEY in backend/.env and restart the backend for live job data.";
 
     if (budgetReached) {
-        note = "Live job budget reached, showing example listings until tomorrow.";
+        note = "Live job budget reached. Please try again tomorrow.";
     }
     else if (apiKey) {
-        note = "Live job data is not available right now, showing example listings.";
+        note = "";
     }
+
+    if (examples.length) note += " Showing example listings in the meantime.";
 
     return res.status(200).json({
         success: true,
-        jobs: SampleJobs(interest),
+        jobs: examples,
         sample: true,
         lastFetchedAt: null,
         note

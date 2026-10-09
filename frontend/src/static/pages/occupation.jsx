@@ -20,7 +20,12 @@ async function GetJobs(interest, refresh = false) {
         query.set("refresh", "1");
     }
 
-    const response = await fetch(`${OCCUPATION_API}?${query}`);
+    let response;
+    try {
+        response = await fetch(`${OCCUPATION_API}?${query}`);
+    } catch {
+        throw new Error("Cannot reach the occupation service. Check that the backend is running on port 5000.");
+    }
 
     const result = await response.json().catch(() => {
         throw new Error("Cannot reach the occupation service. Check that the backend is running.");
