@@ -10,7 +10,7 @@ import locationIcon from "../../assets/icons/location_icon.png";
 import chatbotIcon from "../../assets/icons/chatbot_icon.png";
 import responseChatIcon from "../../assets/icons/chat_icon.png";
 
-const CHAT_API = `${(import.meta.env.VITE_API_ORIGIN || "http://localhost:5000").replace(/\/$/, "")}/api/contacts/chat`;
+const CHAT_API = "http://localhost:5000/api/contacts/chat";
 
 export function ContactFaq() {
     const [contactForm, setContactForm] = useState({firstName: "",lastName: "",email: "", topic: "",message: ""});
@@ -530,7 +530,8 @@ export function ContactFaq() {
         const timeout = setTimeout(() => controller.abort(), 50000);
         try {
             const response = await fetch(CHAT_API, {
-                method: "POST", credentials: "include", headers: {"Content-Type": "application/json"},
+                method: "POST", credentials: "include", 
+                headers: {"Content-Type": "application/json"},
                 signal: controller.signal,
                 body: JSON.stringify({message, history})
             });
