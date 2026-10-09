@@ -5,7 +5,7 @@ import DMELogo from "../../assets/icons/DME_logo1.png";
 import ProjectBanner from "../../assets/images/ENKKU_50year.png";
 import "../../static/css_styles/css_pages/projects_page.css";
 
-const API_ORIGIN = (import.meta.env.VITE_API_ORIGIN || "http://localhost:5000").replace(/\/$/, "");
+const API_ORIGIN = (import.meta.env.VITE_API_ORIGIN || "").replace(/\/$/, "");
 const PROJECT_API = `${API_ORIGIN}/api/projects`;
 const MAX_IMAGE_SIZE = 2 * 1024 * 1024;
 

@@ -22,7 +22,7 @@ export function About() {
                 setLecturerError("");
 
                 // here, I will call from the backend side
-                const response = await fetch("http://localhost:5000/api/kku-lecturers");
+                const response = await fetch("/api/kku-lecturers");
                 const result = await response.json();
 
                 if (!response.ok || !result.success) {

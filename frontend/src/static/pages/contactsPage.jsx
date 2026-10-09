@@ -10,7 +10,7 @@ import locationIcon from "../../assets/icons/location_icon.png";
 import chatbotIcon from "../../assets/icons/chatbot_icon.png";
 import responseChatIcon from "../../assets/icons/chat_icon.png";
 
-const CHAT_API = "http://localhost:5000/api/contacts/chat";
+const CHAT_API = "/api/contacts/chat";
 
 export function ContactFaq() {
     const [contactForm, setContactForm] = useState({firstName: "",lastName: "",email: "", topic: "",message: ""});
@@ -22,6 +22,7 @@ export function ContactFaq() {
     const [chatError, setChatError] = useState("");
     const chatBusy = useRef(false);
     const chatMessagesRef = useRef(null);
+    const nextChatId = useRef(1);
 
     const [chatMessages, setChatMessages] = useState([
         {
@@ -99,7 +100,7 @@ export function ContactFaq() {
     useEffect(() => {
         async function GetSession() {
             try {
-                const response = await fetch("http://localhost:5000/api/session",
+                const response = await fetch("/api/session",
                     {
                         credentials: "include"
                     }
@@ -141,7 +142,7 @@ export function ContactFaq() {
         async function GetUnreadCount() {
             try {
                 const response = await fetch(
-                    "http://localhost:5000/api/contacts/responses/unread-count",
+                    "/api/contacts/responses/unread-count",
                     {
                         credentials: "include"
                     }
@@ -184,7 +185,7 @@ export function ContactFaq() {
     async function OpenAdminForms() {
         try {
             const response = await fetch(
-                "http://localhost:5000/api/admin/contacts",
+                "/api/admin/contacts",
                 {
                     credentials: "include"
                 }
@@ -223,7 +224,7 @@ export function ContactFaq() {
 
         try {
             const response = await fetch(
-                `http://localhost:5000/api/admin/contacts/${selectedAdminForm.form_id}/reply`,
+                `/api/admin/contacts/${selectedAdminForm.form_id}/reply`,
                 {
                     method: "PATCH",
 
@@ -281,7 +282,7 @@ export function ContactFaq() {
 
         try {
             const response = await fetch(
-                "http://localhost:5000/api/admin/contacts",
+                "/api/admin/contacts",
                 {
                     method: "DELETE",
 
@@ -368,7 +369,7 @@ export function ContactFaq() {
     async function OpenUserResponses() {
         try {
             const response = await fetch(
-                "http://localhost:5000/api/contacts/responses",
+                "/api/contacts/responses",
                 {
                     credentials: "include"
                 }
@@ -395,7 +396,7 @@ export function ContactFaq() {
             await Promise.all(
                 unreadResponses.map(item =>
                     fetch(
-                        `http://localhost:5000/api/contacts/responses/${item.form_id}/read`,
+                        `/api/contacts/responses/${item.form_id}/read`,
                         {
                             method: "PATCH",
                             credentials: "include"
@@ -446,7 +447,7 @@ export function ContactFaq() {
 
         try {
             const response = await fetch(
-                "http://localhost:5000/api/contacts",
+                "/api/contacts",
                 {
                     method: "POST",
 
@@ -521,7 +522,7 @@ export function ContactFaq() {
         setChatError("");
         
         const history = chatMessages.filter(chat => chat.id !== 1).slice(-12).map(chat => ({role: chat.sender === "bot" ? "model" : "user", text: chat.text}));
-        const messageId = crypto.randomUUID();
+        const messageId = ++nextChatId.current;
         
         setChatMessages(previousMessages => [...previousMessages, {id: messageId, sender: "user", text: message}]);
         setChatInput("");
@@ -541,7 +542,8 @@ export function ContactFaq() {
             if (!response.ok || !result.success || typeof result.reply !== "string" || !result.reply.trim()) {
                 throw new Error(result.message || "Cannot get a chatbot answer.");
             }
-            setChatMessages(previousMessages => [...previousMessages, {id: crypto.randomUUID(), sender: "bot", text: result.reply}]);
+            const replyId = ++nextChatId.current;
+            setChatMessages(previousMessages => [...previousMessages, {id: replyId, sender: "bot", text: result.reply}]);
         } 
         catch (error) {
             setChatError(error.name === "AbortError" ? "DME BOT took too long. Please try again." : error.message || "Cannot connect to the chatbot. Please try again.");

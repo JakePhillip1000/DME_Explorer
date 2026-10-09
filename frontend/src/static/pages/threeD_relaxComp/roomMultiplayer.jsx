@@ -3,7 +3,7 @@ import {useFrame} from "@react-three/fiber";
 import {Html} from "@react-three/drei";
 import {io} from "socket.io-client";
 
-const API_ORIGIN = (import.meta.env.VITE_API_ORIGIN || "http://localhost:5000").replace(/\/$/, "");
+const API_ORIGIN = (import.meta.env.VITE_API_ORIGIN || "").replace(/\/$/, "");
 
 export function useRoomMultiplayer(onMessage) {
     const socketRef = useRef(null);
@@ -73,8 +73,6 @@ function RemotePlayer({player, remoteStates}) {
     const root = useRef(null);
     const head = useRef(null);
     const body = useRef(null);
-    const label = useRef(null);
-    const lastAction = useRef("");
 
     useFrame((state, delta) => {
         const target = remoteStates.current.get(player.id);
@@ -90,10 +88,6 @@ function RemotePlayer({player, remoteStates}) {
         head.current.rotation.x += (target.pitch - head.current.rotation.x) * blend;
         const walking = target.action === "walk" || target.action === "run";
         body.current.rotation.z = walking ? Math.sin(state.clock.elapsedTime * (target.action === "run" ? 16 : 10)) * 0.045 : 0;
-        if (lastAction.current !== target.action && label.current) {
-            label.current.textContent = target.action === "idle" ? "" : target.action;
-            lastAction.current = target.action;
-        }
     });
 
     return (
@@ -113,7 +107,6 @@ function RemotePlayer({player, remoteStates}) {
             <Html position={[0, 2.05, 0]} center distanceFactor={8} zIndexRange={[10, 0]} style={{pointerEvents: "none"}}>
                 <div className="three-d-remote-name">
                     <strong>{player.displayName}</strong>
-                    <span ref={label}/>
                 </div>
             </Html>
         </group>

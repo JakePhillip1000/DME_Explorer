@@ -4,7 +4,7 @@ import OccupationBackground from "../../assets/images/Dme_239_studio1.png";
 import LocationIcon from "../../assets/icons/location_icon.png";
 import "../../static/css_styles/css_pages/occupation_page.css";
 
-const API_ORIGIN = (import.meta.env.VITE_API_ORIGIN || "http://localhost:5000").replace(/\/$/, "");
+const API_ORIGIN = (import.meta.env.VITE_API_ORIGIN || "").replace(/\/$/, "");
 const OCCUPATION_API = `${API_ORIGIN}/api/occupation`;
 
 const INTERESTS = ["3D & Animation", "Game Dev", "AI & Data", "Software"];

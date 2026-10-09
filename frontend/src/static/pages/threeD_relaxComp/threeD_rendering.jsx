@@ -145,6 +145,7 @@ export default function Render3DModel() {
     const [showMusic, SetShowMusic] = useState(false);
     const [showMaps, SetShowMaps] = useState(false);
     const [chatText, SetChatText] = useState("");
+    const [chatMode, SetChatMode] = useState(false);
     const [stats, SetStats] = useState({health: 100, stamina: 100});
     const [messages, SetMessages] = useState(["Welcome to the CDLC room.", "Click Enter room to begin."]);
     const AddMessage = useCallback(message => {
@@ -223,6 +224,40 @@ export default function Render3DModel() {
         }
 
     }, [active]);
+
+    useEffect(() => {
+        if (!player) return;
+
+        function ToggleChat(event) {
+            if (event.key !== "/" || event.ctrlKey || event.altKey || event.metaKey || event.isComposing) return;
+            const target = event.target;
+            if (target !== chatRef.current && (target?.isContentEditable || target?.closest?.("input, textarea, select"))) return;
+
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            if (event.repeat) return;
+
+            if (document.activeElement === chatRef.current || wantsChat.current) {
+                wantsChat.current = false;
+                SetChatMode(false);
+                chatRef.current?.blur();
+                player.start();
+            } else {
+                SetShowMusic(false);
+                SetShowMaps(false);
+                SetChatMode(true);
+                if (player.controls.isLocked) {
+                    wantsChat.current = true;
+                    player.pause();
+                } else {
+                    chatRef.current?.focus();
+                }
+            }
+        }
+
+        window.addEventListener("keydown", ToggleChat, true);
+        return () => window.removeEventListener("keydown", ToggleChat, true);
+    }, [player]);
 
     function SendChat(event) {
         event.preventDefault();
@@ -303,9 +338,6 @@ export default function Render3DModel() {
                             <div className="three-d-player-info">
                                 <div className="three-d-avatar" style={{background: multiplayer.self?.color}} aria-label="Your player color">{multiplayer.self?.displayName?.[0]?.toUpperCase() || "P"}</div>
                                 <div className="three-d-status">
-                                    <div className="three-d-network-status" role="status">
-                                        {multiplayer.self ? `${multiplayer.self.displayName} ${multiplayer.players.length + 1} is in CDLC` : multiplayer.status}
-                                    </div>
                                     <div className="three-d-status-bar three-d-status-health" role="progressbar" aria-label="Health" aria-valuemin={0} aria-valuemax={100} aria-valuenow={stats.health}>
                                         <span className="three-d-bar-fill" style={{width: `${stats.health}%`}}/>
                                         {/*<span className="three-d-bar-label">HEALTH {stats.health}/100</span>*/}
@@ -331,7 +363,7 @@ export default function Render3DModel() {
                                 </div>
                             )}
 
-                            {!active && player && !showMusic && !showMaps && (
+                            {!active && player && !showMusic && !showMaps && !chatMode && (
                                 <div className="three-d-start-panel">
                                     <h2 className="three-d-start-title">Welcome to CDLC room</h2>
                                     <p className="three-d-start-description">WASD to walk, Shift to run, and Space to Jump</p>
@@ -359,7 +391,9 @@ export default function Render3DModel() {
                                 </div>
                                 <form className="three-d-chat-form" onSubmit={SendChat}>
                                     <input ref={chatRef} className="three-d-chat-input" aria-label="Chat message"
-                                        placeholder={active ? "Type anything here >>>" : "Type anything here >>> "}
+                                        placeholder={chatMode ? "Enter to send · / to return to room" : "Press / to chat"}
+                                        onFocus={() => { SetChatMode(true); player?.pause(); }}
+                                        onBlur={() => SetChatMode(false)}
                                         value={chatText} maxLength={300} onChange={event => SetChatText(event.target.value)}/>
                                     <button type="submit" disabled={!chatText.trim() || !multiplayer.self}>Send</button>
                                 </form>

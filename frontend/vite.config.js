@@ -11,9 +11,10 @@ export default defineConfig({
         })
     ],
 
-    // the backend server
     server: {
-        // Wait for saves to finish so synced files are not reloaded while empty.
+        host: "0.0.0.0",
+        port: 5173,
+        strictPort: true,
         watch: {
             awaitWriteFinish: {
                 stabilityThreshold: 300,
@@ -22,7 +23,12 @@ export default defineConfig({
         },
         proxy: {
             "/api": {
-                target: "http://localhost:5000",
+                target: "http://127.0.0.1:5000",
+                changeOrigin: true,
+            },
+            "/socket.io": {
+                target: "http://127.0.0.1:5000",
+                ws: true,
                 changeOrigin: true,
             },
         },

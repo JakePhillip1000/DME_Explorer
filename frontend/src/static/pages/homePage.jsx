@@ -48,7 +48,7 @@ export function Home() {
 
     const CheckSession = async () => {
         try {
-            const response = await fetch("http://localhost:5000/api/session", {
+            const response = await fetch("/api/session", {
                 credentials: "include"
             });
 
@@ -100,7 +100,7 @@ const GetNews = async (categoryFilter = searchCategory) => {
             params.set("before", endDate.toISOString());
         }
 
-        const response = await fetch(`http://localhost:5000/api/news?${params.toString()}`);
+        const response = await fetch(`/api/news?${params.toString()}`);
         const result = await response.json();
 
         if (!response.ok || !result.success) {
@@ -228,14 +228,14 @@ const GetNews = async (categoryFilter = searchCategory) => {
             let response;
 
             if (editingNews) {
-                response = await fetch(`http://localhost:5000/api/news/${editingNews.news_id}`, {
+                response = await fetch(`/api/news/${editingNews.news_id}`, {
                     method: "PUT",
                     credentials: "include",
                     body: formData
                 });
             }
             else {
-                response = await fetch("http://localhost:5000/api/news", {
+                response = await fetch("/api/news", {
                     method: "POST",
                     credentials: "include",
                     body: formData
@@ -303,7 +303,7 @@ const GetNews = async (categoryFilter = searchCategory) => {
         setDeletingNews(true);
 
         try {
-            const response = await fetch("http://localhost:5000/api/news", {
+            const response = await fetch("/api/news", {
                 method: "DELETE",
                 credentials: "include",
                 headers: {

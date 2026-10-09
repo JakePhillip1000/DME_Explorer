@@ -22,7 +22,7 @@ export function NavigationBar(){
       useEffect(() => {
         const CheckSession = async () => {
             try {
-                const response = await fetch("http://localhost:5000/api/session", {
+                const response = await fetch("/api/session", {
                     credentials: "include"
                 });
 
@@ -52,7 +52,7 @@ export function NavigationBar(){
         event.preventDefault();
 
         try {
-            const response = await fetch("http://localhost:5000/api/logout", { // send to logout
+            const response = await fetch("/api/logout", { // send to logout
                 method: "POST",
                 credentials: "include"
             });

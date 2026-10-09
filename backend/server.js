@@ -4,6 +4,7 @@ import session from "express-session";
 import multer from "multer";
 import "dotenv/config";
 import { createServer } from "node:http";
+import { networkInterfaces } from "node:os";
 import { Server } from "socket.io";
 import { SetupRoomMultiplayer } from "./pages_backend/room_multiplayer_controller.js";
 
@@ -20,7 +21,17 @@ import projectController from "./pages_backend/project_controller.js";
 import occupationController from "./pages_backend/occupation_controller.js";
 
 const app = express();
-const allowedOrigins = (process.env.FRONTEND_ORIGIN || "http://localhost:5173").split(",").map(origin => origin.trim());
+
+const lanOrigins = Object.values(networkInterfaces()).flat()
+    .filter(a => a.family === "IPv4" && !a.internal)
+    .map(a => `http://${a.address}:5173`);
+
+const allowedOrigins = [...new Set([
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    ...lanOrigins,
+    ...(process.env.FRONTEND_ORIGIN || "").split(",").map(o => o.trim()).filter(Boolean)
+])];
 
 app.use(cors({
     origin: allowedOrigins,

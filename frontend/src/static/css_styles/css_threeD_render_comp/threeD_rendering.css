@@ -527,20 +527,6 @@
     user-select: none;
 }
 
-.three-d-remote-name span {
-    display: block;
-    font-size: 11px;
-    color: #dddddd;
-}
-
-.three-d-network-status {
-    padding-bottom: 5px;
-    color: #ffffff;
-    text-shadow: 0 1px 3px #000000;
-    font: 14px Arial, sans-serif;
-    overflow-wrap: anywhere;
-}
-
 .room-music-controls {
     display: flex;
     align-items: center;
