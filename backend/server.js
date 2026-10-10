@@ -50,6 +50,7 @@ const sessionMiddleware = session({
         maxAge: 3600000
     }
 });
+
 app.use(sessionMiddleware);
 
 const server = createServer(app);
