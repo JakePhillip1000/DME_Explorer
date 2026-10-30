@@ -14,7 +14,7 @@ export function useRoomMultiplayer(onMessage) {
 
     useEffect(() => {
         const socket = io(`${API_ORIGIN}/relax-room`, {
-            path: "/api/socket", transports: ["websocket"],
+            path: "/api/index", addTrailingSlash: false, transports: ["websocket"],
             withCredentials: true, autoConnect: false
         });
         let selfId;

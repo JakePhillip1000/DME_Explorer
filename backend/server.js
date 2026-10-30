@@ -66,7 +66,8 @@ export function createAppServer() {
     const server = createServer(app);
     const io = new Server(server, {
         cors: {origin: allowedOrigins, credentials: true},
-        path: "/api/socket",
+        path: "/api/index",
+        addTrailingSlash: false,
         transports: ["websocket"],
         allowRequest: (req, done) => {
             const origin = req.headers.origin;

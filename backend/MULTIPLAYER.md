@@ -1,6 +1,6 @@
 # Shared multiplayer room
 
-Clients use WebSockets at `/api/socket`. Backend instances share presence,
+Clients use WebSockets directly at `/api/index`. Backend instances share presence,
 movement and chat over the private Supabase Realtime channel `cdlc-room-v1`.
 Login names are read from the existing server session. Only backend instances
 have access to the private channel; database credentials never reach browsers.
