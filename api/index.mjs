@@ -1,1 +1,2 @@
-export { default } from "../backend/server.js";
+import {createAppServer} from "../backend/server.js";
+export default createAppServer();

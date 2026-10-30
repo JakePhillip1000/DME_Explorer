@@ -13,15 +13,27 @@ export function useRoomMultiplayer(onMessage) {
     const [status, setStatus] = useState("Connecting to room...");
 
     useEffect(() => {
-        const socket = io(`${API_ORIGIN}/relax-room`, {withCredentials: true, autoConnect: false});
+        const socket = io(`${API_ORIGIN}/relax-room`, {
+            path: "/api/socket", transports: ["websocket"],
+            withCredentials: true, autoConnect: false
+        });
+        let selfId;
+        let retryTimer;
         socketRef.current = socket;
 
         socket.on("room:welcome", ({self: currentPlayer, players: roster}) => {
+            selfId = currentPlayer.id;
             remoteStates.current = new Map(roster.filter(player => player.id !== currentPlayer.id).map(player => [player.id, player]));
             setPlayers([...remoteStates.current.values()]);
             setSelf(currentPlayer);
             setStatus("Connected");
             onMessage(`Joined as ${currentPlayer.displayName}.`);
+        });
+
+        socket.on("room:roster", roster => {
+            if (!selfId) return;
+            remoteStates.current = new Map(roster.filter(player => player.id !== selfId).map(player => [player.id, player]));
+            setPlayers([...remoteStates.current.values()]);
         });
 
         socket.on("player:joined", player => {
@@ -43,20 +55,33 @@ export function useRoomMultiplayer(onMessage) {
         });
 
         socket.on("chat:message", message => onMessage(`${message.displayName}: ${message.text}`));
-        socket.on("connect_error", () => setStatus("Cannot connect to room. Retrying..."));
-        socket.on("disconnect", () => {
+        const retry = () => {
+            clearTimeout(retryTimer);
+            retryTimer = setTimeout(() => socket.connect(), 3000);
+        };
+        socket.on("connect_error", () => {
+            setStatus("Cannot connect to room. Retrying...");
+            if (!socket.active) retry();
+        });
+        socket.on("disconnect", reason => {
+            selfId = null;
             remoteStates.current.clear();
             setPlayers([]);
             setSelf(null);
             setStatus("Disconnected. Reconnecting...");
+            if (reason === "io server disconnect") retry();
         });
 
-        const leave = () => socket.disconnect();
+        const leave = () => {
+            clearTimeout(retryTimer);
+            socket.disconnect();
+        };
         const resume = () => socket.connect();
         window.addEventListener("pagehide", leave);
         window.addEventListener("pageshow", resume);
         socket.connect();
         return () => {
+            clearTimeout(retryTimer);
             window.removeEventListener("pagehide", leave);
             window.removeEventListener("pageshow", resume);
             socket.removeAllListeners();

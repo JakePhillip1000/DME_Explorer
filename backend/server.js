@@ -62,20 +62,25 @@ const sessionMiddleware = session({
 
 app.use(sessionMiddleware);
 
-function startServer() {
+export function createAppServer() {
     const server = createServer(app);
     const io = new Server(server, {
         cors: {origin: allowedOrigins, credentials: true},
-        allowRequest: (req, done) => done(null, !req.headers.origin || allowedOrigins.includes(req.headers.origin)),
+        path: "/api/socket",
+        transports: ["websocket"],
+        allowRequest: (req, done) => {
+            const origin = req.headers.origin;
+            const sameHost = origin === `https://${req.headers.host}` || origin === `http://${req.headers.host}`;
+            done(null, !origin || sameHost || allowedOrigins.includes(origin));
+        },
         maxHttpBufferSize: 16 * 1024,
         pingInterval: 10000,
         pingTimeout: 10000
-});
-io.engine.use(sessionMiddleware);
-SetupRoomMultiplayer(io);
-const port = Number(process.env.PORT) || 5000;
-server.listen(port, () => console.log(`Server started on port ${port}`));
-return server;
+    });
+    io.engine.use(sessionMiddleware);
+    const cleanupRoom = SetupRoomMultiplayer(io);
+    server.on("close", cleanupRoom);
+    return server;
 }
 
 // Register system
@@ -186,6 +191,9 @@ app.use((error, req, res, next) => {
     if (res.headersSent) return next(error);
     res.status(500).json({message: "The server could not complete this request."});
 });
-if (!onVercel) startServer();
+if (!onVercel) {
+    const port = Number(process.env.PORT) || 5000;
+    createAppServer().listen(port, () => console.log(`Server started on port ${port}`));
+}
 export default app;
 
