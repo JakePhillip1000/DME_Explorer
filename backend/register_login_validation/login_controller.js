@@ -25,7 +25,6 @@ async function CheckUsernameLogin(username) {
         };
     }
 
-    console.log("Login user data:", data);
 
     return {
         error: false,

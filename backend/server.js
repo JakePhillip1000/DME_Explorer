@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import session from "express-session";
+import { SupabaseSessionStore } from "./session_store.js";
 import multer from "multer";
 import "dotenv/config";
 import { createServer } from "node:http";
@@ -21,6 +22,12 @@ import projectController from "./pages_backend/project_controller.js";
 import occupationController from "./pages_backend/occupation_controller.js";
 
 const app = express();
+const onVercel = process.env.VERCEL === "1";
+if (onVercel && !process.env.SESSION_SECRET) {
+    throw new Error("Set SESSION_SECRET in Vercel environment variables.");
+}
+app.set("trust proxy", 1);
+app.get("/api/health", (req, res) => res.json({ok: true}));
 
 const lanOrigins = Object.values(networkInterfaces()).flat()
     .filter(a => a.family === "IPv4" && !a.internal)
@@ -41,28 +48,35 @@ app.use(cors({
 app.use(express.json());
 
 const sessionMiddleware = session({
+    store: onVercel ? new SupabaseSessionStore() : undefined,
     secret: process.env.SESSION_SECRET || "DmeExplorer_session_secret",
     resave: false,
     saveUninitialized: false,
     cookie: {
         httpOnly: true,
-        secure: false,
+        secure: onVercel,
+        sameSite: "lax",
         maxAge: 3600000
     }
 });
 
 app.use(sessionMiddleware);
 
-const server = createServer(app);
-const io = new Server(server, {
-    cors: {origin: allowedOrigins, credentials: true},
-    allowRequest: (req, done) => done(null, !req.headers.origin || allowedOrigins.includes(req.headers.origin)),
-    maxHttpBufferSize: 16 * 1024,
-    pingInterval: 10000,
-    pingTimeout: 10000
+function startServer() {
+    const server = createServer(app);
+    const io = new Server(server, {
+        cors: {origin: allowedOrigins, credentials: true},
+        allowRequest: (req, done) => done(null, !req.headers.origin || allowedOrigins.includes(req.headers.origin)),
+        maxHttpBufferSize: 16 * 1024,
+        pingInterval: 10000,
+        pingTimeout: 10000
 });
 io.engine.use(sessionMiddleware);
 SetupRoomMultiplayer(io);
+const port = Number(process.env.PORT) || 5000;
+server.listen(port, () => console.log(`Server started on port ${port}`));
+return server;
+}
 
 // Register system
 app.post("/api/register", async (req, res) => {
@@ -92,11 +106,13 @@ app.post("/api/login", async (req, res) => {
             return res.status(result.status || 400).json(result);
         }
 
+        await new Promise((resolve, reject) => req.session.regenerate(error => error ? reject(error) : resolve()));
         req.session.user = {
             id: result.user.id,
             username: result.user.username
         };
 
+        await new Promise((resolve, reject) => req.session.save(error => error ? reject(error) : resolve()));
         return res.status(200).json(result);
     } 
     catch (error) {
@@ -164,7 +180,12 @@ app.post("/api/logout", (req, res) => {
     });
 });
 
-server.listen(5000, () => {
-    console.log("Server started on port 5000");
+app.use("/api", (req, res) => res.status(404).json({message: "API route not found."}));
+app.use((error, req, res, next) => {
+    console.error("API error:", error.message);
+    if (res.headersSent) return next(error);
+    res.status(500).json({message: "The server could not complete this request."});
 });
+if (!onVercel) startServer();
+export default app;
 
